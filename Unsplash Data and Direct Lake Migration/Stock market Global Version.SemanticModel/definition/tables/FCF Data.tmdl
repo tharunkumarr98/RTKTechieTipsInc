@@ -1,0 +1,154 @@
+table 'FCF Data'
+	lineageTag: d5d99d4b-f5d3-437a-b607-35a78d492fb2
+
+	column ticker
+		dataType: string
+		lineageTag: d4d22ea8-9b9b-4377-934a-60c16e374822
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cash Per Share'
+		dataType: double
+		lineageTag: f5c4c28d-2466-49e1-872b-30a227454d28
+		summarizeBy: sum
+		sourceColumn: Cash Per Share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bfb93138-c9a4-4b73-8eff-04d65cbafc75
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Dividend Yield'
+		dataType: double
+		lineageTag: 585d5caa-578f-4e3a-8323-6bbcd31b8a7d
+		summarizeBy: sum
+		sourceColumn: Dividend Yield
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Price To Book Ratio'
+		dataType: double
+		lineageTag: e96b25b9-b893-408f-9458-0fba24b27902
+		summarizeBy: sum
+		sourceColumn: Price To Book Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROCE
+		dataType: double
+		lineageTag: ee48d912-ee90-4424-87e1-00fe3c810b06
+		summarizeBy: sum
+		sourceColumn: ROCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROE
+		dataType: double
+		lineageTag: d624db44-8508-4759-af03-460d477115d2
+		summarizeBy: sum
+		sourceColumn: ROE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Debt To Equity'
+		dataType: double
+		lineageTag: eb978837-2821-429e-b70e-ffa66fc3752e
+		summarizeBy: sum
+		sourceColumn: Debt To Equity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BVPS
+		dataType: double
+		lineageTag: 12a2d2e2-4e0d-4740-aba0-465a2fd3982e
+		summarizeBy: sum
+		sourceColumn: BVPS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Earnings Yield'
+		dataType: double
+		lineageTag: 650b7b38-7b4d-41d0-9a95-0f30c63ffc54
+		summarizeBy: sum
+		sourceColumn: Earnings Yield
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROIC
+		dataType: double
+		lineageTag: c0474642-32da-4806-899a-c6860eff76be
+		summarizeBy: sum
+		sourceColumn: ROIC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FCF
+		dataType: int64
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 58ae0872-8aac-4a44-ac11-65c3d20cf922
+		summarizeBy: sum
+		sourceColumn: FCF
+
+		annotation SummarizationSetBy = Automatic
+
+	column EPS
+		dataType: double
+		lineageTag: 1f0d377e-899c-4f5c-b360-c9263a095a67
+		summarizeBy: sum
+		sourceColumn: EPS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'FCF Data' = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    GetRequiredColumnsFromKeyMetrics = Table.SelectColumns(key_metrics_base,{"symbol", "date", "bookValuePerShare", "earningsYield", "roic"}),
+				    GetrequiredColumnsFromRatios = Table.SelectColumns(ratios_base,{ "symbol", "cashPerShare", "date", "dividendYield", "priceToBookRatio", "returnOnCapitalEmployed", "returnOnEquity","debtEquityRatio"}),
+				    GetRequiredColumnsFromFreeCashFlow = free_cash_flow,
+				    GetRequiredColumnsFromFinancialStatements = financial_statements,
+				    MergedRatiosAndKeyMetrics = Table.NestedJoin(GetrequiredColumnsFromRatios, {"symbol", "date"}, GetRequiredColumnsFromKeyMetrics, {"symbol", "date"}, "key_metrics_base", JoinKind.LeftOuter),
+				    #"Expanded key_metrics_base" = Table.ExpandTableColumn(MergedRatiosAndKeyMetrics, "key_metrics_base", {"bookValuePerShare", "earningsYield", "roic"}, {"bookValuePerShare", "earningsYield", "roic"}),
+				    MergedResultWithFreeCashFlow = Table.NestedJoin(#"Expanded key_metrics_base", {"symbol", "date"}, GetRequiredColumnsFromFreeCashFlow, {"symbol", "date"}, "free_cash_flow", JoinKind.LeftOuter),
+				    ExpandedFreeCashFlow = Table.ExpandTableColumn(MergedResultWithFreeCashFlow, "free_cash_flow", {"freeCashFlow"}, {"freeCashFlow"}),
+				    MergedResultWithFinancialSatements = Table.NestedJoin(ExpandedFreeCashFlow, {"symbol", "date"}, GetRequiredColumnsFromFinancialStatements, {"symbol", "date"}, "financial_statements", JoinKind.LeftOuter),
+				    ExpandedFinancialStatements = Table.ExpandTableColumn(MergedResultWithFinancialSatements, "financial_statements", {"eps"}, {"eps"}),
+				    #"Renamed Columns" = Table.RenameColumns(ExpandedFinancialStatements,{{"symbol", "ticker"}, {"cashPerShare", "Cash Per Share"}, {"date", "Date"}, {"dividendYield", "Dividend Yield"}, {"priceToBookRatio", "Price To Book Ratio"}, {"returnOnCapitalEmployed", "ROCE"}, {"returnOnEquity", "ROE"}, {"bookValuePerShare", "BVPS"}, {"earningsYield", "Earnings Yield"}, {"roic", "ROIC"}, {"freeCashFlow", "FCF"}, {"eps", "EPS"}, {"debtEquityRatio", "Debt To Equity"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

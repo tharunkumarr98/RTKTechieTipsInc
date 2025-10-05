@@ -1,0 +1,40 @@
+table DateTable
+	lineageTag: 1d1a9418-56d1-4246-ab07-8ebbdbbd8f95
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dc71b217-d2b2-4d9a-8b2e-79cc11d55637
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9acb597b-a0a5-4cef-9183-54c611b64e0a
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    Source = List.Dates(#date(2000,01,01),10000,#duration(1,0,0,0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]),Int64.Type)
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

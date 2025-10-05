@@ -1,0 +1,46 @@
+table consensus
+	lineageTag: 31b6fd4d-4d64-47fa-b559-fc662021b7c8
+
+	column symbol
+		dataType: string
+		lineageTag: c99718ec-4478-4c9b-a609-9a277fb33086
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = Automatic
+
+	column Consensus
+		dataType: string
+		lineageTag: bb8a9276-e61e-4604-940f-c1beea2ecf7e
+		summarizeBy: none
+		sourceColumn: Consensus
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consensus Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 52c6a534-2359-4a1c-8fde-e09682ff2f78
+		summarizeBy: sum
+		sourceColumn: Consensus Count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition consensus = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+				    RunConsensusApi = Table.AddColumn(Source, "RunConsensus", each fn_RunAPI_Call("/v4/upgrades-downgrades-consensus/", "","", [symbol=[symbol],apikey=apiKey])),
+				    ExpandedRunConsensusList = Table.ExpandListColumn(RunConsensusApi, "RunConsensus"),
+				    ExpandedRunConsensusRecord = Table.ExpandRecordColumn(ExpandedRunConsensusList, "RunConsensus", {"strongBuy", "buy", "hold", "sell", "strongSell"}, {"strongBuy", "buy", "hold", "sell", "strongSell"}),
+				    #"Changed Type" = Table.TransformColumnTypes(ExpandedRunConsensusRecord,{{"symbol", type text}, {"strongBuy", Int64.Type}, {"buy", Int64.Type}, {"hold", Int64.Type}, {"sell", Int64.Type}, {"strongSell", Int64.Type}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Changed Type", {"symbol"}, "Consensus", "Consensus Count")
+				in
+				    #"Unpivoted Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

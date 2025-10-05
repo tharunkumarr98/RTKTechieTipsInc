@@ -1,0 +1,42 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Parameters&Functions
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup StagingQueries
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup MainTables
+
+	annotation PBI_QueryGroupOrder = 2
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.135.7455.3 (Main)
+
+annotation PBI_QueryOrder = ["StockList","apiKey","KeyMeasuresTable","fn_RunAPI_Call","financial_statements","free_cash_flow","ratios_base","indicators","price","key_metrics_base","Country Flags","historialData","profile","consensus","ratios","FCF Data","DateTable","Enter Symbols"]
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit"]
+
+ref table profile
+ref table consensus
+ref table ratios
+ref table 'FCF Data'
+ref table DateTable
+ref table historialData
+ref table KeyMeasuresTable
+ref table 'Country Flags'
+
+ref cultureInfo en-US
+

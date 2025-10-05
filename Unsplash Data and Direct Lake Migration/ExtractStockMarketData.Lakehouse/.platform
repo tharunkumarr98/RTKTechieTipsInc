@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "ExtractStockMarketData"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ed4b55ec-b3d8-8db1-4bb2-7494c924cf26"
+  }
+}

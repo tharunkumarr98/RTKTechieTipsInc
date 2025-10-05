@@ -1,0 +1,57 @@
+table ratios
+	lineageTag: 36061664-ebb0-47b5-8ff0-15069a99ec85
+
+	column ticker
+		dataType: string
+		lineageTag: c2339ccc-e82d-4f52-bcca-0669b1444859
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6a77301b-e5ae-4927-b6be-3ba788fa99d7
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ROCE
+		dataType: double
+		lineageTag: 561e645a-dde0-487d-940e-2b0194fc1efa
+		summarizeBy: sum
+		sourceColumn: ROCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Price To Book Ratio'
+		dataType: double
+		lineageTag: ac562b9a-5f08-4608-af65-2064c9126e1b
+		summarizeBy: sum
+		sourceColumn: Price To Book Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ratios = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    Source = ratios_base,
+				    RemovedUnwantedColumns = Table.SelectColumns(Source,{"symbol", "date", "returnOnCapitalEmployed", "priceToBookRatio"}),
+				    RenamedAsPertheOldFile = Table.RenameColumns(RemovedUnwantedColumns,{{"symbol", "ticker"}, {"date", "Date"}, {"returnOnCapitalEmployed", "ROCE"}, {"priceToBookRatio", "Price To Book Ratio"}})
+				in
+				    RenamedAsPertheOldFile
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

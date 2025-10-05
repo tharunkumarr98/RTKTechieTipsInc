@@ -1,0 +1,49 @@
+table 'Country Flags'
+	lineageTag: b9ec1d7b-2566-4e72-91c9-871d1323bf24
+
+	column Country
+		dataType: string
+		lineageTag: 7754aeff-39d9-47d9-87ee-c9b6a8490f0f
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Format String'
+		dataType: string
+		lineageTag: a69c4d7a-8425-4c0a-89e8-92ee72e9f935
+		summarizeBy: none
+		sourceColumn: Currency Format String
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Flag'
+		dataType: string
+		lineageTag: 934490b4-474f-4bd7-b337-c9aa92736b81
+		summarizeBy: none
+		sourceColumn: Country Flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Full Name'
+		dataType: string
+		lineageTag: 77bba5c9-099e-4900-8a9c-ef1fa69a793d
+		summarizeBy: none
+		sourceColumn: Country Full Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Country Flags' = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("ndBBisIwFIDhq0h0oVCbrnUn6jCOFJkisyhdPGxaM7avkkQCs/Qq4s4LzHaO4knGVmqzkELchLfJ978kDMn1+Nt1PNfzxv3HOCAOefdvx1apvRxRqrV2dSGyuMiZYkK6HJOC8jylSQappByH5eCmPCmvYsyBRE5IejXda+B1YAEfpAmvkSsWdwIFiskq8HeuC/VUJhYri8Q3mIkF7AHv9OlBnxr6bWKz/e7J9h8c09uFqnE9XprPvzSV6cyigplZmTLMQexaeX/5Mu8ztQWRAcayNTH/tEgkwkzMBeCGterBl4UutakHmqsfVr2ARNE/", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Currency Format String" = _t, Country = _t, #"Country Flag" = _t, #"Country Full Name" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Currency Format String", type text}, {"Country", type text}, {"Country Flag", type text}, {"Country Full Name", type text} })
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

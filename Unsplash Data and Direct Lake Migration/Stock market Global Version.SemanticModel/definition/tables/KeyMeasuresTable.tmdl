@@ -1,0 +1,113 @@
+table KeyMeasuresTable
+	lineageTag: 5850f5d0-2557-4e21-ad0c-f7b2bed4c0d3
+
+	measure 'Sotck Price' = ```
+			SUM(historialData[close])  
+			```
+		lineageTag: 77bb4a16-cbe2-4977-896a-0abe9dca8194
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure FCF = ```
+			SUM('FCF Data'[FCF]) 
+			```
+		lineageTag: b4fccb55-8875-4e71-bf52-1ba87f62b1ad
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure 'Market cap' = ```
+			SUM(profile[mktCap]) 
+			```
+		lineageTag: 9f383509-1c2a-43fb-a0b6-18a89022fd1e
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure 'Stock Price Change' = ```
+			SUM(profile[change]) 
+			```
+		lineageTag: ffbc20aa-ad34-417f-adbe-cd5dcb76e7eb
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure '52 Week Low' = ```
+			SUM(profile[52WeekLow]) 
+			```
+		lineageTag: 65c14766-bfe8-4a67-bb4a-933b310bd8a6
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure '52 Week High' = ```
+			SUM(profile[52WeekHigh]) 
+			```
+		lineageTag: d885f73a-3a1c-4cc6-8ed2-1b27185a066f
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	measure Country = ```
+			MINX(profile, RELATED('Country Flags'[Country Flag])) 
+			```
+		lineageTag: 4ef2107d-6cd7-4fea-8622-966964c7e7d2
+		dataCategory: ImageUrl
+
+	measure 'Country Card Title' = ```
+			MINX(profile, RELATED('Country Flags'[Country Full Name]))  & UNICHAR(10) & "(" & SELECTEDVALUE(profile[currency])  & ")" 
+			```
+		lineageTag: de1785c4-0bff-4eec-b5ab-03dc3c917b7a
+
+	measure 'Current Day Stock Price' = ```
+			SUM(profile[price]) 
+			```
+		lineageTag: 7656cabb-8183-4a84-8c42-e0f3eddbf38f
+
+		formatStringDefinition = ```
+				Var __SelectedCurrency = MINX(profile, RELATED('Country Flags'[Currency Format String]))
+				
+				RETURN __SelectedCurrency 
+				```
+
+	column KeyMeasuresTable
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 36d9b0e0-25f2-4c1c-88a6-0c8ed9185a3d
+		summarizeBy: none
+		sourceColumn: KeyMeasuresTable
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KeyMeasuresTable = m
+		mode: import
+		queryGroup: Parameters&Functions
+		source =
+				let
+				    Source = DateTime.From(DateTime.LocalNow())
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = DateTime
+

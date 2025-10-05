@@ -1,0 +1,181 @@
+expression StockList =
+		let
+		    Source = Text.Split(#"Enter Symbols",";")
+		in
+		    Source
+	lineageTag: d2fdbca1-f27a-4926-a4f5-0a8ba75ab048
+	queryGroup: Parameters&Functions
+
+	annotation PBI_ResultType = List
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression apiKey = "9BtQvIEPG1HbsYcFe2SuH0BrJOZ5vPWR" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: dd10d247-1e09-48e5-b31b-25f10c7448ac
+	queryGroup: Parameters&Functions
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression financial_statements =
+		let
+		    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+		    RunFinancialStatement = Table.AddColumn(Source, "RunFinancialStatement", each fn_RunAPI_Call("/v3/income-statement/",[symbol],"", [period="month",apikey=apiKey] )),
+		    ExpandedRunFinancialStatementList = Table.ExpandListColumn(RunFinancialStatement, "RunFinancialStatement"),
+		    ExpandedRunFinancialStatementRecord = Table.ExpandRecordColumn(ExpandedRunFinancialStatementList, "RunFinancialStatement", {"date", "eps"}, {"date", "eps"}),
+		    #"Changed Type" = Table.TransformColumnTypes(ExpandedRunFinancialStatementRecord,{{"symbol", type text}, {"date", type date}, {"eps", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: 46bf9588-400a-4b0a-8772-15d4b7cdd796
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression free_cash_flow =
+		let
+		    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+		    RunFreeCashFlow = Table.AddColumn(Source, "RunFreeCashFlow", each fn_RunAPI_Call("/v3/cash-flow-statement/", [symbol], "", [period="annual",apikey=apiKey ])),
+		    ExpandedRunFreeCashFlowList = Table.ExpandListColumn(RunFreeCashFlow, "RunFreeCashFlow"),
+		    ExpandedRunFreeCashFlowRecord = Table.ExpandRecordColumn(ExpandedRunFreeCashFlowList, "RunFreeCashFlow", {"date", "freeCashFlow"}, {"date", "freeCashFlow"}),
+		    #"Changed Type" = Table.TransformColumnTypes(ExpandedRunFreeCashFlowRecord,{{"symbol", type text}, {"date", type date}, {"freeCashFlow", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 35108526-605e-479a-8594-5d881b14ed60
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ratios_base =
+		let
+		    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+		    RunConsensusApi = Table.AddColumn(Source, "RunRatios", each fn_RunAPI_Call("/v3/ratios/", [symbol], "", [period="month",apikey=apiKey])),
+		    #"Expanded RunRatios" = Table.ExpandListColumn(RunConsensusApi, "RunRatios"),
+		    #"Expanded RunRatios1" = Table.ExpandRecordColumn(#"Expanded RunRatios", "RunRatios", {"date", "calendarYear", "period", "currentRatio", "quickRatio", "cashRatio", "daysOfSalesOutstanding", "daysOfInventoryOutstanding", "operatingCycle", "daysOfPayablesOutstanding", "cashConversionCycle", "grossProfitMargin", "operatingProfitMargin", "pretaxProfitMargin", "netProfitMargin", "effectiveTaxRate", "returnOnAssets", "returnOnEquity", "returnOnCapitalEmployed", "netIncomePerEBT", "ebtPerEbit", "ebitPerRevenue", "debtRatio", "debtEquityRatio", "longTermDebtToCapitalization", "totalDebtToCapitalization", "interestCoverage", "cashFlowToDebtRatio", "companyEquityMultiplier", "receivablesTurnover", "payablesTurnover", "inventoryTurnover", "fixedAssetTurnover", "assetTurnover", "operatingCashFlowPerShare", "freeCashFlowPerShare", "cashPerShare", "payoutRatio", "operatingCashFlowSalesRatio", "freeCashFlowOperatingCashFlowRatio", "cashFlowCoverageRatios", "shortTermCoverageRatios", "capitalExpenditureCoverageRatio", "dividendPaidAndCapexCoverageRatio", "dividendPayoutRatio", "priceBookValueRatio", "priceToBookRatio", "priceToSalesRatio", "priceEarningsRatio", "priceToFreeCashFlowsRatio", "priceToOperatingCashFlowsRatio", "priceCashFlowRatio", "priceEarningsToGrowthRatio", "priceSalesRatio", "dividendYield", "enterpriseValueMultiple", "priceFairValue"}, {"date", "calendarYear", "period", "currentRatio", "quickRatio", "cashRatio", "daysOfSalesOutstanding", "daysOfInventoryOutstanding", "operatingCycle", "daysOfPayablesOutstanding", "cashConversionCycle", "grossProfitMargin", "operatingProfitMargin", "pretaxProfitMargin", "netProfitMargin", "effectiveTaxRate", "returnOnAssets", "returnOnEquity", "returnOnCapitalEmployed", "netIncomePerEBT", "ebtPerEbit", "ebitPerRevenue", "debtRatio", "debtEquityRatio", "longTermDebtToCapitalization", "totalDebtToCapitalization", "interestCoverage", "cashFlowToDebtRatio", "companyEquityMultiplier", "receivablesTurnover", "payablesTurnover", "inventoryTurnover", "fixedAssetTurnover", "assetTurnover", "operatingCashFlowPerShare", "freeCashFlowPerShare", "cashPerShare", "payoutRatio", "operatingCashFlowSalesRatio", "freeCashFlowOperatingCashFlowRatio", "cashFlowCoverageRatios", "shortTermCoverageRatios", "capitalExpenditureCoverageRatio", "dividendPaidAndCapexCoverageRatio", "dividendPayoutRatio", "priceBookValueRatio", "priceToBookRatio", "priceToSalesRatio", "priceEarningsRatio", "priceToFreeCashFlowsRatio", "priceToOperatingCashFlowsRatio", "priceCashFlowRatio", "priceEarningsToGrowthRatio", "priceSalesRatio", "dividendYield", "enterpriseValueMultiple", "priceFairValue"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded RunRatios1",{{"symbol", type text}, {"date", type date}, {"calendarYear", Int64.Type}, {"period", type text}, {"currentRatio", type number}, {"quickRatio", type number}, {"cashRatio", type number}, {"daysOfSalesOutstanding", type number}, {"daysOfInventoryOutstanding", type number}, {"operatingCycle", type number}, {"daysOfPayablesOutstanding", type number}, {"cashConversionCycle", type number}, {"grossProfitMargin", type number}, {"operatingProfitMargin", type number}, {"pretaxProfitMargin", type number}, {"netProfitMargin", type number}, {"effectiveTaxRate", type number}, {"returnOnAssets", type number}, {"returnOnEquity", type number}, {"returnOnCapitalEmployed", type number}, {"netIncomePerEBT", type number}, {"ebtPerEbit", type number}, {"ebitPerRevenue", type number}, {"debtRatio", type number}, {"debtEquityRatio", type number}, {"longTermDebtToCapitalization", type number}, {"totalDebtToCapitalization", type number}, {"interestCoverage", type number}, {"cashFlowToDebtRatio", type number}, {"companyEquityMultiplier", type number}, {"receivablesTurnover", type number}, {"payablesTurnover", type number}, {"inventoryTurnover", type number}, {"fixedAssetTurnover", type number}, {"assetTurnover", type number}, {"operatingCashFlowPerShare", type number}, {"freeCashFlowPerShare", type number}, {"cashPerShare", type number}, {"payoutRatio", type number}, {"operatingCashFlowSalesRatio", type number}, {"freeCashFlowOperatingCashFlowRatio", type number}, {"cashFlowCoverageRatios", type number}, {"shortTermCoverageRatios", type number}, {"capitalExpenditureCoverageRatio", type number}, {"dividendPaidAndCapexCoverageRatio", type number}, {"dividendPayoutRatio", type number}, {"priceBookValueRatio", type number}, {"priceToBookRatio", type number}, {"priceToSalesRatio", type number}, {"priceEarningsRatio", type number}, {"priceToFreeCashFlowsRatio", type number}, {"priceToOperatingCashFlowsRatio", type number}, {"priceCashFlowRatio", type number}, {"priceEarningsToGrowthRatio", type number}, {"priceSalesRatio", type number}, {"dividendYield", type number}, {"enterpriseValueMultiple", type number}, {"priceFairValue", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: 326dc8f2-4e24-461d-b70c-e7009b753c5c
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression key_metrics_base =
+		let
+		    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+		    RunKeyMetricsApi = Table.AddColumn(Source, "RunKeyMetrics", each fn_RunAPI_Call("/v3/key-metrics/", [symbol], "", [period="month",apikey=apiKey])),
+		    ExpandedKeyMetricsList = Table.ExpandListColumn(RunKeyMetricsApi, "RunKeyMetrics"),
+		    ExpandedKeyMetricsRecord = Table.ExpandRecordColumn(ExpandedKeyMetricsList, "RunKeyMetrics", {"date", "calendarYear", "period", "revenuePerShare", "netIncomePerShare", "operatingCashFlowPerShare", "freeCashFlowPerShare", "cashPerShare", "bookValuePerShare", "tangibleBookValuePerShare", "shareholdersEquityPerShare", "interestDebtPerShare", "marketCap", "enterpriseValue", "peRatio", "priceToSalesRatio", "pocfratio", "pfcfRatio", "pbRatio", "ptbRatio", "evToSales", "enterpriseValueOverEBITDA", "evToOperatingCashFlow", "evToFreeCashFlow", "earningsYield", "freeCashFlowYield", "debtToEquity", "debtToAssets", "netDebtToEBITDA", "currentRatio", "interestCoverage", "incomeQuality", "dividendYield", "payoutRatio", "salesGeneralAndAdministrativeToRevenue", "researchAndDdevelopementToRevenue", "intangiblesToTotalAssets", "capexToOperatingCashFlow", "capexToRevenue", "capexToDepreciation", "stockBasedCompensationToRevenue", "grahamNumber", "roic", "returnOnTangibleAssets", "grahamNetNet", "workingCapital", "tangibleAssetValue", "netCurrentAssetValue", "investedCapital", "averageReceivables", "averagePayables", "averageInventory", "daysSalesOutstanding", "daysPayablesOutstanding", "daysOfInventoryOnHand", "receivablesTurnover", "payablesTurnover", "inventoryTurnover", "roe", "capexPerShare"}, {"date", "calendarYear", "period", "revenuePerShare", "netIncomePerShare", "operatingCashFlowPerShare", "freeCashFlowPerShare", "cashPerShare", "bookValuePerShare", "tangibleBookValuePerShare", "shareholdersEquityPerShare", "interestDebtPerShare", "marketCap", "enterpriseValue", "peRatio", "priceToSalesRatio", "pocfratio", "pfcfRatio", "pbRatio", "ptbRatio", "evToSales", "enterpriseValueOverEBITDA", "evToOperatingCashFlow", "evToFreeCashFlow", "earningsYield", "freeCashFlowYield", "debtToEquity", "debtToAssets", "netDebtToEBITDA", "currentRatio", "interestCoverage", "incomeQuality", "dividendYield", "payoutRatio", "salesGeneralAndAdministrativeToRevenue", "researchAndDdevelopementToRevenue", "intangiblesToTotalAssets", "capexToOperatingCashFlow", "capexToRevenue", "capexToDepreciation", "stockBasedCompensationToRevenue", "grahamNumber", "roic", "returnOnTangibleAssets", "grahamNetNet", "workingCapital", "tangibleAssetValue", "netCurrentAssetValue", "investedCapital", "averageReceivables", "averagePayables", "averageInventory", "daysSalesOutstanding", "daysPayablesOutstanding", "daysOfInventoryOnHand", "receivablesTurnover", "payablesTurnover", "inventoryTurnover", "roe", "capexPerShare"}),
+		    #"Changed Type" = Table.TransformColumnTypes(ExpandedKeyMetricsRecord,{{"symbol", type text}, {"date", type date}, {"calendarYear", Int64.Type}, {"period", type text}, {"revenuePerShare", type number}, {"netIncomePerShare", type number}, {"operatingCashFlowPerShare", type number}, {"freeCashFlowPerShare", type number}, {"cashPerShare", type number}, {"bookValuePerShare", type number}, {"tangibleBookValuePerShare", type number}, {"shareholdersEquityPerShare", type number}, {"interestDebtPerShare", type number}, {"marketCap", Int64.Type}, {"enterpriseValue", Int64.Type}, {"peRatio", type number}, {"priceToSalesRatio", type number}, {"pocfratio", type number}, {"pfcfRatio", type number}, {"pbRatio", type number}, {"ptbRatio", type number}, {"evToSales", type number}, {"enterpriseValueOverEBITDA", type number}, {"evToOperatingCashFlow", type number}, {"evToFreeCashFlow", type number}, {"earningsYield", type number}, {"freeCashFlowYield", type number}, {"debtToEquity", type number}, {"debtToAssets", type number}, {"netDebtToEBITDA", type number}, {"currentRatio", type number}, {"interestCoverage", type number}, {"incomeQuality", type number}, {"dividendYield", type number}, {"payoutRatio", type number}, {"salesGeneralAndAdministrativeToRevenue", type number}, {"researchAndDdevelopementToRevenue", type number}, {"intangiblesToTotalAssets", type number}, {"capexToOperatingCashFlow", type number}, {"capexToRevenue", type number}, {"capexToDepreciation", type number}, {"stockBasedCompensationToRevenue", type number}, {"grahamNumber", type number}, {"roic", type number}, {"returnOnTangibleAssets", type number}, {"grahamNetNet", type number}, {"workingCapital", Int64.Type}, {"tangibleAssetValue", Int64.Type}, {"netCurrentAssetValue", Int64.Type}, {"investedCapital", Int64.Type}, {"averageReceivables", Int64.Type}, {"averagePayables", Int64.Type}, {"averageInventory", Int64.Type}, {"daysSalesOutstanding", type number}, {"daysPayablesOutstanding", type number}, {"daysOfInventoryOnHand", type number}, {"receivablesTurnover", type number}, {"payablesTurnover", type number}, {"inventoryTurnover", type number}, {"roe", type number}, {"capexPerShare", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: a2ba3b6a-3795-4c21-a397-d04545c8c70b
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+/// Use semicolon as seperator
+expression 'Enter Symbols' = "AAPL;MSFT;AMZN;TSLA;GOOG;META;JPM;V;RELIANCE.NS;TCS.NS;HDFCBANK.NS;ICICIBANK.NS;INFY.NS;HINDUNILVR.NS;SBIN.NS;BHARTIARTL.NS;7203.T;6758.T;9432.T;9984.T;8306.T;8035.T;4063.T;7751.T;005930.KS;000660.KS;051910.KS;035420.KS;005380.KS;207940.KS;105560.KS;028260.KS;AZN.L;GSK.L;HSBA.L;BP.L;RDSA.L;DGE.L;BARC.L;BT.A.L;SAP.DE;OR.PA;ASMLF;VOW3.DE;AIR.PA;MBG.DE;NESN.SW;SAN.PA" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 216f682e-4a7a-4681-a495-c42e3094c381
+	queryGroup: Parameters&Functions
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression fn_RunAPI_Call =
+		let
+		    Source = (PrefixParameters as text, symbol as text, SuffixParameters as text , query as record )=>
+		let
+		    Source = Json.Document(Web.Contents("https://financialmodelingprep.com/api/", [RelativePath = PrefixParameters & symbol & SuffixParameters , Query = query   ]  ))
+		in
+		    Source
+		in
+		    Source
+	lineageTag: 08f1642f-2b71-47d5-8d74-5266e665bfdc
+	queryGroup: Parameters&Functions
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression price =
+		let
+		    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+		    RunQuoteOrder = Table.AddColumn(Source, "RunQuoteOrder", each fn_RunAPI_Call("/v3/quote-order/", [symbol],"", [apikey=apiKey] )),
+		    ExpandedRunQuoteOrderList = Table.ExpandListColumn(RunQuoteOrder, "RunQuoteOrder"),
+		    ExpandedRunQuoteOrderRecord = Table.ExpandRecordColumn(ExpandedRunQuoteOrderList, "RunQuoteOrder", {"eps", "pe"}, {"eps", "pe"}),
+		    #"Changed Type" = Table.TransformColumnTypes(ExpandedRunQuoteOrderRecord,{{"symbol", type text},  {"eps", type number}, {"pe", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: af891739-e14e-42d6-9331-8544d1eed197
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression indicators = ```
+		let
+		    Source = historialData,
+		    #"Grouped Rows" = Table.Group(Source, {"symbol"}, {{"AllRows", each _, type table [symbol=nullable text, date=nullable date, open=nullable number, high=nullable number, low=nullable number, close=nullable number, adjClose=nullable number, volume=nullable number, unadjustedVolume=nullable number, change=nullable number, changePercent=nullable number, vwap=nullable number, label=nullable date, changeOverTime=nullable number]}}),
+		    Added52WeekHigh = Table.AddColumn(#"Grouped Rows", "52WeekHigh", each List.Max([AllRows][high]), type number),
+		    Added52WeekLow = Table.AddColumn(Added52WeekHigh, "52WeekLow", each List.Min([AllRows][low]), type number),
+		    AddedCloseChangeVwap = Table.AddColumn(Added52WeekLow, "CloseChangeVwap", each let 
+		__table = Table.Max([AllRows],"date"),
+		__change = __table[change],
+		__close = __table[close],
+		__vwap = if __table[vwap] < __close then "Buy" else "Sell"
+		in 
+		[change=__change ,close=__close,vwap=__vwap]),
+		    ExpandedCloseChangeVwap = Table.ExpandRecordColumn(AddedCloseChangeVwap, "CloseChangeVwap", {"close", "change","vwap"}),
+		    AddedSuperTrend = Table.AddColumn(ExpandedCloseChangeVwap, "st", each let 
+		__TR = [52WeekHigh] - [52WeekLow],
+		__Mutiplier3 = 3,
+		__UpperBand = (([52WeekHigh]+[52WeekLow])/2) + (__Mutiplier3 * __TR),
+		__LowerBand = (([52WeekHigh]+[52WeekLow])/2) - (__Mutiplier3 * __TR),
+		__Result = if [close] < __UpperBand and [close] > __LowerBand then "Buy"  else "Sell"
+		in 
+		__Result, type text),
+		    AddedRSI = Table.AddColumn(AddedSuperTrend, "rsi", each let 
+		rsi = fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="rsi",period="14",apikey =apiKey]){0}[rsi],
+		result = if rsi < 30 then "Buy" else if rsi > 70 then "Sell" else "Hold"
+		in 
+		result, type text),
+		    AddedAiTrend = Table.AddColumn(AddedRSI, "AI", each [rsi], type text),
+		    AddedEMA = Table.AddColumn(AddedAiTrend, "EMA", each let 
+		EMA20 = try fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="ema",period="20",apikey =apiKey]){0}[ema] otherwise 0,
+		EMA50 = try fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="ema",period="50",apikey =apiKey]){0}[ema] otherwise 0,
+		EMA100 = try  fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="ema",period="100",apikey =apiKey]){0}[ema] otherwise 0,
+		EMA200 = try fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="ema",period="200",apikey =apiKey]){0}[ema] otherwise 0,
+		Result = if [close] > List.Max({EMA20, EMA50,  EMA100, EMA200}) then "Buy" else if [close] < List.Min({EMA20, EMA50,  EMA100, EMA200}) then "Sell" else "Hold"
+		in 
+		[EMA=Result, EMA20 = EMA20]),
+		    #"Expanded EMA" = Table.ExpandRecordColumn(AddedEMA, "EMA", {"EMA", "EMA20"}, {"EMA", "EMA20"}),
+		    #"AddedBollinger Bands" = Table.AddColumn(#"Expanded EMA", "Bollinger Bands", each let
+		sd = fn_RunAPI_Call("/v3/technical_indicator/1day/",[symbol],"",[type="standardDeviation",period="20",apikey =apiKey]){0}[standardDeviation],
+		ema = [EMA20],
+		__Upperband = ema + ( 2 * sd),
+		__LowerBand = ema - ( 2 * sd)
+		in 
+		if [close] > __Upperband then "Buy" else if [close] < __LowerBand then "Sell" else "Hold"),
+		    RemovedUnesessaryColumns = Table.RemoveColumns(#"AddedBollinger Bands",{"AllRows","EMA20"}),
+		    #"Changed Type" = Table.TransformColumnTypes(RemovedUnesessaryColumns,{{"symbol", type text}, {"52WeekHigh", type number}, {"52WeekLow", type number}, {"close", type number}, {"change", type number}, {"vwap", type text}, {"st", type text}, {"rsi", type text}, {"AI", type text}, {"EMA", type text}, {"Bollinger Bands", type text}})
+		in
+		    #"Changed Type"
+		```
+	lineageTag: fe645f08-32bb-45d0-93fb-d450f8d7af19
+	queryGroup: StagingQueries
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

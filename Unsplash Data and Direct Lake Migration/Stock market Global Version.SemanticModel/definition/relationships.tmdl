@@ -1,0 +1,25 @@
+relationship bb7ee6c0-29d6-688f-b2f6-79e698f1e67e
+	fromColumn: 'FCF Data'.ticker
+	toColumn: profile.symbol
+
+relationship e394696b-8e88-67c7-7f33-afcbb00bca1f
+	fromColumn: 'FCF Data'.Date
+	toColumn: DateTable.Date
+
+relationship 186de4e3-2e62-7ca4-6bec-efe8bdaad1c0
+	fromColumn: historialData.date
+	toColumn: DateTable.Date
+
+relationship b97ab9d7-c1c7-0771-12a9-ce4467a552db
+	fromColumn: consensus.symbol
+	toColumn: profile.symbol
+
+relationship d2d8f8b4-74fb-2531-9d4c-ae24212405a4
+	fromColumn: historialData.symbol
+	toColumn: profile.symbol
+
+relationship 668338fb-a481-5cc6-1c2e-f575783e05f2
+	crossFilteringBehavior: bothDirections
+	fromColumn: profile.country
+	toColumn: 'Country Flags'.Country
+

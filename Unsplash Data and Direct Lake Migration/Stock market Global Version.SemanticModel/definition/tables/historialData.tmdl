@@ -1,0 +1,161 @@
+table historialData
+	lineageTag: 36a0c311-c1f1-4e47-a2d4-344c47450104
+
+	column symbol
+		dataType: string
+		lineageTag: 08a476af-bf2f-4110-87d3-af15dd1fcf39
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 84c20abc-dcda-4d84-9ea0-f549e6c17af6
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column open
+		dataType: double
+		lineageTag: 5c177319-1bfa-404e-be47-ba6bceae01dc
+		summarizeBy: sum
+		sourceColumn: open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column high
+		dataType: double
+		lineageTag: 4a469a9e-f365-4bd3-b108-988d46dd0712
+		summarizeBy: sum
+		sourceColumn: high
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column low
+		dataType: double
+		lineageTag: f4f7f502-28c5-4e6b-82f1-10b6662c3ef0
+		summarizeBy: sum
+		sourceColumn: low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column close
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 156c7b8d-6d88-4652-8299-ff3d3c8bd4eb
+		summarizeBy: sum
+		sourceColumn: close
+
+		annotation SummarizationSetBy = Automatic
+
+	column adjClose
+		dataType: double
+		lineageTag: b116bb37-43e7-432a-b090-ea3a97958695
+		summarizeBy: sum
+		sourceColumn: adjClose
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column volume
+		dataType: int64
+		formatString: 0
+		lineageTag: f1f3437c-eee8-42d0-924e-a105bdf47de6
+		summarizeBy: sum
+		sourceColumn: volume
+
+		annotation SummarizationSetBy = Automatic
+
+	column unadjustedVolume
+		dataType: int64
+		formatString: 0
+		lineageTag: fdb52adb-666d-4560-b03a-68faa6fd0596
+		summarizeBy: sum
+		sourceColumn: unadjustedVolume
+
+		annotation SummarizationSetBy = Automatic
+
+	column change
+		dataType: double
+		lineageTag: b42481c6-de9b-4a89-a3d5-7873511a9fa1
+		summarizeBy: sum
+		sourceColumn: change
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column changePercent
+		dataType: double
+		lineageTag: 1a4a0397-e0cc-434c-bc5b-32baf3fa211e
+		summarizeBy: sum
+		sourceColumn: changePercent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vwap
+		dataType: double
+		lineageTag: 3bcee6a0-40a4-4281-8cdd-bcfcc06e07db
+		summarizeBy: sum
+		sourceColumn: vwap
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column label
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9f668604-bf31-453b-93ca-adfdb467b8d5
+		summarizeBy: none
+		sourceColumn: label
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column changeOverTime
+		dataType: double
+		lineageTag: de1a5a75-1348-448b-803d-1540c9b656c8
+		summarizeBy: sum
+		sourceColumn: changeOverTime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition historialData = m
+		mode: import
+		queryGroup: MainTables
+		source =
+				let
+				    Source = Table.RenameColumns(Table.FromList(StockList) ,{{"Column1", "symbol"}}),
+				    CurrentDay = Date.From(DateTime.LocalNow()),
+				    DateBefore52WeeksText = Date.ToText(Date.AddDays(CurrentDay, -52*7),[Format="yyyy-MM-dd"]) ,
+				    CurrenDayText = Date.ToText(CurrentDay,[Format="yyyy-MM-dd"]),
+				    RunHistoricDataApi = Table.AddColumn(Source, "HistoricData", each fn_RunAPI_Call("/v3/historical-price-full/", [symbol], "", [from=DateBefore52WeeksText, to=CurrenDayText, apikey=apiKey])),
+				    ExpandedHistoricData = Table.ExpandRecordColumn(RunHistoricDataApi, "HistoricData", {"historical"}, {"historical"}),
+				    ExpandedhistoricalList = Table.ExpandListColumn(ExpandedHistoricData, "historical"),
+				    ExpandedhistoricalRecord = Table.ExpandRecordColumn(ExpandedhistoricalList, "historical", {"date", "open", "high", "low", "close", "adjClose", "volume", "unadjustedVolume", "change", "changePercent", "vwap", "label", "changeOverTime"}, {"date", "open", "high", "low", "close", "adjClose", "volume", "unadjustedVolume", "change", "changePercent", "vwap", "label", "changeOverTime"}),
+				    #"Changed Type" = Table.TransformColumnTypes(ExpandedhistoricalRecord,{{"symbol", type text}, {"date", type date}, {"open", type number}, {"high", type number}, {"low", type number}, {"close", type number}, {"adjClose", type number}, {"volume", Int64.Type}, {"unadjustedVolume", Int64.Type}, {"change", type number}, {"changePercent", type number}, {"vwap", type number}, {"label", type date}, {"changeOverTime", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
