@@ -1,0 +1,24 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Images","fx","Photos"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.140.1577.0 (25.02)+00af0910c5ca19a229c472b0dfc17a2c488f6b0a
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table Images
+ref table FinalImagesTable
+ref table Photos
+ref table DateTableTemplate_950cb00b-8f1a-41f0-9e28-fe0f3be707e2
+ref table LocalDateTable_77818923-97f2-4e22-bafb-76ad110bf2de
+
+ref cultureInfo en-US
+

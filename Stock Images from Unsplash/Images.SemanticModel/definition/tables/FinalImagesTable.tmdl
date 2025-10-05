@@ -1,0 +1,26 @@
+table FinalImagesTable
+	lineageTag: 1e25b57d-19cf-4e07-905b-8a34383a6a5a
+
+	column Name
+		lineageTag: 1842fcca-86db-4163-9f70-75cbd3fca649
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Images[Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Image
+		lineageTag: 65ff315f-9748-41f8-b333-20676a899f79
+		dataCategory: ImageUrl
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Image]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FinalImagesTable = calculated
+		mode: import
+		source = SUMMARIZE(Images, Images[Name], "Image",  CONCATENATEX(Images, Images[String],"",Images[Id], ASC))
+
+	annotation PBI_Id = a6f0455db798452e884a6a4465ac0a0f
+

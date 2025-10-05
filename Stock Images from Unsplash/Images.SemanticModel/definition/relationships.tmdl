@@ -1,0 +1,9 @@
+relationship cc573b9a-e6c1-4080-a91b-de5e589bcefb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Photos.photo_submitted_at
+	toColumn: LocalDateTable_77818923-97f2-4e22-bafb-76ad110bf2de.Date
+
+relationship d2579c64-4ce6-463e-ffe7-27ec15d8fe09
+	fromColumn: Photos.photographer_username
+	toColumn: FinalImagesTable.Name
+

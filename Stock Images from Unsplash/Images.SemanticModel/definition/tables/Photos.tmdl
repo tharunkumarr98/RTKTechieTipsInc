@@ -1,0 +1,277 @@
+table Photos
+	lineageTag: cc891801-da2c-4440-a21b-a158bb5482b0
+
+	column photo_id
+		dataType: string
+		lineageTag: 9e8e5811-48b4-4cba-b68e-09dd051cf81f
+		summarizeBy: none
+		sourceColumn: photo_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_submitted_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e66b398b-9174-453f-98f8-48c2964fa752
+		summarizeBy: none
+		sourceColumn: photo_submitted_at
+
+		variation Variation
+			isDefault
+			relationship: cc573b9a-e6c1-4080-a91b-de5e589bcefb
+			defaultHierarchy: LocalDateTable_77818923-97f2-4e22-bafb-76ad110bf2de.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_featured
+		dataType: string
+		lineageTag: dc721ac5-db37-4d79-8a71-654181a79373
+		summarizeBy: none
+		sourceColumn: photo_featured
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_width
+		dataType: int64
+		formatString: 0
+		lineageTag: df52a02f-2721-4ef1-a4e3-ce1472526102
+		summarizeBy: sum
+		sourceColumn: photo_width
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_height
+		dataType: int64
+		formatString: 0
+		lineageTag: e21b5472-7592-4541-b092-502655e546ab
+		summarizeBy: sum
+		sourceColumn: photo_height
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_aspect_ratio
+		dataType: double
+		lineageTag: f3651f6c-267a-4cf7-8fdf-898f4953f97d
+		summarizeBy: sum
+		sourceColumn: photo_aspect_ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column photo_description
+		dataType: string
+		lineageTag: 19259bf2-9365-463b-a886-9397d5bc0ca9
+		summarizeBy: none
+		sourceColumn: photo_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column photographer_username
+		dataType: string
+		lineageTag: 0eda9083-2df6-4980-b83e-a873bc5e98af
+		summarizeBy: none
+		sourceColumn: photographer_username
+
+		annotation SummarizationSetBy = Automatic
+
+	column photographer_first_name
+		dataType: string
+		lineageTag: 7716d1f4-c270-4f0e-b684-226468b25fbf
+		summarizeBy: none
+		sourceColumn: photographer_first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column photographer_last_name
+		dataType: string
+		lineageTag: 8d60af85-8eb1-4ba3-ab6e-0494455cfc30
+		summarizeBy: none
+		sourceColumn: photographer_last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column exif_camera_make
+		dataType: string
+		lineageTag: 50eff257-9108-48d3-8eec-664df425c0df
+		summarizeBy: none
+		sourceColumn: exif_camera_make
+
+		annotation SummarizationSetBy = Automatic
+
+	column exif_camera_model
+		dataType: string
+		lineageTag: f96578a7-498d-4c4d-9c0d-995e9aca7b97
+		summarizeBy: none
+		sourceColumn: exif_camera_model
+
+		annotation SummarizationSetBy = Automatic
+
+	column exif_iso
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ea66251-7418-432c-965f-344bf0df66c7
+		summarizeBy: sum
+		sourceColumn: exif_iso
+
+		annotation SummarizationSetBy = Automatic
+
+	column exif_aperture_value
+		dataType: string
+		lineageTag: ce363b69-29bf-4257-9058-9b208047c1de
+		summarizeBy: none
+		sourceColumn: exif_aperture_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column exif_focal_length
+		dataType: double
+		lineageTag: 76b6b826-8347-49e1-bf8b-acd071a8c988
+		summarizeBy: sum
+		sourceColumn: exif_focal_length
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column exif_exposure_time
+		dataType: string
+		lineageTag: 51a0187c-f2aa-480e-b799-0f1ea5dee1ba
+		summarizeBy: none
+		sourceColumn: exif_exposure_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_location_name
+		dataType: string
+		lineageTag: e863a308-26bd-4c41-b71c-576ef5f8c69c
+		summarizeBy: none
+		sourceColumn: photo_location_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_location_latitude
+		dataType: double
+		lineageTag: 0caff8be-d404-45fa-b5dc-67b8b61cc16f
+		summarizeBy: sum
+		sourceColumn: photo_location_latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column photo_location_longitude
+		dataType: double
+		lineageTag: 8fedbbc2-35c9-4f4b-8c57-f80ddbca2bf5
+		summarizeBy: sum
+		sourceColumn: photo_location_longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column photo_location_country
+		dataType: string
+		lineageTag: aaadee72-ff86-4807-951d-28a53e22f738
+		summarizeBy: none
+		sourceColumn: photo_location_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column photo_location_city
+		dataType: string
+		lineageTag: 5cea30f7-525d-49f6-8c17-4c578535c0d5
+		summarizeBy: none
+		sourceColumn: photo_location_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column stats_views
+		dataType: int64
+		formatString: #,0
+		lineageTag: c5608250-f54f-4bd1-a0a5-1a227015821e
+		summarizeBy: sum
+		sourceColumn: stats_views
+
+		annotation SummarizationSetBy = Automatic
+
+	column stats_downloads
+		dataType: int64
+		formatString: #,0
+		lineageTag: dfe8417c-9198-4ea6-8574-4c21d6bbe660
+		summarizeBy: sum
+		sourceColumn: stats_downloads
+
+		annotation SummarizationSetBy = Automatic
+
+	column ai_description
+		dataType: string
+		lineageTag: f8a62112-741c-4d47-9d1e-32a290b8cf80
+		summarizeBy: none
+		sourceColumn: ai_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column ai_primary_landmark_name
+		dataType: string
+		lineageTag: bceadb25-ebce-456b-89bc-c7acc06f2fbc
+		summarizeBy: none
+		sourceColumn: ai_primary_landmark_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column ai_primary_landmark_latitude
+		dataType: double
+		lineageTag: e2ae6fb3-f7b7-46b8-a9fc-21127b39595a
+		summarizeBy: sum
+		sourceColumn: ai_primary_landmark_latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ai_primary_landmark_longitude
+		dataType: double
+		lineageTag: 8e8d5cd6-4d69-4e15-937f-219715be15a6
+		summarizeBy: sum
+		sourceColumn: ai_primary_landmark_longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ai_primary_landmark_confidence
+		dataType: double
+		lineageTag: efc3937d-b1a7-491f-b7fc-29a389c7d218
+		summarizeBy: sum
+		sourceColumn: ai_primary_landmark_confidence
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column blur_hash
+		dataType: string
+		lineageTag: d745c6ab-7b2c-4367-ae2b-82716d87905b
+		summarizeBy: none
+		sourceColumn: blur_hash
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Photos = m
+		mode: import
+		source =
+				let
+				     Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/bfacaf3d-2a06-403d-b94d-999ffda3e7e7/c924cf26-7494-4bb2-8db1-b3d8ed4b55ec/Files/Unsplash/photos.csv"),
+				    #"https://onelake dfs fabric microsoft com/bfacaf3d-2a06-403d-b94d-999ffda3e7e7/c924cf26-7494-4bb2-8db1-b3d8ed4b55ec/Files/Unsplash/_photos csv" = Source{[#"Folder Path"="https://onelake.dfs.fabric.microsoft.com/bfacaf3d-2a06-403d-b94d-999ffda3e7e7/c924cf26-7494-4bb2-8db1-b3d8ed4b55ec/Files/Unsplash/",Name="photos.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"https://onelake dfs fabric microsoft com/bfacaf3d-2a06-403d-b94d-999ffda3e7e7/c924cf26-7494-4bb2-8db1-b3d8ed4b55ec/Files/Unsplash/_photos csv",[Delimiter=",", Columns=31, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"photo_id", type text}, {"photo_url", type text}, {"photo_image_url", type text}, {"photo_submitted_at", type datetime}, {"photo_featured", type text}, {"photo_width", Int64.Type}, {"photo_height", Int64.Type}, {"photo_aspect_ratio", type number}, {"photo_description", type text}, {"photographer_username", type text}, {"photographer_first_name", type text}, {"photographer_last_name", type text}, {"exif_camera_make", type text}, {"exif_camera_model", type text}, {"exif_iso", Int64.Type}, {"exif_aperture_value", type text}, {"exif_focal_length", type number}, {"exif_exposure_time", type text}, {"photo_location_name", type text}, {"photo_location_latitude", type number}, {"photo_location_longitude", type number}, {"photo_location_country", type text}, {"photo_location_city", type text}, {"stats_views", Int64.Type}, {"stats_downloads", Int64.Type}, {"ai_description", type text}, {"ai_primary_landmark_name", type text}, {"ai_primary_landmark_latitude", type number}, {"ai_primary_landmark_longitude", type number}, {"ai_primary_landmark_confidence", type number}, {"blur_hash", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"photo_url", "photo_image_url"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

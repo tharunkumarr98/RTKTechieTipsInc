@@ -1,0 +1,46 @@
+table Images
+	lineageTag: 50f1c20d-4270-4e55-b637-d754beb3ca1d
+
+	column Name
+		dataType: string
+		lineageTag: 8373ce2f-86ae-4dc5-b3c4-23ca64448d2d
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3417010f-5d60-45b7-b76c-dfea8e528aef
+		summarizeBy: count
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column String
+		dataType: string
+		lineageTag: 1a6379af-15f6-411a-bb61-f58a28bdfd4d
+		summarizeBy: none
+		sourceColumn: String
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Images = m
+		mode: import
+		source =
+				let
+				    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/bfacaf3d-2a06-403d-b94d-999ffda3e7e7/c924cf26-7494-4bb2-8db1-b3d8ed4b55ec/Files/Unsplash/Images"),
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Content", "Name"}),
+				    Custom1 = Table.TransformColumns(#"Removed Other Columns", {{"Content", each fx("data:image/jpg;base64," & Binary.ToText(_, BinaryEncoding.Base64), 30000 ), type list}}),
+				    #"Expanded Content" = Table.ExpandListColumn(Custom1, "Content"),
+				    #"Expanded Content1" = Table.ExpandRecordColumn(#"Expanded Content", "Content", {"Id", "String"}, {"Id", "String"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Content1",{{"Id", Int64.Type}, {"String", type text}}),
+				    #"Extracted Text Before Delimiter" = Table.TransformColumns(#"Changed Type", {{"Name", each Text.BeforeDelimiter(_, "_"), type text}})
+				in
+				    #"Extracted Text Before Delimiter"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,18 @@
+expression fx = ```
+		(Content as text, SegmentSize as number)=>
+		let
+		    SegmentSize = SegmentSize,
+		    Source = Content,
+		    TextLength = Text.Length(Source),
+		    __Mod = Number.IntegerDivide(TextLength , SegmentSize),
+		    result = List.Accumulate({0..__Mod-1}, {}, (s,l)=> s & { [Id=l, String=Text.Range(Source, l*SegmentSize ,SegmentSize)] } ) & 
+		    {[Id= __Mod + 1, String=Text.Range(Source, __Mod * SegmentSize, TextLength - __Mod * SegmentSize )]}
+		in
+		    result
+		```
+	lineageTag: 8c095462-414d-4630-9675-dfeb80b310d9
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+

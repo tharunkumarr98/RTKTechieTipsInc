@@ -1,0 +1,51 @@
+{
+  "config": "{\"version\":\"5.59\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU10\",\"version\":\"5.61\",\"type\":2}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"linguisticSchemaSyncVersion\":2,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true,\"useEnhancedTooltips\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}],\"outspacePane\":[{\"properties\":{\"expanded\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY24SU10",
+            "path": "BaseThemes/CY24SU10.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{\"objects\":{\"background\":[{\"properties\":{\"transparency\":{\"expr\":{\"Literal\":{\"Value\":\"0D\"}}}}}]}}",
+      "displayName": "Page 1",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "edeca7d187a0d1e5a9fb",
+      "visualContainers": [
+        {
+          "config": "{\"name\":\"e41ed5088fe08ec3b268\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":276.65338645418325,\"z\":1001,\"width\":1269.800796812749,\"height\":188.68525896414343,\"tabOrder\":1001}}],\"singleVisual\":{\"visualType\":\"pivotTable\",\"projections\":{\"Columns\":[{\"queryRef\":\"FinalImagesTable.Image\",\"active\":true}],\"Values\":[{\"queryRef\":\"Min(Photos.photographer_username)\"},{\"queryRef\":\"Sum(Photos.stats_downloads)\"},{\"queryRef\":\"Sum(Photos.stats_views)\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"FinalImagesTable\",\"Type\":0},{\"Name\":\"p\",\"Entity\":\"Photos\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Image\"},\"Name\":\"FinalImagesTable.Image\",\"NativeReferenceName\":\"Image\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"p\"}},\"Property\":\"photographer_username\"}},\"Function\":3},\"Name\":\"Min(Photos.photographer_username)\",\"NativeReferenceName\":\"Photographer\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"p\"}},\"Property\":\"stats_downloads\"}},\"Function\":0},\"Name\":\"Sum(Photos.stats_downloads)\",\"NativeReferenceName\":\"Downloads\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"p\"}},\"Property\":\"stats_views\"}},\"Function\":0},\"Name\":\"Sum(Photos.stats_views)\",\"NativeReferenceName\":\"Views\"}]},\"columnProperties\":{\"Min(Photos.photographer_username)\":{\"displayName\":\"Photographer\"},\"Sum(Photos.stats_downloads)\":{\"displayName\":\"Downloads\"},\"Sum(Photos.stats_views)\":{\"displayName\":\"Views\"}},\"drillFilterOtherVisuals\":true,\"objects\":{\"values\":[{\"properties\":{\"valuesOnRow\":{\"expr\":{\"Literal\":{\"Value\":\"true\"}}}}}]}}}",
+          "filters": "[{\"name\":\"b490d63c2774f3129b86\",\"expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"FinalImagesTable\"}},\"Property\":\"Image\"}},\"filter\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"FinalImagesTable\",\"Type\":0}],\"Where\":[{\"Condition\":{\"Not\":{\"Expression\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"Image\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"null\"}}]]}}}}}]},\"type\":\"Categorical\",\"howCreated\":0,\"objects\":{\"general\":[{\"properties\":{\"isInvertedSelectionMode\":{\"expr\":{\"Literal\":{\"Value\":\"true\"}}}}}]},\"isHiddenInViewMode\":false}]",
+          "height": 188.69,
+          "width": 1269.80,
+          "x": 0.00,
+          "y": 276.65,
+          "z": 1001.00
+        },
+        {
+          "config": "{\"name\":\"ec18f593b1ddd9e3388c\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":102.375,\"z\":1000,\"width\":1270.125,\"height\":68.625,\"tabOrder\":1000}}],\"singleVisual\":{\"visualType\":\"textbox\",\"drillFilterOtherVisuals\":true,\"objects\":{\"general\":[{\"properties\":{\"paragraphs\":[{\"textRuns\":[{\"value\":\"Unsplash Image Collection\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"28pt\"}}],\"horizontalTextAlignment\":\"center\"}]}}]}}}",
+          "filters": "[]",
+          "height": 68.63,
+          "width": 1270.13,
+          "x": 0.00,
+          "y": 102.38,
+          "z": 1000.00
+        }
+      ],
+      "width": 1280.00
+    }
+  ]
+}
