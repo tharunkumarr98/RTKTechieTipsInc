@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "incrementalRefreshTablePartitions"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5408d918-6db5-93b5-43a1-6d3e2b5829a3"
+  }
+}
