@@ -1,0 +1,355 @@
+table N71_ACCM
+	lineageTag: 64be8cd6-2ea1-481e-9c67-ae5734837e04
+
+	column DBName
+		dataType: string
+		lineageTag: a3f20402-a4ce-4f29-a003-5152aca3a461
+		summarizeBy: none
+		sourceColumn: DBName
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_CC
+		dataType: string
+		lineageTag: 03a6b070-f2d4-4a0f-bec0-a6e9fcb808c5
+		summarizeBy: none
+		sourceColumn: N71_KODAS_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_PAV
+		dataType: string
+		lineageTag: 32326662-4cf7-4e4f-ad77-121ca3fbc3a5
+		summarizeBy: none
+		sourceColumn: N71_PAV
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_PAV_U
+		dataType: string
+		lineageTag: 41c98f09-c12e-40f3-a85b-2905e106598b
+		summarizeBy: none
+		sourceColumn: N71_PAV_U
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_LYGIS
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c191702-d049-474c-853e-a34a70a720e2
+		summarizeBy: sum
+		sourceColumn: N71_LYGIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_TIPAS
+		dataType: int64
+		formatString: 0
+		lineageTag: e433d02a-ad53-4d78-8fce-6d59827637c8
+		summarizeBy: sum
+		sourceColumn: N71_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_TEVAS
+		dataType: int64
+		formatString: 0
+		lineageTag: fd544ebd-6651-4f4d-b8f9-6d156e69c1b1
+		summarizeBy: sum
+		sourceColumn: N71_TEVAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_SASK_TIPAS
+		dataType: int64
+		formatString: 0
+		lineageTag: 20b60695-1fc6-44ad-b40e-20722c01bfb5
+		summarizeBy: sum
+		sourceColumn: N71_SASK_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_BANK
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d5b52ce-f9b7-4a5f-95e8-51c2b653e7ab
+		summarizeBy: sum
+		sourceColumn: N71_BANK
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_DOK_KONTR
+		dataType: int64
+		formatString: 0
+		lineageTag: 0fb343b2-8c4e-4421-840e-ff89037ee5c6
+		summarizeBy: sum
+		sourceColumn: N71_DOK_KONTR
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_VL
+		dataType: string
+		lineageTag: e5393446-58ec-47a0-8ef6-e8f11fb2c876
+		summarizeBy: none
+		sourceColumn: N71_KODAS_VL
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_POZ_DATE
+		dataType: int64
+		formatString: 0
+		lineageTag: ce2f8721-dd02-4524-a69e-e3e1bb2ab985
+		summarizeBy: sum
+		sourceColumn: N71_POZ_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_BEG_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0083474f-cbed-49f8-b7f5-cb9a9d3f1146
+		summarizeBy: none
+		sourceColumn: N71_BEG_DATE
+
+		variation Variation
+			isDefault
+			relationship: 0b306722-cb8f-4567-8d1f-c5cd8a2949b8
+			defaultHierarchy: LocalDateTable_86790deb-d9b7-434c-ad05-6ed10d0dc57d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_END_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7cb2f394-9d6a-427d-aa9b-f42dfd7cf0a0
+		summarizeBy: none
+		sourceColumn: N71_END_DATE
+
+		variation Variation
+			isDefault
+			relationship: f8977566-d3ff-40e5-896d-c09b1a4c48b0
+			defaultHierarchy: LocalDateTable_a9f1cd12-5173-414b-88aa-0f67e20310bc.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_ADDUSR
+		dataType: string
+		lineageTag: 1c8c0cec-d343-4e1b-acb1-5af90967860e
+		summarizeBy: none
+		sourceColumn: N71_ADDUSR
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_USERIS
+		dataType: string
+		lineageTag: c8b665ad-564a-45f9-b82d-4bdbeefddacc
+		summarizeBy: none
+		sourceColumn: N71_USERIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_R_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0352174d-a857-4ca4-bae7-83d34bfe6f5a
+		summarizeBy: none
+		sourceColumn: N71_R_DATE
+
+		variation Variation
+			isDefault
+			relationship: b71d40d7-7a34-45f0-afbb-c2d4fde0b7fb
+			defaultHierarchy: LocalDateTable_7fffb836-bab3-42f4-886b-72b1d4ba98bb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_BT
+		dataType: string
+		lineageTag: ee78f715-e3b5-4613-ba48-854c72195710
+		summarizeBy: none
+		sourceColumn: N71_KODAS_BT
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_LS_1
+		dataType: string
+		lineageTag: 955ed838-ec9e-4e11-a0d5-2b9a805e5480
+		summarizeBy: none
+		sourceColumn: N71_KODAS_LS_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_LS_2
+		dataType: string
+		lineageTag: 68659b46-c1f1-4381-bc6c-550a08fddc5a
+		summarizeBy: none
+		sourceColumn: N71_KODAS_LS_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_LS_3
+		dataType: string
+		lineageTag: 2a645d0d-dbf5-44ff-bef1-e9ee8e866815
+		summarizeBy: none
+		sourceColumn: N71_KODAS_LS_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column N71_KODAS_LS_4
+		dataType: string
+		lineageTag: 7694883f-8a31-48e8-9465-82171558ed7f
+		summarizeBy: none
+		sourceColumn: N71_KODAS_LS_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Kodas_CC
+		dataType: string
+		lineageTag: 21362497-44ef-4b64-afea-d8906e8a57e2
+		summarizeBy: none
+		sourceColumn: _Kodas_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bal_1
+		dataType: string
+		lineageTag: 22cfc23c-bdb2-4faa-8dcb-8447c0dd6700
+		summarizeBy: none
+		sourceColumn: Bal_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Balansas
+		dataType: string
+		lineageTag: 8a85bc52-a2e1-442a-b4fa-d685c9a62d66
+		summarizeBy: none
+		sourceColumn: Balansas
+
+		annotation SummarizationSetBy = Automatic
+
+	column CF2
+		dataType: string
+		lineageTag: 9fc0a9b6-0ee4-4cce-a981-720247c4ae29
+		summarizeBy: none
+		sourceColumn: CF2
+
+		annotation SummarizationSetBy = Automatic
+
+	column CF
+		dataType: string
+		lineageTag: 474f2b5c-c977-4afa-ae64-96868c6d1b21
+		summarizeBy: none
+		sourceColumn: CF
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupe
+		dataType: string
+		lineageTag: 4ef237d7-f595-4e96-bac7-c72feba2021f
+		summarizeBy: none
+		sourceColumn: Grupe
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kategorija
+		dataType: string
+		lineageTag: 2ea7d635-d673-49a3-8ffd-56f463db9683
+		summarizeBy: none
+		sourceColumn: Kategorija
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_1
+		dataType: string
+		lineageTag: 701a3ca5-3468-4610-9d44-64269fe3e6fa
+		summarizeBy: none
+		sourceColumn: Lvl_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_2
+		dataType: string
+		lineageTag: 140c8935-bcb6-46d1-b2f4-80df40db6f8c
+		summarizeBy: none
+		sourceColumn: Lvl_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_3
+		dataType: string
+		lineageTag: 1d9df5a0-270e-4069-9d8e-0858df812d08
+		summarizeBy: none
+		sourceColumn: Lvl_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Paskolos
+		dataType: string
+		lineageTag: f3907f73-9721-4c01-87be-a79545d7e381
+		summarizeBy: none
+		sourceColumn: Paskolos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sas
+		dataType: string
+		lineageTag: b8067ada-df7e-4f54-875f-5cbdd28687c9
+		summarizeBy: none
+		sourceColumn: Sas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Skolos
+		dataType: string
+		lineageTag: 8b327564-c73a-4b82-94f2-26da732a3242
+		summarizeBy: none
+		sourceColumn: Skolos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Veikla
+		dataType: string
+		lineageTag: 76e3e26e-f1c0-485a-8ccf-87d3bf39a984
+		summarizeBy: none
+		sourceColumn: Veikla
+
+		annotation SummarizationSetBy = Automatic
+
+	column VS
+		dataType: string
+		lineageTag: 5e2b0aea-8b00-467c-8074-8d63dadad261
+		summarizeBy: none
+		sourceColumn: VS
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountCategory
+		dataType: string
+		lineageTag: ee90d28c-858f-4a3f-8d97-b199a32c9712
+		summarizeBy: none
+		sourceColumn: AccountCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column _kodas_cc2
+		dataType: string
+		lineageTag: ecf3bf59-4da1-41a7-8e86-9d6499975694
+		summarizeBy: none
+		sourceColumn: _kodas_cc2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition N71_ACCM = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PBI\BNM\Book1.xlsx"), null, true),
+				    N71_ACCM_Sheet = Source{[Item="N71_ACCM",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(N71_ACCM_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DBName", type text}, {"N71_KODAS_CC", type text}, {"N71_PAV", type text}, {"N71_PAV_U", type text}, {"N71_LYGIS", Int64.Type}, {"N71_TIPAS", Int64.Type}, {"N71_TEVAS", Int64.Type}, {"N71_SASK_TIPAS", Int64.Type}, {"N71_BANK", Int64.Type}, {"N71_DOK_KONTR", Int64.Type}, {"N71_KODAS_VL", type text}, {"N71_POZ_DATE", Int64.Type}, {"N71_BEG_DATE", type datetime}, {"N71_END_DATE", type datetime}, {"N71_ADDUSR", type text}, {"N71_USERIS", type text}, {"N71_R_DATE", type datetime}, {"N71_KODAS_BT", type text}, {"N71_KODAS_LS_1", type text}, {"N71_KODAS_LS_2", type text}, {"N71_KODAS_LS_3", type text}, {"N71_KODAS_LS_4", type text}, {"_Kodas_CC", type text}, {"Bal_1", type text}, {"Balansas", type text}, {"CF2", type text}, {"CF", type text}, {"Grupe", type text}, {"Kategorija", type text}, {"Lvl_1", type text}, {"Lvl_2", type text}, {"Lvl_3", type text}, {"Paskolos", type text}, {"Sas", type text}, {"Skolos", type text}, {"Veikla", type text}, {"VS", type text}, {"AccountCategory", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

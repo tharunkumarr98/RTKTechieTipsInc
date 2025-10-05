@@ -1,0 +1,268 @@
+table _Measures
+	lineageTag: 629b0039-6689-4f78-a09c-dd6e07855a85
+
+	measure _EUR = ```
+			
+			VAR Use_SAS = SELECTEDVALUE(Table_SAS_MOK[Matas]) = "SAS"        -- eil. 1: ar pasirinkta „SAS“
+			
+			VAR Combined_Result =
+			    SUMX(
+			        I03_DKD,                                               -- eil. 3: iteruojam per visus įrašus
+			        VAR sign = IF(I03_DKD[D_or_C] = "D", 1, -1)             -- eil. 4: debetas = +1, kreditas = -1
+			        VAR balanceType =                                     -- eil. 5: gaunam Bal_1 iš atitinkamos lentelės
+			            IF(
+			                Use_SAS,                                      -- eil. 6: jei SAS
+			                RELATED(N71_ACCM[Bal_1]),                     -- eil. 7: imti iš N71_ACCM
+			                RELATED(N01_ACCT[Bal_1])                      -- eil. 8: kitaip – iš N01_ACCT
+			            )
+			        VAR factor = IF(balanceType = "A. Turtas", 1, -1)      -- eil. 9: „A. Turtas“ = +1, kiti = -1
+			        RETURN
+			            sign * factor * I03_DKD[I03_SUMA]                 -- eil. 10: galutinis įrašo indėlis
+			    )
+			
+			RETURN
+			    Combined_Result                                        -- eil. 12: grąžinam rezultatą vienu SUMX užėjimu
+			
+			
+			```
+		displayFolder: Balansas
+		lineageTag: 9405819f-f984-4a92-bcd6-85c1ee5714e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _EUR_cumulative = ```
+			
+			CALCULATE(
+			    [_EUR],
+			    '__Calendar'[Date] <= MAX('__Calendar'[Date])
+			
+			)
+			
+			```
+		displayFolder: Balansas
+		lineageTag: 3ea20e34-e797-4a70-bc0b-5fdff50dd95e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _EUR_RecalcByRate =
+			// Full optimized measure avoiding non-constant DIVIDE alternate
+			SUMX(                                                      -- line 1: iterate per currency code
+			    ADDCOLUMNS(                                            -- line 2: build table with pre-computed values
+			        VALUES( I03_DKD[N01_ACCT.N01_KODAS_VL] ),            -- line 3: one row per distinct currency code
+			        "Bal", [_VAL_cumulative],             -- line 4: compute balance once per code
+			        "Rate", [_currency_rate]     -- line 5: compute last currency rate once per code
+			    ),                                                     -- line 6: end ADDCOLUMNS
+			
+			    VAR Bal = [Bal]                                        -- line 7: store balance in variable
+			    VAR Rate = [Rate]                                      -- line 8: store rate in variable
+			    VAR DivResult =                                         -- line 10: safe division, alternate = 0 (must be constant)
+			    DIVIDE( Bal, Rate, 0 ) RETURN                                                 -- line 9: return expression for each row
+			    IF(                                                -- line 10: if-rate-zero-or-blank test
+			        OR(                                           -- line 11: test for blank or zero
+			            ISBLANK( Rate ),
+			            Rate = 0
+			        ),
+			        Bal,                                          -- line 12: if no valid rate, return balance
+			        DivResult                             -- line 13: else, perform division
+			    )                                                 -- line 14: end IF
+			
+			)                                                          -- line 15: end SUMX
+		displayFolder: Balansas
+		lineageTag: ede60179-050e-45df-b98d-6a4bef3d4e50
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _currency_rate = ```
+			
+			VAR CurrentDate = MAX('__Calendar'[Date])  -- Get the current date from the calendar
+			VAR CurrentCode = MAX(I03_DKD[N01_ACCT.N01_KODAS_VL])  -- Get the current currency code
+			VAR MaxRubDate =
+			    CALCULATE(
+			        MAX(PP_Currency_rate[date]),
+			        PP_Currency_rate[name_2] = "RUB"
+			    )
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE(),
+			    CurrentCode = "LIT", 3.4528,
+			    CurrentCode = "RUB" && MaxRubDate <= CurrentDate, // imam paskutini pasiekiama kursa jei nera tinkamo
+			        CALCULATE(
+			            MAX(PP_Currency_rate[amount_2]),
+			            PP_Currency_rate[name_2] = "RUB" && PP_Currency_rate[date] = MaxRubDate
+			
+			        )    
+			    ,CurrentCode = "USDT", CALCULATE(
+			        MAX(PP_Currency_rate[amount_2]),
+			        PP_Currency_rate[name_2] = "USD" && PP_Currency_rate[date] = CurrentDate
+			    )
+			    ,CALCULATE(
+			        MAX(PP_Currency_rate[amount_2]),
+			        PP_Currency_rate[name_2] = CurrentCode && PP_Currency_rate[date] = CurrentDate
+			    )
+			)
+			
+			```
+		displayFolder: Balansas
+		lineageTag: c17e50d7-1d12-4156-8913-3620b70c5ca6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _VAL = ```
+			
+			VAR Use_SAS = SELECTEDVALUE(Table_SAS_MOK[Matas]) = "SAS"        -- eil. 1: ar pasirinkta „SAS“
+			
+			VAR Combined_Result =
+			    SUMX(
+			        I03_DKD,                                               -- eil. 3: iteruojam per visus įrašus
+			        VAR sign = IF(I03_DKD[D_or_C] = "D", 1, -1)             -- eil. 4: debetas = +1, kreditas = -1
+			        VAR balanceType =                                     -- eil. 5: gaunam Bal_1 iš atitinkamos lentelės
+			            IF(
+			                Use_SAS,                                      -- eil. 6: jei SAS
+			                RELATED(N71_ACCM[Bal_1]),                     -- eil. 7: imti iš N71_ACCM
+			                RELATED(N01_ACCT[Bal_1])                      -- eil. 8: kitaip – iš N01_ACCT
+			            )
+			        VAR factor = IF(balanceType = "A. Turtas", 1, -1)      -- eil. 9: „A. Turtas“ = +1, kiti = -1
+			        RETURN
+			            sign * factor * I03_DKD[_Suma_VAL]                 -- eil. 10: galutinis įrašo indėlis
+			    )
+			
+			RETURN
+			    Combined_Result                                        -- eil. 12: grąžinam rezultatą vienu SUMX užėjimu
+			
+			
+			```
+		displayFolder: Balansas
+		lineageTag: 250d1a19-5507-44f0-bc71-72166684d0d6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _VAL_cumulative = ```
+			
+			CALCULATE(
+			    [_VAL],
+			    '__Calendar'[Date] <= MAX('__Calendar'[Date])
+			
+			)
+			
+			```
+		displayFolder: Balansas
+		lineageTag: 9f884c7d-77af-4ffb-8e73-0f4a2f43d662
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'FX Rate Daily' = ```
+			
+			
+			VAR DepthMode =
+			    SELECTEDVALUE( CurrencyDepth[Depth], "Daily" )
+			
+			VAR SelectedDateFromSlicer = MAX(__Calendar[Date]) 
+			    //SELECTEDVALUE( '__Calendar'[Date], TODAY() )
+			
+			
+			
+			VAR ContextDate =
+			    MAX( I03_DKD[I02_OP_DATA.1] )
+			
+			
+			VAR ClampedDate =
+			IF(NOT(ISBLANK(ContextDate)) ,
+			    IF(
+			        SelectedDateFromSlicer > TODAY()  ,
+			        TODAY(),
+			        SelectedDateFromSlicer
+			    ), BLANK()) 
+			
+			VAR LookupDate =
+			    SWITCH(
+			        TRUE(),
+			        DepthMode = "Daily",          ContextDate,
+			        DepthMode = "MonthEnd",       EOMONTH( ContextDate, 0 ),
+			        DepthMode = "SelectedEndDate", ClampedDate
+			    )
+			
+			VAR CurrentCode =
+			    SELECTEDVALUE( I03_DKD[N01_ACCT.N01_KODAS_VL] )
+			
+			VAR RateTable =
+			    FILTER(
+			        ALL( PP_Currency_rate ),
+			        PP_Currency_rate[name_2]    = CurrentCode
+			            && PP_Currency_rate[date] <= LookupDate
+			    )
+			
+			VAR LastRateDate =
+			    MAXX( RateTable, PP_Currency_rate[date] )
+			
+			VAR LastRateValue =
+			    CALCULATE(
+			        MAX( PP_Currency_rate[amount_2] ),
+			        PP_Currency_rate[date] = LastRateDate
+			    )
+			
+			RETURN LastRateDate           
+			// IF(
+			//     ISINSCOPE( I03_DKD[N01_ACCT.N01_KODAS_VL] ),
+			//     LastRateValue,
+			//     BLANK()
+			// ) 
+			
+			
+			```
+		formatString: General Date
+		displayFolder: Balansas
+		lineageTag: fd30d0cd-0ea8-47d6-8d59-3a7d802a18f8
+
+	measure RowDateFact = ```
+			
+			VAR FactDate = MAX( I03_DKD[I02_OP_DATA.1] )
+			VAR CalDate =
+			    CALCULATE(
+			      MAX( __Calendar[Date] ),
+			      CROSSFILTER( __Calendar[Date], I03_DKD[I02_OP_DATA.1], BOTH )
+			    )
+			RETURN
+			    IF(
+			      NOT ISBLANK( FactDate ),
+			      FactDate,
+			      CalDate
+			    )
+			
+			```
+		formatString: General Date
+		displayFolder: Balansas
+		lineageTag: 9a608ad8-4168-4f59-8b74-79b1cf60054c
+
+	measure RowDateCal =
+			
+			CALCULATE(
+			    MAX( __Calendar[Date] ),
+			    CROSSFILTER( __Calendar[Date], I03_DKD[I02_OP_DATA.1], BOTH )
+			)
+		formatString: General Date
+		displayFolder: Balansas
+		lineageTag: b870a578-d2bf-4e40-8c3a-d9c263826bb2
+
+	measure _diff = [_EUR_cumulative]-[_EUR_RecalcByRate]
+		displayFolder: Balansas
+		lineageTag: a3625cb5-0dfa-4be3-9b1e-27e5ef05cf8a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		formatString: 0
+		lineageTag: e17bd816-8db5-41ec-8b0d-5d7d6c2a3b4c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures-bfb5bc5f-5c64-4f60-aac2-90a0fac0a702 = calculated
+		mode: import
+		source = {1}
+
+	annotation PBI_Id = 02803e237a9042219af46a6b4cb85d49
+

@@ -1,0 +1,464 @@
+table N01_ACCT
+	lineageTag: ea1127ac-f26c-4a5e-a357-18b81a02d2ea
+
+	column DBName
+		dataType: string
+		lineageTag: abfc7b36-203a-4625-a27e-b3e13a00c79c
+		summarizeBy: none
+		sourceColumn: DBName
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_KODAS_SS
+		dataType: string
+		lineageTag: 788d1692-34d5-43c4-99e8-24b9dd5e1cf5
+		summarizeBy: none
+		sourceColumn: N01_KODAS_SS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_PAV
+		dataType: string
+		lineageTag: db2ed7b4-73c8-40ea-bcf7-9b38c2367d2b
+		summarizeBy: none
+		sourceColumn: N01_PAV
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_PAV_U
+		dataType: string
+		lineageTag: ee3c5c6a-e314-409e-91cb-08bfb476fa32
+		summarizeBy: none
+		sourceColumn: N01_PAV_U
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_LYGIS
+		dataType: int64
+		formatString: 0
+		lineageTag: fdd93adf-21f0-4a56-8f09-6a54d748f8fa
+		summarizeBy: sum
+		sourceColumn: N01_LYGIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_TIPAS
+		dataType: int64
+		formatString: 0
+		lineageTag: 952f299a-1412-41a0-aafc-24da1554fc65
+		summarizeBy: sum
+		sourceColumn: N01_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_TEVAS
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f66d311-989f-453b-be80-2ca45bd0845c
+		summarizeBy: sum
+		sourceColumn: N01_TEVAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_SASK_TIPAS
+		dataType: int64
+		formatString: 0
+		lineageTag: f17ec1c3-db17-458c-9ccd-4e3b2da1a515
+		summarizeBy: sum
+		sourceColumn: N01_SASK_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_BANK
+		dataType: int64
+		formatString: 0
+		lineageTag: b10b5adb-9761-4184-86c1-fa9ac9bdc0dc
+		summarizeBy: sum
+		sourceColumn: N01_BANK
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_KODAS_CC
+		dataType: string
+		lineageTag: 0a2256ac-2c26-42a1-a54e-0f7baefdf83b
+		summarizeBy: none
+		sourceColumn: N01_KODAS_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sas
+		dataType: string
+		lineageTag: 92259f1f-3bfd-42a4-84b9-f2cd743f263c
+		summarizeBy: none
+		sourceColumn: Sas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_1
+		dataType: string
+		lineageTag: 28a99c9f-292a-4320-80b2-cac5ce99085d
+		summarizeBy: none
+		sourceColumn: Lvl_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_2
+		dataType: string
+		lineageTag: 9065a6a7-8b19-431a-aba9-bd5efd3f316b
+		summarizeBy: none
+		sourceColumn: Lvl_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lvl_3
+		dataType: string
+		lineageTag: cc9ff297-7068-461b-979e-eebaa632600f
+		summarizeBy: none
+		sourceColumn: Lvl_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupe
+		dataType: string
+		lineageTag: 711c1b65-1bac-449a-b3c9-b6927e4d32ab
+		summarizeBy: none
+		sourceColumn: Grupe
+
+		annotation SummarizationSetBy = Automatic
+
+	column Veikla
+		dataType: string
+		lineageTag: ade3659e-3a93-4617-8c22-df52621f59c3
+		summarizeBy: none
+		sourceColumn: Veikla
+
+		annotation SummarizationSetBy = Automatic
+
+	column Balansas
+		dataType: string
+		lineageTag: 510637c3-4900-4c13-a717-d9b88e39f2a5
+		summarizeBy: none
+		sourceColumn: Balansas
+
+		annotation SummarizationSetBy = Automatic
+
+	column VS
+		dataType: string
+		lineageTag: 17736b16-79c0-417a-a317-fcf7aa12faeb
+		summarizeBy: none
+		sourceColumn: VS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bal_1
+		dataType: string
+		lineageTag: 93fe19f6-d4e5-41d8-9db5-8e3f4e4aee90
+		summarizeBy: none
+		sourceColumn: Bal_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column CF
+		dataType: string
+		lineageTag: a39307ab-ee20-4b26-9062-88380eb4e1ec
+		summarizeBy: none
+		sourceColumn: CF
+
+		annotation SummarizationSetBy = Automatic
+
+	column CF2
+		dataType: string
+		lineageTag: 1ba094fe-1119-4183-bc85-0cb8cdba4b27
+		summarizeBy: none
+		sourceColumn: CF2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kategorija
+		dataType: string
+		lineageTag: 628d841f-7d29-47ba-8c17-c7febd555244
+		summarizeBy: none
+		sourceColumn: Kategorija
+
+		annotation SummarizationSetBy = Automatic
+
+	column Skolos
+		dataType: string
+		lineageTag: 2b68f9c2-fc1b-4fef-baef-199d51487bc8
+		summarizeBy: none
+		sourceColumn: Skolos
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Kodas_SS
+		dataType: string
+		lineageTag: d9be3357-300a-44ed-a26f-e0a8130fe0ac
+		summarizeBy: none
+		sourceColumn: _Kodas_SS
+
+		annotation SummarizationSetBy = Automatic
+
+	column N01_KODAS_VL
+		dataType: string
+		lineageTag: 90a0ecd0-0e29-4e55-bdd0-1bfffa2111a4
+		summarizeBy: none
+		sourceColumn: N01_KODAS_VL
+
+		annotation SummarizationSetBy = Automatic
+
+	column _Kodas_CC
+		dataType: string
+		lineageTag: 795b874c-9b48-411f-80a2-2ec9bb39d717
+		summarizeBy: none
+		sourceColumn: _Kodas_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_CC'
+		dataType: string
+		lineageTag: 066dd51e-df50-48e7-97d6-3717fe502860
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_PAV'
+		dataType: string
+		lineageTag: 492c3440-2c90-4edf-ac7e-826969b066f4
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_PAV
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_PAV_U'
+		dataType: string
+		lineageTag: c7e88a62-f0b2-4662-9007-d979b1d49c78
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_PAV_U
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_LYGIS'
+		dataType: int64
+		formatString: 0
+		lineageTag: f9f6f2e1-ac22-40a1-b697-13b3ecd8b203
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_LYGIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_TIPAS'
+		dataType: int64
+		formatString: 0
+		lineageTag: d8d0d88e-4f6e-4732-a116-dcbb53a40982
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_TEVAS'
+		dataType: int64
+		formatString: 0
+		lineageTag: bf4aa1a8-4f9b-41ca-b152-53d42c48a447
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_TEVAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_SASK_TIPAS'
+		dataType: int64
+		formatString: 0
+		lineageTag: 50d7e771-e14d-46c1-aaad-72efd2861ca8
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_SASK_TIPAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_BANK'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7792f1ad-370e-4403-8bc1-9da3ee2cbd7b
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_BANK
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_DOK_KONTR'
+		dataType: int64
+		formatString: 0
+		lineageTag: dc44f553-3eef-4752-93ae-f289d0b806fd
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_DOK_KONTR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_VL'
+		dataType: string
+		lineageTag: e311f55b-9ba0-4350-b3e1-ed331f5e1c4a
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_VL
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_POZ_DATE'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c316b8e-630e-4e01-911b-176772fd2776
+		summarizeBy: sum
+		sourceColumn: N01_CC_PAV.N71_POZ_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_BEG_DATE'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2fe441be-2a98-4626-aa24-564fd12554a4
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_BEG_DATE
+
+		variation Variation
+			isDefault
+			relationship: 0d981355-271b-4e1e-9c92-68f7262cba86
+			defaultHierarchy: LocalDateTable_9ed7f646-44da-4dbe-878a-f673ae2b82d6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_END_DATE'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8e109817-c87d-4c0a-ac4d-ad60e8292df4
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_END_DATE
+
+		variation Variation
+			isDefault
+			relationship: e01db672-884b-4043-a439-6e2ac0af453f
+			defaultHierarchy: LocalDateTable_551bf53e-e013-4271-bd44-226ab135e7bb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_ADDUSR'
+		dataType: string
+		lineageTag: e8cfcf21-9ca7-4b34-8d7f-324e66551a69
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_ADDUSR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_USERIS'
+		dataType: string
+		lineageTag: 0445a98d-9c7a-4956-bbe0-049bb8d3e08d
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_USERIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_R_DATE'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a84570db-f6fa-4ed5-8bc8-d53346a67873
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_R_DATE
+
+		variation Variation
+			isDefault
+			relationship: 311bf5ff-9bdd-455f-82a9-535b7e37f4ef
+			defaultHierarchy: LocalDateTable_6fdac516-b5af-44a2-9a6b-91ae173348c4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_BT'
+		dataType: string
+		lineageTag: 1b741806-ed82-4636-bbb7-e39bde7954af
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_BT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_LS_1'
+		dataType: string
+		lineageTag: 815d3b42-7e26-48e7-a442-2d0a984012ba
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_LS_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_LS_2'
+		dataType: string
+		lineageTag: 4538efe7-48b9-4301-8a57-bef2fed3fa01
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_LS_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_LS_3'
+		dataType: string
+		lineageTag: 1033e941-5adc-4750-84b9-cb50866a4e9e
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_LS_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV.N71_KODAS_LS_4'
+		dataType: string
+		lineageTag: 6e0e92ce-9687-46b9-a508-4677a655fe21
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV.N71_KODAS_LS_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N01_CC_PAV._Kodas_CC'
+		dataType: string
+		lineageTag: 3c16d7bd-c074-48d7-b947-4082792c04cb
+		summarizeBy: none
+		sourceColumn: N01_CC_PAV._Kodas_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sas_CC
+		dataType: string
+		lineageTag: 9a131707-7aab-429a-a733-95662c9e56fe
+		summarizeBy: none
+		sourceColumn: Sas_CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Paskolos
+		dataType: string
+		lineageTag: 8c5c4f86-54f6-4e80-913e-1bb463400e71
+		summarizeBy: none
+		sourceColumn: Paskolos
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountCategory
+		dataType: string
+		lineageTag: d35de88e-a6d5-4bc7-abde-c1e653c88391
+		summarizeBy: none
+		sourceColumn: AccountCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column _kodas_ss2
+		dataType: string
+		lineageTag: b1170045-ef4e-4efa-9000-d85bc7691657
+		summarizeBy: none
+		sourceColumn: _kodas_ss2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition N01_ACCT = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PBI\BNM\Book1.xlsx"), null, true),
+				    N01_ACCT_Sheet = Source{[Item="N01_ACCT",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(N01_ACCT_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DBName", type text}, {"N01_KODAS_SS", type text}, {"N01_PAV", type text}, {"N01_PAV_U", type text}, {"N01_LYGIS", Int64.Type}, {"N01_TIPAS", Int64.Type}, {"N01_TEVAS", Int64.Type}, {"N01_SASK_TIPAS", Int64.Type}, {"N01_BANK", Int64.Type}, {"N01_KODAS_CC", type text}, {"Sas", type text}, {"Lvl_1", type text}, {"Lvl_2", type text}, {"Lvl_3", type text}, {"Grupe", type text}, {"Veikla", type text}, {"Balansas", type text}, {"VS", type text}, {"Bal_1", type text}, {"CF", type text}, {"CF2", type text}, {"Kategorija", type text}, {"Skolos", type text}, {"_Kodas_SS", type text}, {"N01_KODAS_VL", type text}, {"_Kodas_CC", type text}, {"N01_CC_PAV.N71_KODAS_CC", type text}, {"N01_CC_PAV.N71_PAV", type text}, {"N01_CC_PAV.N71_PAV_U", type text}, {"N01_CC_PAV.N71_LYGIS", Int64.Type}, {"N01_CC_PAV.N71_TIPAS", Int64.Type}, {"N01_CC_PAV.N71_TEVAS", Int64.Type}, {"N01_CC_PAV.N71_SASK_TIPAS", Int64.Type}, {"N01_CC_PAV.N71_BANK", Int64.Type}, {"N01_CC_PAV.N71_DOK_KONTR", Int64.Type}, {"N01_CC_PAV.N71_KODAS_VL", type text}, {"N01_CC_PAV.N71_POZ_DATE", Int64.Type}, {"N01_CC_PAV.N71_BEG_DATE", type datetime}, {"N01_CC_PAV.N71_END_DATE", type datetime}, {"N01_CC_PAV.N71_ADDUSR", type text}, {"N01_CC_PAV.N71_USERIS", type text}, {"N01_CC_PAV.N71_R_DATE", type datetime}, {"N01_CC_PAV.N71_KODAS_BT", type text}, {"N01_CC_PAV.N71_KODAS_LS_1", type text}, {"N01_CC_PAV.N71_KODAS_LS_2", type text}, {"N01_CC_PAV.N71_KODAS_LS_3", type text}, {"N01_CC_PAV.N71_KODAS_LS_4", type text}, {"N01_CC_PAV._Kodas_CC", type text}, {"Sas_CC", type text}, {"Paskolos", type text}, {"AccountCategory", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

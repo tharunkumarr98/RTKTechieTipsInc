@@ -1,0 +1,52 @@
+table PP_Currency_rate
+	lineageTag: 3cbde57b-782d-4169-bf5e-226e501b9b29
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a91563c0-ab58-4ac5-ba20-8f293f96a925
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: 3d8c2cd3-c878-4487-930a-dd48b011ae98
+			defaultHierarchy: LocalDateTable_036fe351-349d-440e-99c0-f809738d8f20.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column name_2
+		dataType: string
+		lineageTag: 8362d90e-171e-408b-890a-04f1bfcd667a
+		summarizeBy: none
+		sourceColumn: name_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount_2
+		dataType: double
+		lineageTag: dc1fcb94-4b2d-4ea0-9b58-af8596389cae
+		summarizeBy: sum
+		sourceColumn: amount_2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition PP_Currency_rate = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PBI\BNM\Book1.xlsx"), null, true),
+				    PP_Currency_rate_Sheet = Source{[Item="PP_Currency_rate",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(PP_Currency_rate_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"date", type date}, {"name_2", type text}, {"amount_2", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

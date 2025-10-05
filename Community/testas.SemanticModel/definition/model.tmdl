@@ -1,0 +1,39 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: lt-LT
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["I03_DKD","N01_ACCT","N71_ACCM","PP_Currency_rate"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.146.7742.2 (Main)+d57fcea754f2b31db2a6b627cd49dc54ee4973e5
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit"]
+
+ref table I03_DKD
+ref table DateTableTemplate_248bba75-e3b1-4f9b-a7b2-daf5e1f2ed92
+ref table LocalDateTable_04b22fcf-bfab-4ae2-9d27-a58e3bd53cf7
+ref table N01_ACCT
+ref table LocalDateTable_9ed7f646-44da-4dbe-878a-f673ae2b82d6
+ref table LocalDateTable_551bf53e-e013-4271-bd44-226ab135e7bb
+ref table LocalDateTable_6fdac516-b5af-44a2-9a6b-91ae173348c4
+ref table N71_ACCM
+ref table LocalDateTable_86790deb-d9b7-434c-ad05-6ed10d0dc57d
+ref table LocalDateTable_a9f1cd12-5173-414b-88aa-0f67e20310bc
+ref table LocalDateTable_7fffb836-bab3-42f4-886b-72b1d4ba98bb
+ref table PP_Currency_rate
+ref table LocalDateTable_036fe351-349d-440e-99c0-f809738d8f20
+ref table _Measures
+ref table __Calendar
+ref table LocalDateTable_447af1ac-8694-49a7-8901-c1ab00f2eb2c
+ref table Table_SAS_MOK
+ref table CurrencyDepth
+
+ref cultureInfo en-US
+

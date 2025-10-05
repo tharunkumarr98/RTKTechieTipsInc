@@ -1,0 +1,157 @@
+table I03_DKD
+	lineageTag: c08a8e5c-2ce9-485c-bb62-13fc30391764
+
+	column DBName
+		dataType: string
+		lineageTag: 5778557d-7a68-4dc9-bed1-3967a77adedf
+		summarizeBy: none
+		sourceColumn: DBName
+
+		annotation SummarizationSetBy = Automatic
+
+	column I03_KODAS_ZS
+		dataType: string
+		lineageTag: cabbadf8-37b5-4249-993a-58c8e4810824
+		summarizeBy: none
+		sourceColumn: I03_KODAS_ZS
+
+		annotation SummarizationSetBy = Automatic
+
+	column I03_KODAS_DH
+		dataType: int64
+		formatString: 0
+		lineageTag: 76b1bfb4-6899-47ac-9605-c007820279c6
+		summarizeBy: sum
+		sourceColumn: I03_KODAS_DH
+
+		annotation SummarizationSetBy = Automatic
+
+	column I03_SUMA
+		dataType: double
+		lineageTag: 232673b8-1b27-4e3a-87db-e1141f18836b
+		summarizeBy: sum
+		sourceColumn: I03_SUMA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column I03_KODAS_IS
+		dataType: int64
+		formatString: 0
+		lineageTag: 70154aba-9efb-4285-a1cf-7aea3928ef72
+		summarizeBy: sum
+		sourceColumn: I03_KODAS_IS
+
+		annotation SummarizationSetBy = Automatic
+
+	column SAS_KOD
+		dataType: string
+		lineageTag: 01b430c1-677b-4b9b-a3da-edb1a1eed4b8
+		summarizeBy: none
+		sourceColumn: SAS_KOD
+
+		annotation SummarizationSetBy = Automatic
+
+	column I02_DOK_NR
+		dataType: string
+		lineageTag: 34818a8c-e50a-43ae-9858-98921b1ca9e4
+		summarizeBy: none
+		sourceColumn: I02_DOK_NR
+
+		annotation SummarizationSetBy = Automatic
+
+	column D_or_C
+		dataType: string
+		lineageTag: 7aafc835-c273-482d-8aa1-9de8a534e19a
+		summarizeBy: none
+		sourceColumn: D_or_C
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'I02_OP_DATA.1'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 77e26b96-62f7-4613-be91-7151bdca6f91
+		summarizeBy: none
+		sourceColumn: I02_OP_DATA.1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'I02_OP_DATA.2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 83024851-7164-4db3-8529-683437770f8a
+		summarizeBy: none
+		sourceColumn: I02_OP_DATA.2
+
+		variation Variation
+			isDefault
+			relationship: 8a5a026f-1d97-47f9-ad95-e8b5f01e1231
+			defaultHierarchy: LocalDateTable_04b22fcf-bfab-4ae2-9d27-a58e3bd53cf7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: f3be2cb8-205e-47b1-98de-c754cde88f4c
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'N01_ACCT.N01_KODAS_VL'
+		dataType: string
+		lineageTag: 85466d68-fb9a-4991-903a-a98b7d5d20e1
+		summarizeBy: none
+		sourceColumn: N01_ACCT.N01_KODAS_VL
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PP_Currency_rate.amount_2'
+		dataType: double
+		lineageTag: 6775212f-2a4e-402e-80ae-2bdb2b1a2535
+		summarizeBy: sum
+		sourceColumn: PP_Currency_rate.amount_2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _Suma_VAL
+		dataType: double
+		lineageTag: 42d8f9ca-a7c8-4a0f-8c18-01e7b527c745
+		summarizeBy: sum
+		sourceColumn: _Suma_VAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _Kodas_SAS
+		dataType: string
+		lineageTag: 5e4934d9-4e38-4545-81a8-aee88c5196bb
+		summarizeBy: none
+		sourceColumn: _Kodas_SAS
+
+		annotation SummarizationSetBy = Automatic
+
+	partition I03_DKD = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PBI\BNM\Book1.xlsx"), null, true),
+				    I03_DKD_Sheet = Source{[Item="I03_DKD",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(I03_DKD_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DBName", type text}, {"I03_KODAS_ZS", type text}, {"I03_KODAS_DH", Int64.Type}, {"I03_SUMA", type number}, {"I03_KODAS_IS", Int64.Type}, {"SAS_KOD", type text}, {"I02_DOK_NR", type text}, {"D_or_C", type text}, {"I02_OP_DATA.1", type date}, {"I02_OP_DATA.2", type datetime}, {"Value", type number}, {"N01_ACCT.N01_KODAS_VL", type text}, {"PP_Currency_rate.amount_2", type number}, {"_Suma_VAL", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

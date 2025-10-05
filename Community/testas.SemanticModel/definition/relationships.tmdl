@@ -1,0 +1,62 @@
+relationship 8a5a026f-1d97-47f9-ad95-e8b5f01e1231
+	joinOnDateBehavior: datePartOnly
+	fromColumn: I03_DKD.'I02_OP_DATA.2'
+	toColumn: LocalDateTable_04b22fcf-bfab-4ae2-9d27-a58e3bd53cf7.Date
+
+relationship 0d981355-271b-4e1e-9c92-68f7262cba86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N01_ACCT.'N01_CC_PAV.N71_BEG_DATE'
+	toColumn: LocalDateTable_9ed7f646-44da-4dbe-878a-f673ae2b82d6.Date
+
+relationship e01db672-884b-4043-a439-6e2ac0af453f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N01_ACCT.'N01_CC_PAV.N71_END_DATE'
+	toColumn: LocalDateTable_551bf53e-e013-4271-bd44-226ab135e7bb.Date
+
+relationship 311bf5ff-9bdd-455f-82a9-535b7e37f4ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N01_ACCT.'N01_CC_PAV.N71_R_DATE'
+	toColumn: LocalDateTable_6fdac516-b5af-44a2-9a6b-91ae173348c4.Date
+
+relationship 0b306722-cb8f-4567-8d1f-c5cd8a2949b8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N71_ACCM.N71_BEG_DATE
+	toColumn: LocalDateTable_86790deb-d9b7-434c-ad05-6ed10d0dc57d.Date
+
+relationship f8977566-d3ff-40e5-896d-c09b1a4c48b0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N71_ACCM.N71_END_DATE
+	toColumn: LocalDateTable_a9f1cd12-5173-414b-88aa-0f67e20310bc.Date
+
+relationship b71d40d7-7a34-45f0-afbb-c2d4fde0b7fb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: N71_ACCM.N71_R_DATE
+	toColumn: LocalDateTable_7fffb836-bab3-42f4-886b-72b1d4ba98bb.Date
+
+relationship 3d8c2cd3-c878-4487-930a-dd48b011ae98
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PP_Currency_rate.date
+	toColumn: LocalDateTable_036fe351-349d-440e-99c0-f809738d8f20.Date
+
+relationship ba3bd2ac-9fa1-990d-32bb-284184f09fb8
+	toCardinality: many
+	fromColumn: I03_DKD.'N01_ACCT.N01_KODAS_VL'
+	toColumn: PP_Currency_rate.name_2
+
+relationship ea952271-4076-445e-89d5-dd8e428a0a09
+	joinOnDateBehavior: datePartOnly
+	fromColumn: __Calendar.Date
+	toColumn: LocalDateTable_447af1ac-8694-49a7-8901-c1ab00f2eb2c.Date
+
+relationship 11d26df7-48c8-bf74-e49c-a4a4e570c20a
+	fromColumn: I03_DKD._Kodas_SAS
+	toColumn: N01_ACCT._Kodas_SS
+
+relationship 4771f55a-6c90-ffac-b6c0-ede4dcef2ccf
+	fromColumn: I03_DKD._Kodas_SAS
+	toColumn: N71_ACCM._Kodas_CC
+
+relationship 79274ed9-9a84-c5e8-3856-2e6b80b3f567
+	fromColumn: I03_DKD.'I02_OP_DATA.1'
+	toColumn: __Calendar.Date
+

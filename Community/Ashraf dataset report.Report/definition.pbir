@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
+  "version": "4.0",
+  "datasetReference": {
+    "byConnection": {
+      "connectionString": "Data Source=\"powerbi://api.powerbi.com/v1.0/myorg/Unsplash Data and Direct Lake Migration\";initial catalog=\"fieldparamters testing\";integrated security=ClaimsToken;semanticmodelid=503f7194-80c5-4b60-8e5b-6941c3885800"
+    }
+  }
+}

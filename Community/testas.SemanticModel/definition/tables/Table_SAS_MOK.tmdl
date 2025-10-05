@@ -1,0 +1,24 @@
+table Table_SAS_MOK
+	lineageTag: c7aac4be-7e32-469a-8375-38405aec1afd
+
+	column Matas
+		lineageTag: 39658b9a-f100-43a7-940b-e79fedc9c01b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Matas]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table_SAS_MOK = calculated
+		mode: import
+		source =
+				
+				UNION(
+				    row("Matas", "SAS"),
+				    row("Matas", "MOK"),
+				    row("Matas", "EUR"),
+				    row("Matas", "VNT")
+				    )
+
+	annotation PBI_Id = 7eb2cfb9bdc740b58e0a116b92b19053
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Ashraf dataset report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "74911ff6-b50a-858e-4f3b-f82f61cbf407"
+  }
+}

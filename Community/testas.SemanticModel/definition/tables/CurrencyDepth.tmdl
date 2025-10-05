@@ -1,0 +1,26 @@
+table CurrencyDepth
+	lineageTag: 07796ee3-7fb3-4575-8898-9846720175d3
+
+	column Depth
+		lineageTag: b30638d4-07f2-4b78-90ff-78c3dd93bcf9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Depth]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CurrencyDepth = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Depth", STRING,
+				    {
+				        {"Daily"},           // каждый день
+				        {"MonthEnd"},        // последний день каждого месяца
+				        {"SelectedEndDate"}  // последний день, выбранный в слайсере (с учётом TODAY())
+				    }
+				)
+
+	annotation PBI_Id = 020ae34d9c664e77ad5d097dd9a87118
+
