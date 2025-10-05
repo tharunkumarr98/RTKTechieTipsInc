@@ -1,0 +1,31 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "CreateViewsWithHashKey",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Create_Views_For_Staging_Tables": {
+      "queryId": "0a468cd8-0b81-427c-bd22-ae1429cad88b",
+      "queryName": "Create_Views_For_Staging_Tables"
+    },
+    "staging METADATA_DataDestination": {
+      "queryId": "443ed444-f32e-4372-b2ed-2edc04223c09",
+      "queryName": "staging METADATA_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "lhgom4gvucfepofzm6gm4lr2mm-vtrnlvagq2nubdr7ttha2rzyxq.datawarehouse.fabric.microsoft.com",
+      "kind": "SQL",
+      "connectionId": "{\"ClusterId\":\"372daa6b-e955-4fac-9f2e-a410ae3712c8\",\"DatasourceId\":\"42023748-75fe-4bea-a196-ddb76cc0b57a\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"372daa6b-e955-4fac-9f2e-a410ae3712c8\",\"DatasourceId\":\"e3ff90cd-dec9-4e14-9846-442fa58e4528\"}"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+table FieldParamters
+	lineageTag: 6edd577d-7c01-4b18-933f-21f5ac257cb7
+
+	column FieldParamters
+		lineageTag: af65ef7b-6358-4cc7-948e-418040fba450
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'FieldParamters Order'
+
+		relatedColumnDetails
+			groupByColumn: 'FieldParamters Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FieldParamters Fields'
+		isHidden
+		lineageTag: 27a5f70c-b99b-4e0f-bd71-16748e7077e3
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'FieldParamters Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FieldParamters Order'
+		isHidden
+		formatString: 0
+		lineageTag: ace0eed4-aa45-40b2-8398-f9ad4943752f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FieldParamters = calculated
+		mode: import
+		source =
+				{
+				    ("City", NAMEOF('DimCustomer'[City]), 0),
+				    ("Email", NAMEOF('DimCustomer'[Email]), 1),
+				    ("EndDate", NAMEOF('DimCustomer'[EndDate]), 2)
+				}
+
+	annotation PBI_Id = b9d227989e684fa695e9d6e500d48c89
+

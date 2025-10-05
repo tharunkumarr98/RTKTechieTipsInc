@@ -1,0 +1,106 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Lookup1",
+        "type": "Lookup",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "Select * from dbo.CreateViewsForStagingTables",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None"
+          },
+          "firstRowOnly": false,
+          "datasetSettings": {
+            "annotations": [],
+            "linkedService": {
+              "name": "WarehousePOC",
+              "properties": {
+                "annotations": [],
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "lhgom4gvucfepofzm6gm4lr2mm-vtrnlvagq2nubdr7ttha2rzyxq.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "634329b9-50ec-464a-a281-7a0be4a2697e",
+                  "workspaceId": "d4d5e2ac-8606-409b-8e3f-9cce0d4738bc"
+                }
+              }
+            },
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "typeProperties": {}
+          }
+        }
+      },
+      {
+        "name": "ForEach1",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Lookup1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Lookup1').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "name": "Script1",
+              "type": "Script",
+              "dependsOn": [],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "linkedService": {
+                "name": "WarehousePOC",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "lhgom4gvucfepofzm6gm4lr2mm-vtrnlvagq2nubdr7ttha2rzyxq.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "634329b9-50ec-464a-a281-7a0be4a2697e",
+                    "workspaceId": "d4d5e2ac-8606-409b-8e3f-9cce0d4738bc"
+                  }
+                }
+              },
+              "typeProperties": {
+                "scripts": [
+                  {
+                    "type": "Query",
+                    "text": {
+                      "value": "@{item().SQL_To_Create_View}",
+                      "type": "Expression"
+                    }
+                  }
+                ],
+                "scriptBlockExecutionTimeout": "02:00:00"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "variables": {
+      "temp": {
+        "type": "String"
+      }
+    }
+  }
+}

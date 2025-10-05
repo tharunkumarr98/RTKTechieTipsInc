@@ -1,0 +1,109 @@
+table DimCustomer
+	lineageTag: 36074ea7-825c-4534-add8-932209ebe8b7
+	sourceLineageTag: [TDP].[DimCustomer]
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ae230680-3fa5-4f65-bd58-f708fce6ac6f
+		sourceLineageTag: CustomerID
+		summarizeBy: count
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: b5e04fc7-d9ed-4433-98d9-23674c742453
+		sourceLineageTag: CustomerName
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 0684b0b4-5b50-4b45-803e-5fe3bd8b0d21
+		sourceLineageTag: Email
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 8cf9ef78-a569-45d7-bba5-978eac4ff20f
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 1289c7a5-3632-455f-bd42-65d1aa8bbe5c
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 1204113b-508f-4a7d-88a0-f62385fe322a
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 50d05194-dda4-4453-960d-caaaae4c83a4
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModifiedDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 2f511400-6401-41dd-b0d2-9b8ac373c265
+		sourceLineageTag: ModifiedDate
+		summarizeBy: none
+		sourceColumn: ModifiedDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column VersionNumber
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3914fce1-9433-49ca-ba0d-73f951c0bc5a
+		sourceLineageTag: VersionNumber
+		summarizeBy: sum
+		sourceColumn: VersionNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = entity
+		mode: directLake
+		source
+			entityName: DimCustomer
+			schemaName: TDP
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

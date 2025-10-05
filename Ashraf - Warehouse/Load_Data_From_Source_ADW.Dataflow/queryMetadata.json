@@ -1,0 +1,41 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "Load_Data_From_Source_ADW",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "dimcustomer": {
+      "queryId": "206015ff-abb3-49e2-9fc7-da6f7401430d",
+      "queryName": "dimcustomer"
+    },
+    "factinternetsales": {
+      "queryId": "1177b8cc-4ed5-46ed-8861-4271f4188af2",
+      "queryName": "factinternetsales"
+    },
+    "dimcustomer_DataDestination": {
+      "queryId": "9d3ad5df-72ae-4696-8e5c-198cb90908f8",
+      "queryName": "dimcustomer_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "factinternetsales_DataDestination": {
+      "queryId": "8544c092-7bab-49c3-8987-82881eab82d5",
+      "queryName": "factinternetsales_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "lhgom4gvucfepofzm6gm4lr2mm-gls3ow64xbcedgdpruhfcewe5y.datawarehouse.fabric.microsoft.com",
+      "kind": "SQL",
+      "connectionId": "{\"ClusterId\":\"372daa6b-e955-4fac-9f2e-a410ae3712c8\",\"DatasourceId\":\"ff60e44e-ee88-49b9-b590-0d599afa49f0\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"372daa6b-e955-4fac-9f2e-a410ae3712c8\",\"DatasourceId\":\"e3ff90cd-dec9-4e14-9846-442fa58e4528\"}"
+    }
+  ]
+}

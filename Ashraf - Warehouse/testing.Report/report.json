@@ -1,0 +1,51 @@
+{
+  "config": "{\"version\":\"5.59\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU10\",\"type\":2,\"version\":\"5.59\"}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"useEnhancedTooltips\":true,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY24SU10",
+            "path": "BaseThemes/CY24SU10.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{}",
+      "displayName": "Page 1",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "74454622adfe55a77b47",
+      "visualContainers": [
+        {
+          "config": "{\"name\":\"826e8afad1441e049557\",\"layouts\":[{\"id\":0,\"position\":{\"x\":528.5418968991744,\"y\":183.72489111356694,\"z\":1,\"width\":686.971331989859,\"height\":312.864850809335,\"tabOrder\":1}}],\"singleVisual\":{\"visualType\":\"lineChart\",\"projections\":{\"Category\":[{\"queryRef\":\"DimCustomer.Email\",\"active\":true}],\"Y\":[{\"queryRef\":\"CountNonNull(DimCustomer.CustomerID)\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"DimCustomer\",\"Type\":0}],\"Select\":[{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"CustomerID\"}},\"Function\":5},\"Name\":\"CountNonNull(DimCustomer.CustomerID)\",\"NativeReferenceName\":\"Count of CustomerID\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"Email\"},\"Name\":\"DimCustomer.Email\",\"NativeReferenceName\":\"Email\"}],\"OrderBy\":[{\"Direction\":2,\"Expression\":{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"CustomerID\"}},\"Function\":5}}}]},\"queryFieldParametersByRole\":{\"Category\":[{\"index\":0,\"length\":1,\"expr\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"FieldParamters\"}},\"Property\":\"FieldParamters\"}}}]},\"columnProperties\":{\"DimCustomer.Email\":{\"displayName\":\"Email\"}},\"drillFilterOtherVisuals\":true,\"hasDefaultSort\":true}}",
+          "filters": "[]",
+          "height": 312.86,
+          "width": 686.97,
+          "x": 528.54,
+          "y": 183.72,
+          "z": 1.00
+        },
+        {
+          "config": "{\"name\":\"da3c0222f918bd9fcc7f\",\"layouts\":[{\"id\":0,\"position\":{\"x\":177.06819216017684,\"y\":154.43541571865046,\"z\":0,\"width\":279.58135604238447,\"height\":279.58135604238447,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"slicer\",\"projections\":{\"Values\":[{\"queryRef\":\"FieldParamters.FieldParamters\",\"active\":true}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"FieldParamters\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"FieldParamters\"},\"Name\":\"FieldParamters.FieldParamters\",\"NativeReferenceName\":\"FieldParamters\"}]},\"drillFilterOtherVisuals\":true,\"objects\":{\"data\":[{\"properties\":{\"mode\":{\"expr\":{\"Literal\":{\"Value\":\"'Basic'\"}}}}}],\"general\":[{\"properties\":{\"filter\":{\"filter\":{\"Version\":2,\"From\":[{\"Name\":\"f\",\"Entity\":\"FieldParamters\",\"Type\":0}],\"Where\":[{\"Condition\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"FieldParamters Fields\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"'''DimCustomer''[Email]'\"}}]]}}}]}}}}]},\"cachedFilterDisplayItems\":[{\"id\":{\"scopeId\":{\"Comparison\":{\"ComparisonKind\":0,\"Left\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"FieldParamters\"}},\"Property\":\"FieldParamters Fields\"}},\"Right\":{\"Literal\":{\"Value\":\"'''DimCustomer''[Email]'\"}}}}},\"displayName\":\"Email\"}]}}",
+          "filters": "[]",
+          "height": 279.58,
+          "width": 279.58,
+          "x": 177.07,
+          "y": 154.44,
+          "z": 0.00
+        }
+      ],
+      "width": 1280.00
+    }
+  ]
+}

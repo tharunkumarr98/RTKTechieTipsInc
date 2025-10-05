@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "628ef1b6-9a1e-9977-43ce-6932f492a19d",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "ExtractDataFromSourceAndLoadToDWH",
+        "dependsOn": []
+      },
+      {
+        "type": "Office365Outlook",
+        "typeProperties": {
+          "inputs": {
+            "body": {
+              "To": "tharun_kumar.ravikrindhi@RTKtechietips.onmicrosoft.com",
+              "Subject": "DWH pipeline as failed",
+              "Body": "<p>@{pipeline().DataFactory}@{pipeline().Pipeline}@{pipeline().RunId}</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            },
+            "method": "post",
+            "path": "/v2/Mail"
+          }
+        },
+        "name": "Office 365 Outlook1",
+        "dependsOn": [
+          {
+            "activity": "ExtractDataFromSourceAndLoadToDWH",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
