@@ -1,0 +1,14 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "Non CICD",
+  "queryGroups": [],
+  "documentLocale": "en-IN",
+  "queriesMetadata": {
+    "Query": {
+      "queryId": "1db56880-82df-4989-af03-81e45fb86556",
+      "queryName": "Query"
+    }
+  },
+  "connections": []
+}
