@@ -1,0 +1,34 @@
+table Category_Table_New
+	lineageTag: 78b9c899-3b14-4fcb-98eb-9e70bc9d1a36
+
+	column 'Category (Key)'
+		dataType: string
+		lineageTag: 1eb68043-8a89-471c-913d-b3e3e03847a9
+		summarizeBy: none
+		sourceColumn: Category (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b67d0c8-df66-4079-80ad-556a9c8fb88c
+		summarizeBy: sum
+		sourceColumn: Sort Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Category_Table_New = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Category_Table_Table = Source{[Item="Category_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Category_Table_Table,{{"Category (Key)", type text}, {"Sort Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

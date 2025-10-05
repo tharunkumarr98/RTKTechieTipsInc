@@ -1,0 +1,132 @@
+table ZREAL
+	lineageTag: b4a7f0b0-0732-4b6b-9839-f49c41f32ffd
+
+	column Product
+		dataType: string
+		lineageTag: 6300d910-ca3f-479f-9d4c-275a66ca88ca
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: a9806f49-721f-4b16-8310-c44782b60dfd
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column MTr
+		dataType: string
+		lineageTag: 4aed3ffb-1784-4374-ae2a-a106e00fc29a
+		summarizeBy: none
+		sourceColumn: MTr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Period Factor'
+		dataType: string
+		lineageTag: 4177fdeb-dd34-498a-80a5-3a9f5b8c011d
+		summarizeBy: none
+		sourceColumn: Period Factor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location2
+		dataType: string
+		lineageTag: 9fb4d106-9135-4410-bc3b-50b944ff953d
+		summarizeBy: none
+		sourceColumn: Location2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conc_Zreal
+		dataType: string
+		lineageTag: 104961b0-49a6-4b94-ac11-df7a2c16d8d0
+		summarizeBy: none
+		sourceColumn: Conc_Zreal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trsp. Dur.(hr)'
+		dataType: double
+		lineageTag: 1527e35a-0ff7-49a4-9387-6ccff70c90b8
+		summarizeBy: sum
+		sourceColumn: Trsp. Dur.(hr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Defrosting(d)
+		dataType: double
+		lineageTag: 28cbb038-5ebe-46f3-a473-b3f7baf318ff
+		summarizeBy: sum
+		sourceColumn: Defrosting(d)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Trsp.Dur.(days)'
+		dataType: double
+		lineageTag: f127aadf-c6f5-4f3b-b678-01e43deb78e9
+		summarizeBy: sum
+		sourceColumn: Trsp.Dur.(days)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tgt_Cvg(d)
+		dataType: double
+		lineageTag: 4d1fb86f-5881-42fd-a30e-fb4846f99469
+		summarizeBy: sum
+		sourceColumn: Tgt_Cvg(d)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Total_Tgt_Days_Zreal
+		dataType: double
+		formatString: 0
+		lineageTag: 956cd4d4-f936-4dcf-a14b-65ab320ab06c
+		summarizeBy: sum
+		sourceColumn: Total_Tgt_Days_Zreal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Column12
+		dataType: string
+		lineageTag: 4f1101d4-f9ae-44d7-b8cb-70493bbb56ee
+		summarizeBy: none
+		sourceColumn: Column12
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column13
+		dataType: string
+		lineageTag: 7c62f38c-1a77-4e62-ba94-5a81344d6471
+		summarizeBy: none
+		sourceColumn: Column13
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ZREAL = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\z-real.XLSX"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Location", type text}, {"Trsp. Dur.(hr)", type number}, {"Defrosting(d)", type number}, {"Trsp.Dur.(days)", type number}, {"Tgt_Cvg(d)", type number}, {"Total_Tgt_Days", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Total_Tgt_Days", "Total_Tgt_Days_Zreal"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

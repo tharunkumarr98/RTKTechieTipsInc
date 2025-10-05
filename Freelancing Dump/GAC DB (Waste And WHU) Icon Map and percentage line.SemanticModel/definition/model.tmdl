@@ -1,0 +1,339 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from CFR'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from CFR\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Reversals'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transform File from Reversals\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06I - Inbound'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Transform File from VL06I - Inbound\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery'
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'Transform File from VL06O - Delivery\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from ZSD_VL001 - POD'
+
+	annotation PBI_QueryGroupOrder = 8
+
+queryGroup 'Transform File from ZSD_VL001 - POD\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from ZGSDMB52 - WH'
+
+	annotation PBI_QueryGroupOrder = 10
+
+queryGroup 'Transform File from ZGSDMB52 - WH\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Container'
+
+	annotation PBI_QueryGroupOrder = 12
+
+queryGroup 'Transform File from VL06O - Container\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Gross Data'
+
+	annotation PBI_QueryGroupOrder = 15
+
+queryGroup 'Transform File from Gross Data\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files'
+
+	annotation PBI_QueryGroupOrder = 17
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (2)'
+
+	annotation PBI_QueryGroupOrder = 19
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (3)'
+
+	annotation PBI_QueryGroupOrder = 21
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (3)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files'
+
+	annotation PBI_QueryGroupOrder = 23
+
+queryGroup 'Transform File from Data_Files\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (2)'
+
+	annotation PBI_QueryGroupOrder = 25
+
+queryGroup 'Transform File from Data_Files (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (3)'
+
+	annotation PBI_QueryGroupOrder = 27
+
+queryGroup 'Transform File from Data_Files (3)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Category_New'
+
+	annotation PBI_QueryGroupOrder = 29
+
+queryGroup 'Transform File from Category_New\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (4)'
+
+	annotation PBI_QueryGroupOrder = 31
+
+queryGroup 'Transform File from Data_Files (4)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (5)'
+
+	annotation PBI_QueryGroupOrder = 33
+
+queryGroup 'Transform File from Data_Files (5)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Waste'
+
+	annotation PBI_QueryGroupOrder = 35
+
+queryGroup 'Transform File from Waste\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Container (2)'
+
+	annotation PBI_QueryGroupOrder = 37
+
+queryGroup 'Transform File from VL06O - Container (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from cvg_yr'
+
+	annotation PBI_QueryGroupOrder = 38
+
+queryGroup 'Transform File from cvg_yr\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from YTD_New'
+
+	annotation PBI_QueryGroupOrder = 40
+
+queryGroup 'Transform File from YTD_New\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from SFA'
+
+	annotation PBI_QueryGroupOrder = 42
+
+queryGroup 'Transform File from SFA\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from OBD'
+
+	annotation PBI_QueryGroupOrder = 44
+
+queryGroup 'Transform File from OBD\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery (2)'
+
+	annotation PBI_QueryGroupOrder = 46
+
+queryGroup 'Transform File from VL06O - Delivery (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from CFR_BW (2)'
+
+	annotation PBI_QueryGroupOrder = 49
+
+queryGroup 'Transform File from CFR_BW (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Waste - BW'
+
+	annotation PBI_QueryGroupOrder = 50
+
+queryGroup 'Transform File from Waste - BW\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery - BW'
+
+	annotation PBI_QueryGroupOrder = 52
+
+queryGroup 'Transform File from VL06O - Delivery - BW\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from New SFA Extractions'
+
+	annotation PBI_QueryGroupOrder = 54
+
+queryGroup 'Transform File from New SFA Extractions\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Info_Page","Targets_GAC_Main","Targets2_GAC_main","Market","Exchange3","Month_Sort","Mon_Sort_2","Seven_Master","Customer_Master","Calendar_Table","CFR","CFR_BW_Folder","Parameter1","Transform Sample File","Sample File","Transform File","Rejection Reason","Reversals","Gross Data","DeCom_New","Parameter2","Transform Sample File (2)","Sample File (2)","Transform File (2)","Parameter3","Transform Sample File (3)","Sample File (3)","Transform File (3)","Parameter4","Transform Sample File (4)","Sample File (4)","Transform File (4)","Parameter5","Transform Sample File (5)","Sample File (5)","Transform File (5)","ZREAL","Parameter6","Transform Sample File (6)","Sample File (6)","Transform File (6)","VL06O - Container","Parameter7","Transform Sample File (7)","Sample File (7)","Transform File (7)","Transit_Time","Direct_Distributors","Str_Loc","Plant_Desc","Parameter8","Transform Sample File (8)","Sample File (8)","Transform File (8)","SKU_Level_Cvg","Parameter9","Transform Sample File (9)","Sample File (9)","Transform File (9)","Parameter10","Transform Sample File (10)","Sample File (10)","Transform File (10)","Parameter11","Transform Sample File (11)","Sample File (11)","Transform File (11)","Brand_Table_Cvg","Conc_Table_Cvg","Brand_Level_Cvg","YTD_Table","Parameter12","Transform Sample File (12)","Sample File (12)","Transform File (12)","Week_Num","Targets_Cvg","Market_Level_Cvg","Parameter13","Transform Sample File (13)","Sample File (13)","Transform File (13)","Category_Level_Cvg","Category_Table_New","Parameter14","Transform Sample File (14)","Sample File (14)","Transform File (14)","Parameter15","Transform Sample File (15)","Sample File (15)","Transform File (15)","Month_Level_Cvg","Parameter16","Transform Sample File (16)","Sample File (16)","Transform File (16)","Year_Level_Cvg","Parameter17","Transform Sample File (17)","Sample File (17)","Transform File (17)","Parameter18","Transform Sample File (18)","Sample File (18)","Transform File (18)","Parameter19","Transform Sample File (19)","Sample File (19)","Transform File (19)","Parameter20","Transform Sample File (20)","Sample File (20)","Transform File (20)","Parameter21","Transform Sample File (21)","Sample File (21)","Transform File (21)","SFA_L2","Com_Table","Parameter22","Transform Sample File (22)","Sample File (22)","Transform File (22)","Parameter23","Transform Sample File (23)","Sample File (23)","Transform File (23)","SFA_Refresh","Cvg_Refresh","CFR_Refresh","Reversal_Refresh","Main_Refresh","WH_Refresh","Container_Refresh","Parameter24","Transform Sample File (24)","Sample File (24)","Transform File (24)","Parameter25","Transform Sample File (25)","Sample File (25)","Transform File (25)","Cont_Capa","Plant","Pallet_Capa","SAF_Container2","tgt_cont_util","PlantCode","Geolane1","Waste - BW","Parameter26","Transform Sample File (26)","Sample File (26)","Transform File (26)","VL06O - Delivery - BW","Parameter27","Transform Sample File (27)","Sample File (27)","Transform File (27)","SFA Folder","Parameter28","Transform Sample File (28)","Sample File (28)","Transform File (28)","NewExchange_Rates","SaudiUAEAndKuwai"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.142.7602.2 (Main)+ca8d54483c116a43cf1854e57f020ab7a9be1d91
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","WebModelingEdit"]
+
+annotation __PBIService_Versioning_SaveVersion = 41077c79-4af4-4277-b3fe-1dc8dc18b80a
+
+ref table DateTableTemplate_361969dc-a50c-4e51-a468-efce6053b4ca
+ref table Targets_GAC_Main
+ref table Targets2_GAC_main
+ref table Market
+ref table CFR
+ref table LocalDateTable_af7a8d11-fabc-42b1-a0fe-a64ffe0207ce
+ref table LocalDateTable_f55cc96b-bb8b-4d6e-a330-149d3bee60df
+ref table LocalDateTable_fecf209c-fbef-49ef-a0b5-932805966e10
+ref table 'Rejection Reason'
+ref table Month_Sort
+ref table YTD_Table
+ref table Reversals
+ref table LocalDateTable_75bc8f6b-9094-47f7-8891-dc95f9a11cdd
+ref table LocalDateTable_ea23a5cf-07ac-49cd-8439-0608092ea16e
+ref table LocalDateTable_c4babb5e-6776-4d7c-a6e6-e44548f4f0b9
+ref table LocalDateTable_4613afff-ec1c-4a70-a1b8-cdc84ffdd4ef
+ref table LocalDateTable_5fd5fdcc-e49b-4170-b059-edd4a62130a2
+ref table LocalDateTable_c250ef0b-ec48-4142-9a4d-336f6b279261
+ref table LocalDateTable_d21f482f-7ab4-492a-91fc-b275866b0ad5
+ref table LocalDateTable_241f8ebe-a4d4-439b-980a-fcb55ff58762
+ref table LocalDateTable_faa52c27-8151-49f4-bbaa-b555b1592d33
+ref table LocalDateTable_5bc0aad4-029a-4df0-984f-3444204aab02
+ref table LocalDateTable_d8961949-e78d-4bf0-9821-b2c9709261d1
+ref table 'Slicer Table_Main'
+ref table Info_Page
+ref table SFA_L2
+ref table Radio_Button_Options_CFR
+ref table 'VL06O - Container'
+ref table Direct_Distributors
+ref table Transit_Time
+ref table Plant_Desc
+ref table 'Gross Data'
+ref table Reversal_Selection_Table
+ref table SKU_Level_Cvg
+ref table Brand_Table_Cvg
+ref table Conc_Table_Cvg
+ref table Brand_Level_Cvg
+ref table Week_Num
+ref table Targets_Cvg
+ref table Market_Level_Cvg
+ref table Category_Level_Cvg
+ref table Category_Table_New
+ref table Month_Level_Cvg
+ref table Year_Level_Cvg
+ref table Customer_Master
+ref table Seven_Master
+ref table Calendar_Table
+ref table LocalDateTable_89771843-7c97-4fa7-be4f-8c46200b2d56
+ref table Cvg_Refresh
+ref table LocalDateTable_07adbe4a-d9f6-425e-bd64-38821e926f4c
+ref table Str_Loc
+ref table SFA_Refresh
+ref table LocalDateTable_a2a94393-6509-444f-aa8b-e663156284fc
+ref table CFR_Refresh
+ref table LocalDateTable_c2e5e65e-ae1d-496a-80a4-5c7b301cedf1
+ref table Reversal_Refresh
+ref table LocalDateTable_114c9e2a-7fc7-4e86-a33e-122d2b51b11b
+ref table LocalDateTable_3901d73c-9ec3-4b37-83b4-33b11e8f6bd3
+ref table LocalDateTable_9955695f-c9fc-48e5-8e84-657ec4f5b232
+ref table ZREAL
+ref table DeCom_New
+ref table 'Slicer Table_Source'
+ref table Exchange3
+ref table CFR_BW_Folder
+ref table LocalDateTable_289f2344-2e81-4165-aee0-870c9ea0dd81
+ref table LocalDateTable_74077d21-1b48-410f-8b5f-89454361a281
+ref table Com_Table
+ref table 'Slicer Table_Cvg'
+ref table Main_Refresh
+ref table LocalDateTable_b34a2556-8dbc-4c6f-8482-e45f21e23407
+ref table Cont_Capa
+ref table Pallet_Capa
+ref table WH_Refresh
+ref table LocalDateTable_2de7efdf-65d3-4b10-aa1d-7f2d9056961d
+ref table Plant
+ref table Radio_Button_Options_Waste
+ref table Mon_Sort_2
+ref table Container_Refresh
+ref table LocalDateTable_e78dffc5-cd2a-40da-bb00-db8a1246878a
+ref table SAF_Container2
+ref table tgt_cont_util
+ref table PlantCode
+ref table Geolane1
+ref table LocalDateTable_5c68ecfe-8fba-452b-a76c-fb3a9a14fea1
+ref table 'Waste - BW'
+ref table LocalDateTable_53b2b9e5-769b-49ac-a09c-0b19660315c3
+ref table LocalDateTable_62b1b9b7-6e6d-4478-a7fd-ca527332d1e8
+ref table LocalDateTable_c0f8d402-3574-4ae4-808a-5b6366fd7b80
+ref table 'VL06O - Delivery - BW'
+ref table LocalDateTable_9eefc2ff-cd78-4271-b0e0-a20adda29d7e
+ref table LocalDateTable_ccdd99ae-064b-43c7-be52-843c2fcae188
+ref table 'SFA Folder'
+ref table NewExchange_Rates
+ref table SaudiUAEAndKuwai
+
+ref cultureInfo en-US
+

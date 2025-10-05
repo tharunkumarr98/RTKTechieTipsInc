@@ -1,0 +1,220 @@
+table 'Gross Data'
+	lineageTag: a4e608a6-8a63-41c6-b497-48dbb8f02125
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: e027bdc5-a54a-4c17-9a78-eb5be03aac0e
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: b713dca4-f397-46fc-8f9e-da4baa27b728
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sold-to pt'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bc00c19-54a7-48db-815c-77367ca06343
+		summarizeBy: none
+		sourceColumn: Sold-to pt
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 74c4e1a4-4365-48e2-9fe7-e70d113ffccf
+		summarizeBy: none
+		sourceColumn: Billing Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Material
+		dataType: string
+		lineageTag: 24217ca1-3088-4237-bf9d-9c1b646de39a
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quintals
+		dataType: double
+		lineageTag: 84ac7b37-7ec6-48b0-9dba-ff5fbab818f4
+		summarizeBy: sum
+		sourceColumn: Quintals
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SU
+		dataType: string
+		lineageTag: ecd3ce42-5eb5-4e5b-bcc1-ed2918762974
+		summarizeBy: none
+		sourceColumn: SU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bill.Doc.'
+		dataType: int64
+		formatString: 0
+		lineageTag: afb76087-b60f-4aaa-9c33-94cb73c147f7
+		summarizeBy: sum
+		sourceColumn: Bill.Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quintal
+		dataType: double
+		lineageTag: 438ac19d-4619-4544-843e-c4c350446c34
+		summarizeBy: sum
+		sourceColumn: Quintal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Curr.'
+		dataType: string
+		lineageTag: 4ccb69dc-ae03-4588-95d0-30fb7dd3c0cc
+		summarizeBy: none
+		sourceColumn: Curr.
+
+		annotation SummarizationSetBy = Automatic
+
+	column GROSS1
+		dataType: double
+		lineageTag: fc9cc724-03a6-437a-8b77-bda6468df32e
+		summarizeBy: sum
+		sourceColumn: GROSS1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SOff.'
+		dataType: string
+		lineageTag: 79cf7f9b-575e-46f5-9ffc-ed09cf5d4dc9
+		summarizeBy: none
+		sourceColumn: SOff.
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaTy
+		dataType: string
+		lineageTag: 6c27e094-65dd-41c0-b927-e9386c377236
+		summarizeBy: none
+		sourceColumn: SaTy
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Doc.'
+		dataType: int64
+		formatString: 0
+		lineageTag: 34986ff0-606b-4986-b047-2761d3941501
+		summarizeBy: sum
+		sourceColumn: Sales Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plnt
+		dataType: string
+		lineageTag: 94320fc4-f508-44d2-bbcc-b6495b932a04
+		summarizeBy: none
+		sourceColumn: Plnt
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual Invoiced Qty (no Sep.)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 13437394-20ca-4ce1-a584-3f7b83fbe680
+		summarizeBy: sum
+		sourceColumn: Actual Invoiced Qty (no Sep.)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 2f825a44-d67a-4d13-a9b3-99fe9e5e56a7
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Date - Copy'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2e1e90fb-480a-40ba-9341-9247c17d80bc
+		summarizeBy: none
+		sourceColumn: Billing Date - Copy
+
+		variation Variation
+			isDefault
+			relationship: c6546ca9-93f7-40ca-878a-ee817412402f
+			defaultHierarchy: LocalDateTable_5c68ecfe-8fba-452b-a76c-fb3a9a14fea1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Source.Name - Mon'
+		dataType: string
+		lineageTag: 3aee1aab-d430-49a1-bd5f-1336aa39c6cd
+		summarizeBy: none
+		sourceColumn: Source.Name - Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column AMM1
+		dataType: string
+		lineageTag: 1e60fc98-ee86-4617-b46d-8423efb0ef0e
+		summarizeBy: none
+		sourceColumn: AMM1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Gross Data' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Gross Data"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (8)", each #"Transform File (8)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (8)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (8)", Table.ColumnNames(#"Transform File (8)"(#"Sample File (8)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Sold-to pt", Int64.Type}, {"Billing Date", type date}, {"Material", type text}, {"Quintals", type number}, {"SU", type text}, {"Bill.Doc.", Int64.Type}, {"Quintal", type number}, {"Curr.", type text}, {"GROSS1", type number}, {"SOff.", type text}, {"SaTy", type text}, {"Sales Doc.", Int64.Type}, {"Actual Invoiced Qty (no Sep.)", Int64.Type}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "Market", each if Text.StartsWith([Source.Name], "SA01") then "Saudi Arabia" else if Text.StartsWith([Source.Name], "AE01") then "Dubai" else if Text.StartsWith([Source.Name], "KW01") then "Kuwait" else null),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Added Conditional Column", "Billing Date", "Billing Date - Copy"),
+				    #"Inserted Month" = Table.AddColumn(#"Duplicated Column", "Month", each Date.Month([#"Billing Date - Copy"]), Int64.Type),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Month",{{"Month", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type2","1","Jan",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","2","Feb",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","3","Mar",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","4","Apr",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","5","May",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","6","Jun",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","7","Jul",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","8","Aug",Replacer.ReplaceText,{"Month"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","9","Sep",Replacer.ReplaceText,{"Month"}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Replaced Value8", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column1", "Source.Name - Copy", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Source.Name - Copy.1", "Source.Name - Copy.2", "Source.Name - Copy.3"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter",{"Source.Name - Copy.3", "Source.Name - Copy.1"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([SaTy] = "ZC04" or [SaTy] = "ZC68")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"Source.Name - Copy.2", "Source.Name - Mon"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

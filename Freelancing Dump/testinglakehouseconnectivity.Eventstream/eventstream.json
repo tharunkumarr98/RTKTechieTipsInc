@@ -1,0 +1,102 @@
+{
+  "sources": [
+    {
+      "id": "7d74893e-6651-43bd-95e9-d41d5eda7588",
+      "name": "Bicycles",
+      "type": "SampleData",
+      "properties": {
+        "type": "Bicycles"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "id": "6989c8a5-b128-4111-92d9-e3c0c2b5bd75",
+      "name": "Lakehouse",
+      "type": "Lakehouse",
+      "properties": {
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "e1518ed6-580a-9575-4ec4-151776aef9d2",
+        "schema": "testingFieldNation",
+        "deltaTable": "testing",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "testinglakehouseconnectivity-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "testinglakehouseconnectivity-stream",
+          "schema": {
+            "columns": [
+              {
+                "name": "BikepointID",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Street",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Neighbourhood",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Latitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Longitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Bikes",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Empty_Docks",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "97727d59-c0f8-422f-870e-57f8f06b2621",
+      "name": "testinglakehouseconnectivity-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "Bicycles"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.0"
+}

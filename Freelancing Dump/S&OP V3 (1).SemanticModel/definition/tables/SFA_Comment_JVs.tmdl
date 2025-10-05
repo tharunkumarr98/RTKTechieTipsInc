@@ -1,0 +1,159 @@
+table SFA_Comment_JVs
+	lineageTag: bebeca04-f3ef-4dbe-a752-3130fba657c4
+
+	column Mon
+		dataType: string
+		lineageTag: 206020cb-9378-4a5a-9d1e-8187e7eea3cb
+		summarizeBy: none
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lag Month2'
+		dataType: string
+		lineageTag: dee7cff6-9e1a-4d1a-a65c-7a44d93dff2e
+		summarizeBy: none
+		sourceColumn: Lag Month2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'APO Location'
+		dataType: string
+		lineageTag: fbf799e5-eb88-4dac-a549-e1631c672639
+		summarizeBy: none
+		sourceColumn: APO Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref.'
+		dataType: string
+		lineageTag: c7ee249b-8f37-4f48-87a3-17be82aa3d8b
+		summarizeBy: none
+		sourceColumn: Commercial Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: 09d392f2-f926-443e-ada7-15c604b7096e
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Abs Delta on Order_CR'
+		dataType: double
+		lineageTag: c926f127-0633-42ed-bc77-3b790c0290b6
+		summarizeBy: sum
+		sourceColumn: Abs Delta on Order_CR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Driver
+		dataType: string
+		lineageTag: e8f13a32-f818-4e56-8482-4be7c14d86c9
+		summarizeBy: none
+		sourceColumn: Driver
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: 745d4e5a-85e1-4a2f-8542-07de9768c86c
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	column TableDriver
+		dataType: string
+		lineageTag: a29a51a3-338d-465b-8345-1732a08c94c3
+		summarizeBy: none
+		sourceColumn: TableDriver
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clean Name'
+		dataType: string
+		lineageTag: d7bbd44f-5b73-418f-b7d6-cf81220d7d4d
+		summarizeBy: none
+		sourceColumn: Clean Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Detail
+		dataType: string
+		lineageTag: 9276abc0-7c5d-43e7-a8cf-a19d235007a1
+		summarizeBy: none
+		sourceColumn: Detail
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clean Name x2'
+		dataType: string
+		lineageTag: cfd22c84-1396-43ed-9d6c-093bba621c79
+		summarizeBy: none
+		sourceColumn: Clean Name x2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SFA_Comment_JVs = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Shared Files\Monthly Slides.xlsx"), null, true),
+				    Table4_Table = Source{[Item="Table4",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table4_Table,{{"Mon", type text}, {"Lag Month2", type text}, {"APO Location", type text}, {"Material Group", type text}, {"Commercial Ref.", type text}, {"Desc", type text}, {"Channel", type text}, {"Forecast - Monday", type number}, {"Order", type number}, {"BIAS% on Order", type number}, {"SFA % on Order_CR", type number}, {"Abs Delta on Order_CR", type number}, {"MAPE % on Order_CR", type number}, {"Driver", type text}, {"Comment", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","Lower Gulf","Other Lower Gulf",Replacer.ReplaceText,{"APO Location"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Replaced Value",{"Material Group", "Channel", "Forecast - Monday", "Order", "BIAS% on Order", "SFA % on Order_CR", "MAPE % on Order_CR"}),
+				    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"Abs Delta on Order_CR", Order.Descending}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Sorted Rows", "Driver", "Driver - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Driver - Copy", "TableDriver"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns","Activity Phasing","Phasing",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Alternative","Altern.",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Baseline","Base",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Arbitrage","Arbit.",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","Innovation","Innov.",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Seasonal / Activity ","Seasonal",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","Others","Other",Replacer.ReplaceText,{"TableDriver"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Replaced Value7", each true),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Filtered Rows1", "Desc", "Desc - Copy"),
+				    #"Capitalized Each Word" = Table.TransformColumns(#"Duplicated Column1",{{"Desc - Copy", Text.Proper, type text}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Capitalized Each Word", "Desc - Copy", Splitter.SplitTextByDelimiter("-", QuoteStyle.Csv), {"Desc - Copy.1", "Desc - Copy.2", "Desc - Copy.3"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Desc - Copy.1", type text}, {"Desc - Copy.2", type text}, {"Desc - Copy.3", type text}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type1",{"Desc - Copy.2", "Desc - Copy.3"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Removed Columns1","<(>&<)>","&",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","Wcp","",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9"," Ja","",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","Kinder","K.",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","Nutella","N.",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","Bueno","Bue",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","Biscuits","Bisc",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","Schokobons","Schokb.",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","Nut & Go","Nut&Go",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value17" = Table.ReplaceValue(#"Replaced Value16","Chocolate","Choc.",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value18" = Table.ReplaceValue(#"Replaced Value17","Nut","N",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Replaced Value19" = Table.ReplaceValue(#"Replaced Value18","Rocher","Roch",Replacer.ReplaceText,{"Desc - Copy.1"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Replaced Value19",{{"Desc - Copy.1", "Clean Name"}}),
+				    #"Replaced Value20" = Table.ReplaceValue(#"Renamed Columns1"," Isr 17","",Replacer.ReplaceText,{"Clean Name"}),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Replaced Value20", "APO Location", "APO Location - Copy"),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Duplicated Column2",{{"APO Location - Copy", "Detail"}}),
+				    #"Replaced Value21" = Table.ReplaceValue(#"Renamed Columns2","Saudi Arabia","KSA",Replacer.ReplaceText,{"Detail"}),
+				    #"Replaced Value22" = Table.ReplaceValue(#"Replaced Value21","Dubai","DXB",Replacer.ReplaceText,{"Detail"}),
+				    #"Replaced Value23" = Table.ReplaceValue(#"Replaced Value22","Other Lower Gulf","LGI",Replacer.ReplaceText,{"Detail"}),
+				    #"Replaced Value24" = Table.ReplaceValue(#"Replaced Value23","Kuwait","KWT",Replacer.ReplaceText,{"Detail"}),
+				    #"Added Custom" = Table.AddColumn(#"Replaced Value24", "Clean Name x2", each [Clean Name]&[Detail]&" "&[Comment]),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Custom",{{"Clean Name x2", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type2", each ([APO Location] <> "Other Lower Gulf")),
+				    #"Replaced Value25" = Table.ReplaceValue(#"Filtered Rows","Saudi Arabia","Direct Market",Replacer.ReplaceText,{"APO Location"}),
+				    #"Replaced Value26" = Table.ReplaceValue(#"Replaced Value25","Kuwait","Direct Market",Replacer.ReplaceText,{"APO Location"}),
+				    #"Replaced Value27" = Table.ReplaceValue(#"Replaced Value26","Dubai","Direct Market",Replacer.ReplaceText,{"APO Location"})
+				in
+				    #"Replaced Value27"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

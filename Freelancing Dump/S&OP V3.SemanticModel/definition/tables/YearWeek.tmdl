@@ -1,0 +1,52 @@
+table YearWeek
+	lineageTag: 9e2f7671-f626-4207-9d37-6173ebedbc88
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: d583e86a-d015-4910-a1b5-5f0b192b3b99
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 7db4a31e-b480-4641-8495-4a7e04f7ee01
+		summarizeBy: sum
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 1262c4a8-15e9-4dce-a86a-9ac9b9a5ad06
+		summarizeBy: sum
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: string
+		lineageTag: f2096843-acae-4212-ac4a-15cb8c5de8a8
+		summarizeBy: none
+		sourceColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition YearWeek = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    YearWeek_Table = Source{[Item="YearWeek",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(YearWeek_Table,{{"Year", Int64.Type}, {"Week", Int64.Type}, {"YearWeek", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

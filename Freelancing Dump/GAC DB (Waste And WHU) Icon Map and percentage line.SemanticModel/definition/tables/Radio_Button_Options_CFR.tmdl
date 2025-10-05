@@ -1,0 +1,29 @@
+table Radio_Button_Options_CFR
+	lineageTag: 3185353d-8606-42dc-993c-fa013864e5a4
+
+	column Radio_Button_Option
+		lineageTag: 95e96c85-2b3d-42fb-903e-2a54fb4d6d80
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Radio_Button_Option]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Radio_Button_Options_CFR = calculated
+		mode: import
+		source = ```
+				
+				    DATATABLE (
+				        "Radio_Button_Option", STRING,
+				        {
+				            {"Volume_QL" },
+				            {"Value_Euro" },
+				            {"Contrib%"},
+				            {"TUs"}
+				        }
+				    )
+				
+				```
+
+	annotation PBI_Id = 18c036d92de442ad90a2aab88f97803a
+

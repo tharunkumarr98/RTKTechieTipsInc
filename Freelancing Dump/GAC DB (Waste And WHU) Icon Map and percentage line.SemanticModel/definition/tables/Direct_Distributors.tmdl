@@ -1,0 +1,45 @@
+table Direct_Distributors
+	lineageTag: 7e8aab7a-bb42-4f1f-a816-a446b686bd8d
+
+	column 'Data.Ship to Party'
+		dataType: string
+		lineageTag: 69b901a7-b998-4199-ad6d-923f91c37b44
+		summarizeBy: none
+		sourceColumn: Data.Ship to Party
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Direct / Distributors'
+		dataType: string
+		lineageTag: a03c8ab5-aa30-4104-bf00-741874023595
+		summarizeBy: none
+		sourceColumn: Data.Direct / Distributors
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Mapping Freshness'
+		dataType: string
+		lineageTag: 6a9ced46-38ba-44e8-a283-9c0979554458
+		summarizeBy: none
+		sourceColumn: Data.Mapping Freshness
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Direct_Distributors = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Item] = "Direct_Distributors")),
+				    #"Expanded Data" = Table.ExpandTableColumn(#"Filtered Rows", "Data", {"Ship to Party", "Direct / Distributors", "Mapping Freshness"}, {"Data.Ship to Party", "Data.Direct / Distributors", "Data.Mapping Freshness"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Data",{{"Data.Ship to Party", type text}, {"Data.Direct / Distributors", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Hidden", "Kind", "Item"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Columns",{{"Data.Mapping Freshness", type text}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type1",{"Name"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

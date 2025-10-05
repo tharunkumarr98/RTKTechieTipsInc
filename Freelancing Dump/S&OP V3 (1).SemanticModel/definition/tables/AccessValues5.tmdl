@@ -1,0 +1,40 @@
+table AccessValues5
+	lineageTag: 81d6f282-0995-496f-acd9-7364de53b4c7
+
+	column Access
+		lineageTag: b6a2d8b8-f71e-4629-b7b1-c9e3db1e0080
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Access]
+		sortByColumn: ColOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColOrder
+		formatString: 0
+		lineageTag: bc30890a-5ef4-403d-bfe1-101bc57cd9e3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ColOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AccessValues5 = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Access", STRING, "ColOrder", INTEGER,
+				    {
+				        {"LY", 1},
+				        {"M-1", 2},
+				        {"M0", 3},
+				        {"Budget", 4},
+				        {"", 5}
+				        
+				    }
+				)
+				```
+
+	annotation PBI_Id = 47793a8358e84d9f86474e76cee2fbd8
+

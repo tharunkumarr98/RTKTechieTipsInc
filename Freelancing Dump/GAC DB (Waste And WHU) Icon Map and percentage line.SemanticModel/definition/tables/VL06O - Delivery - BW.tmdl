@@ -1,0 +1,170 @@
+table 'VL06O - Delivery - BW'
+	lineageTag: 3b39a25f-f347-4ab6-b778-8775a6853bf9
+
+	measure 'Gate-out Freshness weighted' = ```
+			
+			DIVIDE(
+			    CALCULATE(
+			        SUMX(
+			            'VL06O - Delivery - BW',
+			            'VL06O - Delivery - BW'[Gate-out Freshness] * 'VL06O - Delivery - BW'[GI QTY Qls]
+			        )
+			    ),
+			    CALCULATE(SUM('VL06O - Delivery - BW'[GI QTY Qls]))
+			)
+			
+			```
+		formatString: 0.0
+		lineageTag: 5745ed61-3de5-4f64-b87d-5d231732db7e
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "WeightedAverage"
+				}
+
+		changedProperty = FormatString
+
+	measure RemSL% = ('VL06O - Delivery - BW'[GI Date] - 'Seven_Master'[BBD])/'Seven_Master'[Corrected SL]
+		lineageTag: 90f1ab57-5deb-45a1-8f54-e97bee912dd8
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 1a575c3f-0583-4b3d-b9da-03558338161f
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column G-Plant
+		dataType: string
+		lineageTag: 9ecf21e1-c4ec-4ac4-a17e-f2582f678a44
+		summarizeBy: none
+		sourceColumn: G-Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column C-Ship-To
+		dataType: string
+		lineageTag: f175c0cc-2183-42bd-9627-53c1156ae2ff
+		summarizeBy: none
+		sourceColumn: C-Ship-To
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-# Sales Doc.'
+		dataType: string
+		lineageTag: 4d204240-0ef1-4c36-91cc-b4a7433e7393
+		summarizeBy: none
+		sourceColumn: D-# Sales Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-Type Sales Doc.'
+		dataType: string
+		lineageTag: 49815974-85ec-4199-a219-605a4bba6c95
+		summarizeBy: none
+		sourceColumn: D-Type Sales Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Material
+		dataType: string
+		lineageTag: c9065540-8b99-4e93-807c-6fad7d0c9adf
+		summarizeBy: none
+		sourceColumn: P-Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-# Delivery Doc.'
+		dataType: string
+		lineageTag: 3eeba198-609b-4585-b6b8-35057490cb90
+		summarizeBy: none
+		sourceColumn: D-# Delivery Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'T-Actual GI Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: faa973a2-f098-41d4-ba4a-858576edf67e
+		summarizeBy: none
+		sourceColumn: T-Actual GI Date
+
+		variation Variation
+			isDefault
+			relationship: 26dcd39a-c58c-412e-8eaa-99ab16303905
+			defaultHierarchy: LocalDateTable_9eefc2ff-cd78-4271-b0e0-a20adda29d7e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'T-Date of Manufacture'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 06f8849d-97eb-48eb-8911-ef420c79bfea
+		summarizeBy: none
+		sourceColumn: T-Date of Manufacture
+
+		variation Variation
+			isDefault
+			relationship: 71883d67-fc11-4139-b45e-a23e7fcbc183
+			defaultHierarchy: LocalDateTable_ccdd99ae-064b-43c7-be52-843c2fcae188.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'GI QTY Qls'
+		dataType: double
+		lineageTag: 2e7a0327-5730-4657-bf45-8da9530c998f
+		summarizeBy: sum
+		sourceColumn: GI QTY Qls
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Gate-out Freshness'
+		dataType: double
+		lineageTag: f3f79318-820e-418c-81ab-7a119d015062
+		summarizeBy: sum
+		sourceColumn: Gate-out Freshness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Seven_Master.Brand (Sub-Class Desc.)'
+		dataType: string
+		lineageTag: acecc19a-8349-4e43-987f-28470bd1212a
+		summarizeBy: none
+		sourceColumn: Seven_Master.Brand (Sub-Class Desc.)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VL06O - Delivery - BW' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Dist\VL06O - Delivery - BW"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (27)", each #"Transform File (27)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (27)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (27)", Table.ColumnNames(#"Transform File (27)"(#"Sample File (27)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"P-Material", type text}, {"T-Date of Manufacture", type date}, {"T-Actual GI Date", type date}, {"Gate-out Freshness", type number}, {"GI QTY Qls", type number}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"P-Material"}, Seven_Master, {"SKU_No_77"}, "Seven_Master", JoinKind.LeftOuter),
+				    #"Expanded Seven_Master" = Table.ExpandTableColumn(#"Merged Queries", "Seven_Master", {"Brand (Sub-Class Desc.)"}, {"Seven_Master.Brand (Sub-Class Desc.)"})
+				in
+				    #"Expanded Seven_Master"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

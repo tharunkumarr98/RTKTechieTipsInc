@@ -1,0 +1,212 @@
+table Seven_Master
+	lineageTag: 5d22a5eb-95dc-42d9-af20-edeb1f24ab24
+
+	column SKU_No_77
+		dataType: string
+		lineageTag: 89dfb40c-560a-4c02-b942-6c466fcfb542
+		summarizeBy: none
+		sourceColumn: SKU_No_77
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conc_Com_Ref
+		dataType: string
+		lineageTag: 182e73aa-beb4-4ef4-b1b5-a8adaf0b9077
+		summarizeBy: none
+		sourceColumn: Conc_Com_Ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc_Material
+		dataType: string
+		lineageTag: 142010a1-1646-4bd9-a69d-0308bf37e985
+		summarizeBy: none
+		sourceColumn: Desc_Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_Group
+		dataType: string
+		lineageTag: 7dc92bd7-47ed-4c3f-9d52-8ddc1abf9297
+		summarizeBy: none
+		sourceColumn: Product_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source_Plant
+		dataType: string
+		lineageTag: 3aee0959-42c5-4fd5-94f3-2f17db1b66dc
+		summarizeBy: none
+		sourceColumn: Source_Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand (Sub-Class Desc.)'
+		dataType: string
+		lineageTag: 31dcffe2-d08b-42f1-8d63-2e2f8e8df156
+		summarizeBy: none
+		sourceColumn: Brand (Sub-Class Desc.)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 02ab7d94-23ca-4870-88de-b8682750bb3e
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Corrected_SL
+		dataType: string
+		lineageTag: 1598c57a-d295-4bed-a31b-1b0ec3124cb0
+		summarizeBy: none
+		sourceColumn: Corrected_SL
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ti_HI
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d3a59e0-cb17-400a-8a51-3a00620c0a16
+		summarizeBy: sum
+		sourceColumn: Ti_HI
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU_Type
+		dataType: string
+		lineageTag: 68ee1912-9859-47df-936b-a3d9cef2de57
+		summarizeBy: none
+		sourceColumn: SKU_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vol
+		dataType: double
+		lineageTag: 3c291bda-3ba5-4022-ade1-a77906da8fc5
+		summarizeBy: sum
+		sourceColumn: Vol
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column #Pallets
+		dataType: int64
+		formatString: 0
+		lineageTag: ba659bb0-e425-49c1-9d0d-9de78e9d6ec0
+		summarizeBy: sum
+		sourceColumn: #Pallets
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 087974cd-0439-49af-a2b7-fcd1ca18903d
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column India_Pallet(Qatar)
+		dataType: int64
+		formatString: 0
+		lineageTag: 6eb5ed7f-8efc-4232-98a8-4f5b4d526fc1
+		summarizeBy: sum
+		sourceColumn: India_Pallet(Qatar)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hub_Pallets
+		dataType: int64
+		formatString: 0
+		lineageTag: 31c2a2c2-b1be-4494-ad8d-49dec736cdbb
+		summarizeBy: sum
+		sourceColumn: Hub_Pallets
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market_Code
+		dataType: string
+		lineageTag: fb9ac363-648a-4913-9b68-864c34125f9e
+		summarizeBy: none
+		sourceColumn: Market_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column KSA_Com
+		dataType: string
+		lineageTag: 114de6e6-a5b4-449d-b82d-4acdffcb6e8b
+		summarizeBy: none
+		sourceColumn: KSA_Com
+
+		annotation SummarizationSetBy = Automatic
+
+	column KW_Com
+		dataType: string
+		lineageTag: be206c53-e14d-4742-a98e-bd1c20be2e63
+		summarizeBy: none
+		sourceColumn: KW_Com
+
+		annotation SummarizationSetBy = Automatic
+
+	column AE_Com
+		dataType: string
+		lineageTag: a380eb1f-29e9-4ede-85c5-a952de4a766b
+		summarizeBy: none
+		sourceColumn: AE_Com
+
+		annotation SummarizationSetBy = Automatic
+
+	column LGI_Com
+		dataType: string
+		lineageTag: e4075189-73c4-40e2-887d-9fb27fa6d03a
+		summarizeBy: none
+		sourceColumn: LGI_Com
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TU Weight'
+		dataType: double
+		lineageTag: 4237cbff-8b51-439f-b096-487f0291c59b
+		summarizeBy: sum
+		sourceColumn: TU Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'QTL TU'
+		dataType: double
+		lineageTag: 934d7887-7913-4b8e-aee4-863f0de4184a
+		summarizeBy: sum
+		sourceColumn: QTL TU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SL_BW
+		dataType: int64
+		formatString: 0
+		lineageTag: cd0be8b6-6cc4-44aa-8f89-97a250d98a94
+		summarizeBy: sum
+		sourceColumn: SL_BW
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Seven_Master = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Seven_Master_Table = Source{[Item="Seven_Master",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Seven_Master_Table,{{"SKU_No_77", type text}, {"Conc_Com_Ref", type any}, {"Desc_Material", type text}, {"Product_Group", type any}, {"Source_Plant", type text}, {"Brand (Sub-Class Desc.)", type text}, {"Category", type text}, {"SL_BW", Int64.Type}, {"Corrected_SL", type any}, {"Ti_HI", Int64.Type}, {"SKU_Type", type text}, {"Vol", type number}, {"#Pallets", Int64.Type}, {"State", type text}, {"India_Pallet(Qatar)", Int64.Type}, {"Hub_Pallets", Int64.Type}, {"QTL TU", type number}, {"TU Weight", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

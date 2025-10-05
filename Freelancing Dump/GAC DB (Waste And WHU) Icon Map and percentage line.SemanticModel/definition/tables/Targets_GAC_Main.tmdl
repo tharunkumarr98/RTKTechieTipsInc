@@ -1,0 +1,142 @@
+table Targets_GAC_Main
+	lineageTag: 17b73d4a-9180-424c-9112-5857ae10a226
+
+	measure Measure = values(targets_gac[act])
+		lineageTag: 273b475c-a898-48e8-a31d-680e1c86cb17
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Calculation1 = SWITCH(TRUE(), [UserSelection]="MTD", SUM(Targets_GAC_Main[MTD]), [UserSelection]="YTD", SUM(Targets_GAC_Main[YTD]))
+		formatString: 0%;-0%;0%
+		lineageTag: 707fdfdd-c31b-444c-a87d-f8d87a6d3f71
+
+	measure UserSelection = SELECTEDVALUE('Slicer Table_Main'[Value])
+		lineageTag: 1eacf0f0-0f3c-4fa9-82ee-0c8a2d1648a3
+
+	measure Tgt_graph = ```
+			SUM(Targets_GAC_Main[TGT]) *100 
+			```
+		formatString: 0
+		lineageTag: 1818de71-df61-4e80-b436-40da18c4fefe
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Criteria
+		dataType: string
+		lineageTag: ed940683-1d92-4fbc-b423-027f533c0bb6
+		summarizeBy: none
+		sourceColumn: Criteria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 3df8692d-0eba-416e-b10d-b795ebeefb77
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column TGT
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 8645e3f8-718d-4112-83de-3e7d2096cdf6
+		summarizeBy: sum
+		sourceColumn: TGT
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start
+		dataType: double
+		formatString: 0%;-0%;0%
+		lineageTag: 223e3449-a2cc-4ae4-80a4-c197d351ccc3
+		summarizeBy: sum
+		sourceColumn: Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column End
+		dataType: double
+		formatString: 0%;-0%;0%
+		lineageTag: 4c619080-d454-43d0-8fd9-226f89aab693
+		summarizeBy: sum
+		sourceColumn: End
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range2 Start'
+		dataType: double
+		formatString: 0%;-0%;0%
+		lineageTag: bb98def6-7b47-498e-87f4-bb776de6df23
+		summarizeBy: sum
+		sourceColumn: Range2 Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range3 Start'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 33049535-4f5a-4c35-bfc4-77bc9dda140c
+		summarizeBy: sum
+		sourceColumn: Range3 Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		dataType: string
+		lineageTag: c62ec727-8f79-4d93-ab84-a35a804ba444
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column YTD
+		dataType: double
+		formatString: 0.0
+		lineageTag: 56fb45d5-39b0-4b6e-b3cc-5fbc34078ff0
+		summarizeBy: sum
+		sourceColumn: YTD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range 4'
+		dataType: double
+		lineageTag: 3b8948b7-28e0-4116-b939-a2c621aaf687
+		summarizeBy: sum
+		sourceColumn: Range 4
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Refresh Freq'
+		dataType: string
+		lineageTag: 24b32e9e-9171-44df-8519-f6db52225f64
+		summarizeBy: none
+		sourceColumn: Refresh Freq
+
+		annotation SummarizationSetBy = Automatic
+
+	column MTD
+		dataType: double
+		lineageTag: 5df8a425-dff5-44a4-9064-3803070ecef7
+		summarizeBy: sum
+		sourceColumn: MTD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Targets_GAC_Main = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    Targets_Table = Source{[Item="Targets1",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Targets_Table,{{"MTD", type number}, {"TGT", type number}, {"Start", type number}, {"End", type number}, {"Range2 Start", type number}, {"Range3 Start", type number}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"TGT", Percentage.Type}, {"YTD", Percentage.Type}, {"MTD", Percentage.Type}, {"Start", Percentage.Type}, {"End", Percentage.Type}, {"Range2 Start", Percentage.Type}, {"Range3 Start", Percentage.Type}, {"Range 4", Percentage.Type}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+

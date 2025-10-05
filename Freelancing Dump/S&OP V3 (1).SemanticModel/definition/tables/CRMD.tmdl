@@ -1,0 +1,83 @@
+table CRMD
+	lineageTag: 29c0b536-6289-4afd-8b5a-8efdbe109d3e
+
+	column 'Comm Ref'
+		dataType: string
+		lineageTag: 076bc734-96c2-4a04-915b-2f765afc7cfc
+		summarizeBy: none
+		sourceColumn: Comm Ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Com Ref Desc'
+		dataType: string
+		lineageTag: 36cb2ca2-9afe-4d6c-b4f8-ca6aaf6dd15c
+		summarizeBy: none
+		sourceColumn: Com Ref Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: dd3897d1-3bf8-400a-ad32-997a9406fb0a
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Driver
+		dataType: string
+		lineageTag: 8b6ff045-f8dc-447d-a6ea-064dbe0f2f8a
+		summarizeBy: none
+		sourceColumn: Driver
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand (Subclass Desc)'
+		dataType: string
+		lineageTag: 11c2363c-ca03-4a6d-9044-eac36139c54d
+		summarizeBy: none
+		sourceColumn: Brand (Subclass Desc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conc
+		dataType: string
+		lineageTag: da6fd1f8-d8ae-4f4a-b8f5-fcadf4de1a2a
+		summarizeBy: none
+		sourceColumn: Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'QC (1TU/Qils)'
+		dataType: string
+		lineageTag: 527efa0c-8e4b-4083-b1cd-3641ba0d78be
+		summarizeBy: none
+		sourceColumn: QC (1TU/Qils)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Driver_Table.Short Desc 1'
+		dataType: string
+		lineageTag: 55e9010c-7cf5-42d2-8b6e-dfdf402a479c
+		summarizeBy: none
+		sourceColumn: Driver_Table.Short Desc 1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CRMD = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    CRMD_Table = Source{[Item="CRMD",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(CRMD_Table,{{"Comm Ref", type text}, {"Com Ref Desc", type text}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Comm Ref"}, Driver_Table, {"Com (Key)"}, "Driver_Table", JoinKind.LeftOuter),
+				    #"Expanded Driver_Table" = Table.ExpandTableColumn(#"Merged Queries", "Driver_Table", {"Short Desc 1"}, {"Driver_Table.Short Desc 1"})
+				in
+				    #"Expanded Driver_Table"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

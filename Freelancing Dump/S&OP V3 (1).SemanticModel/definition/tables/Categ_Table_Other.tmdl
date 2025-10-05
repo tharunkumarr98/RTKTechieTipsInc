@@ -1,0 +1,46 @@
+table Categ_Table_Other
+	lineageTag: 311c7050-4922-4382-8a47-65df7115b46b
+
+	column 'New Categ'
+		dataType: string
+		lineageTag: c809e3b4-fc17-425b-b72c-2b63419092ab
+		summarizeBy: none
+		sourceColumn: New Categ
+		sortByColumn: Categ_Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Other
+		dataType: string
+		lineageTag: 08159ebe-2727-4e98-80dd-c26e6971966b
+		summarizeBy: none
+		sourceColumn: Other
+		sortByColumn: Categ_Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categ_Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: ed800c93-d2c1-4407-9ffd-09b4b433a2d6
+		summarizeBy: none
+		sourceColumn: Categ_Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Categ_Table_Other = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Categ_Table_Other_Table = Source{[Item="Categ_Table_Other",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Categ_Table_Other_Table,{{"New Categ", type text}, {"Other", type text}, {"Categ_Sort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,51 @@
+table YTD_Table
+	lineageTag: ee49bfa2-d442-48ca-bdf2-80ff9e5bc628
+
+	column 'G-Sales District (Ship-To)'
+		dataType: string
+		lineageTag: 64e321f8-e25c-4fa7-bce4-5058e5961894
+		summarizeBy: none
+		sourceColumn: G-Sales District (Ship-To)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 22/23
+		dataType: double
+		lineageTag: 08671b72-88a4-40d3-8a72-c8615bd8770d
+		summarizeBy: sum
+		sourceColumn: 22/23
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 23/24
+		dataType: double
+		lineageTag: 231cb1db-dcb5-402e-9f79-43f09067b3cc
+		summarizeBy: sum
+		sourceColumn: 23/24
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition YTD_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    YTD_Table_Table = Source{[Item="YTD_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(YTD_Table_Table,{{"G-Sales District (Ship-To)", type text}, {"22/23", type number}, {"23/24", type number}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

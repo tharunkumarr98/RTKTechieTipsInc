@@ -1,0 +1,64 @@
+table MaterialID
+	lineageTag: bf19019a-e73f-4791-bdf6-08be94eb6aee
+
+	column MaterialID
+		dataType: string
+		lineageTag: 794621b1-bdf5-440f-9c54-ee9523daf257
+		summarizeBy: none
+		sourceColumn: MaterialID
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationID
+		dataType: string
+		lineageTag: cbeb46a8-6c4e-4169-afc6-4be5abc0c15e
+		summarizeBy: none
+		sourceColumn: LocationID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: int64
+		formatString: 0
+		lineageTag: 35ce6db5-1a35-4de7-8770-4906914f4b69
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column In
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 41e88028-373b-4afd-97ae-2d5ae9840a0f
+		summarizeBy: none
+		sourceColumn: In
+
+		variation Variation
+			isDefault
+			relationship: 998bd30b-afe8-4d7f-a9b3-49efea537cfe
+			defaultHierarchy: LocalDateTable_f4bd4078-62c4-413f-bfd8-e06571a7626b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Out
+		dataType: string
+		lineageTag: e833f4df-c6b6-456e-a3e1-b810275ca05b
+		summarizeBy: none
+		sourceColumn: Out
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MaterialID = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    MaterialID_Table = Source{[Item="MaterialID",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(MaterialID_Table,{{"MaterialID", type text}, {"LocationID", type text}, {"Value", Int64.Type}, {"In", type date}, {"Out", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,206 @@
+table Targets2_GAC_main
+	lineageTag: 453bf343-aea5-437c-8e0c-1ad93366f039
+
+	measure Calculation2 = SWITCH(TRUE(), [UserSelection]="MTD", SUM(Targets2_GAC_main[MTD]), [UserSelection]="YTD", SUM(Targets2_GAC_main[YTD]))
+		formatString: 0.0
+		lineageTag: 67d6a312-cb5d-4d31-8979-4eb2a572c07b
+
+	measure Calculation3 = ```
+			
+			SWITCH(
+			    TRUE(),
+			    [UserSelection] = "MTD", 
+			        SUMX(
+			            FILTER(
+			                Market_Level_Cvg,
+			                VALUE(MID(SUBSTITUTE(Market_Level_Cvg[Week_Num], "_", ""), 2, 2)) = 
+			                    MAXX(Market_Level_Cvg, 
+			                        VALUE(MID(SUBSTITUTE(Market_Level_Cvg[Week_Num], "W", ""), 1, 2))
+			                    ) - 1
+			            ),
+			            Market_Level_Cvg[cvg]
+			        ),
+			    [UserSelection] = "YTD", 
+			        SUM(Year_Level_Cvg[23/24])
+			)
+			
+			
+			```
+		lineageTag: 6471f662-b377-487c-b49f-d90dca1812db
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Act_Indust_G_Out_Graph_kpi = ```
+			
+			VAR SelectedMarket = SELECTEDVALUE('market'[market (key)])
+			VAR SelectedTimeFrame = SELECTEDVALUE('Slicer Table_Cvg'[Value])
+			VAR LastAvailableDate = MAX('VL06O - Container'[Goods Issue Date])  
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        SelectedMarket = "GAC (Gulf)" && ISFILTERED('market'[market (key)]),
+			            DIVIDE(
+			                SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]),
+			                SUM('VL06O - Container'[QL]),
+			                0
+			            ),
+			        SelectedTimeFrame = "MTD",
+			            DIVIDE(
+			                CALCULATE(
+			                    SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]),
+			                    DATESINPERIOD('VL06O - Container'[Goods Issue Date], LastAvailableDate, -2, MONTH)
+			                ),
+			                CALCULATE(
+			                    SUM('VL06O - Container'[QL]),
+			                    DATESINPERIOD('VL06O - Container'[Goods Issue Date] ,LastAvailableDate, -2, MONTH)
+			                ),
+			                0
+			            ),
+			        SelectedTimeFrame = "YTD",
+			            DIVIDE(
+			                CALCULATE(
+			                    SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]),
+			                    FILTER(
+			                        'VL06O - Container',
+			                        'VL06O - Container'[Goods Issue Date] >= DATE(2023, 9, 1) && 'VL06O - Container'[Goods Issue Date] <= LastAvailableDate
+			                    )
+			                ),
+			                CALCULATE(
+			                    SUM('VL06O - Container'[QL]),
+			                    FILTER(
+			                        'VL06O - Container',
+			                        'VL06O - Container'[Goods Issue Date] >= DATE(2023, 9, 1) && 'VL06O - Container'[Goods Issue Date] <= LastAvailableDate
+			                    )
+			                ),
+			                0
+			            ),
+			        // Default case (if none of the above conditions are met)
+			        DIVIDE(
+			            SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]),
+			            SUM('VL06O - Container'[QL]),
+			            0
+			        )
+			    )
+			
+			```
+		lineageTag: aa9985c4-385f-4d10-a9e4-dc62069213da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Criteria
+		dataType: string
+		lineageTag: 33da9ea2-241d-4d1b-92ac-f89f2ae22f48
+		summarizeBy: none
+		sourceColumn: Criteria
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		dataType: string
+		lineageTag: b1895a69-0cfa-43c0-ac46-2eb1b057d8ba
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: cea6842a-61c5-40cd-8917-a664f44798f5
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column TGT
+		dataType: double
+		formatString: 0.0
+		lineageTag: 54a6f8d1-b3da-4fb1-adaa-067c1d843b48
+		summarizeBy: sum
+		sourceColumn: TGT
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start
+		dataType: double
+		formatString: 0.0
+		lineageTag: 729df0b5-86ee-4106-bc7b-b4f5d5924a80
+		summarizeBy: sum
+		sourceColumn: Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column End
+		dataType: double
+		formatString: 0.0
+		lineageTag: 22530949-759c-4bbb-b7aa-0cb9955b30cb
+		summarizeBy: sum
+		sourceColumn: End
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range2 Start'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 9743b891-a987-465f-9f3f-84681701bb7c
+		summarizeBy: sum
+		sourceColumn: Range2 Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range3 Start'
+		dataType: double
+		formatString: 0.0
+		lineageTag: cf5f8848-3b4a-4010-b5c1-30c043d22cf6
+		summarizeBy: sum
+		sourceColumn: Range3 Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: 64323e29-387a-4a8b-b4b9-d1a2754d83c8
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	column YTD
+		dataType: double
+		formatString: 0.0
+		lineageTag: f9171fa7-6cb5-4abe-b9ff-c3d68871bb7f
+		summarizeBy: sum
+		sourceColumn: YTD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Range 4'
+		dataType: string
+		lineageTag: 7c1e2271-c20d-4ba6-b02f-8b42cd69ca2f
+		summarizeBy: none
+		sourceColumn: Range 4
+
+		annotation SummarizationSetBy = Automatic
+
+	column MTD
+		dataType: double
+		lineageTag: 6672ab40-dead-433e-9beb-6e011b89d7ad
+		summarizeBy: sum
+		sourceColumn: MTD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Targets2_GAC_main = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    Targets2_Table = Source{[Item="Targets2",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Targets2_Table,{{"Criteria", type text}, {"KPI", type text}, {"Market", type text}, {"MTD", type number}, {"TGT", type number}, {"Start", type number}, {"End", type number}, {"Range2 Start", type number}, {"Range3 Start", type number}, {"Comment", type text}, {"YTD", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

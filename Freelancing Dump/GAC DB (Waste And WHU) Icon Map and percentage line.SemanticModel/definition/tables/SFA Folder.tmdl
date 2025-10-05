@@ -1,0 +1,497 @@
+table 'SFA Folder'
+	lineageTag: 7b87b89a-5e2d-4967-80fe-2d5bbeca5834
+
+	measure 'SFA 01 2324' = ```
+			
+			
+			--	SFA % on Order_CR = 100 – MAPE % on Order_CR, and MAPE % on Order_CR is:
+			--  1. If Abs delta > = Order, then put 100 
+			--	2. If Abs delta < Order , then calculation is Abs delta / Order * 100.
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[Abs 01 2324]) >= SUM('SFA Folder'[Order 01 2324]),
+			        100,
+			        SUM('SFA Folder'[Abs 01 2324]) / SUM('SFA Folder'[Order 01 2324]) * 100
+			    )
+			)
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[Abs 01 2324]) >= SUM('SFA Folder'[Order 01 2324]),
+			        100,
+			        SUM('SFA Folder'[Abs 01 2324]) / SUM('SFA Folder'[Order 01 2324]) * 100
+			    )
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			```
+		lineageTag: 95bf39e9-40d0-40e3-96ee-c10613ab5d9b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2324' = ```
+			
+			
+			-- Bias = (Forecast Monday / Order)  * 100
+			 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[Forecast 01 2324]), Sum('SFA Folder'[Order 01 2324]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[Forecast 01 2324]), Sum('SFA Folder'[Order 01 2324]),0)*100
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			```
+		lineageTag: b1e5e388-67c8-4111-bebc-e1b8a938ee58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2425' = ```
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE('SFA Folder'[Forecast 01 Market 2425], Sum('SFA Folder'[Order 01 2425]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			    DIVIDE(
+			    'SFA Folder'[Forecast 01 Market 2425], Sum('SFA Folder'[Order 01 2425]),0)*100
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			```
+		lineageTag: 4adadc26-d375-4860-9180-339b8ce1c329
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2425' = ```
+			
+			
+			--	SFA % on Order_CR = 100 – MAPE % on Order_CR, and MAPE % on Order_CR is:
+			--  1. If Abs delta > = Order, then put 100 
+			--	2. If Abs delta < Order , then calculation is Abs delta / Order * 100.
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =
+			
+			  VAR Result =
+			    CALCULATE(
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[Abs 01 2425]) >= SUM('SFA Folder'[Order 01 2425]),
+			            100,
+			            SUM('SFA Folder'[Abs 01 2425]) / SUM('SFA Folder'[Order 01 2425]) * 100
+			        )
+			 , REMOVEFILTERS(Market))
+			
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			
+			    VAR Result = 
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[Abs 01 2425]) >= SUM('SFA Folder'[Order 01 2425]),
+			            100,
+			            SUM('SFA Folder'[Abs 01 2425]) / SUM('SFA Folder'[Order 01 2425]) * 100
+			        )
+			    RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 9fb6df7d-6775-4727-85c4-1f8cf80fdc2a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2324 Tot' = ```
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[Abs 01 2324]) >= SUM('SFA Folder'[Order 01 2324]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[Abs 01 2324]), SUM('SFA Folder'[Order 01 2324]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[Abs 01 2324]) >= SUM('SFA Folder'[Order 01 2324]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[Abs 01 2324]), SUM('SFA Folder'[Order 01 2324]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: efb21ad5-a1ce-481b-982b-d0660508996a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2324 Tot' = ```
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[Forecast 01 2324]), Sum('SFA Folder'[Order 01 2324]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[Forecast 01 2324]), Sum('SFA Folder'[Order 01 2324]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			```
+		lineageTag: 5bca0a3e-3d27-4dfb-8688-8d402d93b7cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2425 Tot' = ```
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[Forecast 01 2425]), Sum('SFA Folder'[Order 01 2425]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[Forecast 01 2425]), Sum('SFA Folder'[Order 01 2425]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 4ccbd5e1-28f4-4ab4-814f-609e3eb709d7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2425 Tot' = ```
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[Abs 01 2425]) >= SUM('SFA Folder'[Order 01 2425]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[Abs 01 2425]), SUM('SFA Folder'[Order 01 2425]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[Abs 01 2425]) >= SUM('SFA Folder'[Order 01 2425]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[Abs 01 2425]), SUM('SFA Folder'[Order 01 2425]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 13b12c19-f271-45ba-bdc1-99e95924d9c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Forecast 01 Market 2425' =
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[Forecast 01 2425]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[Forecast 01 2425])
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+		lineageTag: 482d28f4-ae89-43a3-95f4-24e0a1d9ea6e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'APO Location'
+		dataType: string
+		lineageTag: 0df09817-9ac2-435f-8cc0-1e1ec0ca2bf1
+		summarizeBy: none
+		sourceColumn: APO Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mon
+		dataType: string
+		lineageTag: efab7417-908a-4c76-8bd7-3f79e5579fbd
+		summarizeBy: none
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: 177052b7-3885-408a-bd0d-e3196971f3e3
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref.'
+		dataType: string
+		lineageTag: ea6fa9de-f9f1-49b8-8090-96b28761fdea
+		summarizeBy: none
+		sourceColumn: Commercial Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Group'
+		dataType: string
+		lineageTag: 40bebb60-020a-4632-a309-7ef7cd35b115
+		summarizeBy: none
+		sourceColumn: Material Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast 01 2324'
+		dataType: double
+		lineageTag: 10bd4871-43b9-4ce9-9df6-2ff838a797f9
+		summarizeBy: sum
+		sourceColumn: Forecast 01 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Forecast 01 2425'
+		dataType: double
+		lineageTag: 69d815a4-fcc2-4613-83b0-18ff3831c73a
+		summarizeBy: sum
+		sourceColumn: Forecast 01 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Forecast 04 2324'
+		dataType: double
+		lineageTag: c0ec6c2d-3037-4262-b385-adbb532549f0
+		summarizeBy: sum
+		sourceColumn: Forecast 04 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Forecast 04 2425'
+		dataType: double
+		lineageTag: aed9ede1-c5bb-41f1-a664-218e28a6fd3b
+		summarizeBy: sum
+		sourceColumn: Forecast 04 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 01 2324'
+		dataType: double
+		lineageTag: 492e54c9-484d-4cff-acac-286b33dc9fcb
+		summarizeBy: sum
+		sourceColumn: Order 01 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 01 2425'
+		dataType: double
+		lineageTag: c6a5e3e8-5f1d-4ae6-bc13-03d1dc06a9b7
+		summarizeBy: sum
+		sourceColumn: Order 01 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 04 2324'
+		dataType: double
+		lineageTag: 795fd3b9-9656-4211-b86c-f38ca87dc517
+		summarizeBy: sum
+		sourceColumn: Order 04 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 04 2425'
+		dataType: double
+		lineageTag: 6e363fb4-f131-4539-b3da-5737006a2361
+		summarizeBy: sum
+		sourceColumn: Order 04 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs 01 2324'
+		dataType: double
+		lineageTag: a7981068-74b3-48cc-b512-2f34aa3734ab
+		summarizeBy: sum
+		sourceColumn: Abs 01 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs 01 2425'
+		dataType: double
+		lineageTag: d90ccbd6-14ea-4678-a3d6-b9b468044b04
+		summarizeBy: sum
+		sourceColumn: Abs 01 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs 04 2324'
+		dataType: double
+		lineageTag: 50a779cd-3ce2-4339-b96f-607564703205
+		summarizeBy: sum
+		sourceColumn: Abs 04 2324
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs 04 2425'
+		dataType: double
+		lineageTag: 2cf7e013-5886-49c7-a21c-54d72d33b2f1
+		summarizeBy: sum
+		sourceColumn: Abs 04 2425
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Source
+		dataType: string
+		lineageTag: de820c69-fc95-4c3e-b969-095e7ff91ac8
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SFA Folder' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\SFA\New SFA Extractions"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (28)", each #"Transform File (28)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (28)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (28)", Table.ColumnNames(#"Transform File (28)"(#"Sample File (28)"))),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Expanded Table Column1", [PromoteAllScalars=true]),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Promoted Headers", [PromoteAllScalars=true]),
+				    #"Renamed Columns6" = Table.RenameColumns(#"Promoted Headers1",{{"Apr2223.xlsx", "Source.Name"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns6",{ {"APO Location", type text}, {"Forecast - Monday", type number}, {"Order", type number}, {"BIAS% on Order", type number}, {"SFA % on Order_CR", type number}, {"Abs Delta on Order_CR", type number}, {"MAPE % on Order_CR", type number}, {"Forecast - Monday_1", type number}, {"Order_2", type number}, {"BIAS% on Order_3", type number}, {"SFA % on Order_CR_4", type number}, {"Abs Delta on Order_CR_5", type number}, {"MAPE % on Order_CR_6", type number}, {"Commercial Ref.", type text}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type2", each ([#"Commercial Ref."] <> null and [#"Commercial Ref."] <> "Commercial Ref." and [#"Commercial Ref."] <> "Overall Result")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows1",{{"Forecast - Monday", "Forecast - Monday 01"}, {"Order", "Order 01"}, {"BIAS% on Order", "BIAS% on Order 01"}, {"SFA % on Order_CR", "SFA % on Order_CR 01"}, {"Abs Delta on Order_CR", "Abs Delta on Order_CR 01"}, {"MAPE % on Order_CR", "MAPE % on Order_CR 01"}, {"Forecast - Monday_1", "Forecast - Monday 04"}, {"Order_2", "Order 04"}, {"BIAS% on Order_3", "BIAS% on Order 04"}, {"SFA % on Order_CR_4", "SFA % on Order_CR 04"}, {"Abs Delta on Order_CR_5", "Abs Delta on Order_CR 04"}, {"MAPE % on Order_CR_6", "MAPE % on Order_CR 04"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns",{{"Commercial Ref.", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type3","Lower Gulf","Other Lower Gulf",Replacer.ReplaceText,{"APO Location"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each ([APO Location] <> "APO Location" and [APO Location] <> "Lag Month")),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Source.Name - Copy.1", "Source.Name - Copy.2"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter",{"Source.Name - Copy.2"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "MonYr"}, {"Source.Name", "Source"}}),
+				    #"Split Column by Character Transition" = Table.SplitColumn(#"Renamed Columns3", "MonYr", Splitter.SplitTextByCharacterTransition((c) => not List.Contains({"0".."9"}, c), {"0".."9"}), {"MonYr.1", "MonYr.2"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Split Column by Character Transition",{{"MonYr.1", "Mon"}, {"MonYr.2", "Year"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns4", "Forecast 01 LY", each if [Year]="2324" then [#"Forecast - Monday 01"] else ""),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Forecast 01 LY", type number}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type", "Forecast 01 CY", each if [Year]="2425" then [#"Forecast - Monday 01"] else ""),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom1",{{"Forecast 01 CY", type number}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type1", "Forecast 04 LY", each if [Year] = "2324" then [#"Forecast - Monday 04"] else ""),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Added Custom2",{{"Forecast 04 LY", type number}}),
+				    #"Added Custom3" = Table.AddColumn(#"Changed Type4", "Forecast 04 CY", each if [Year]="2425" then [#"Forecast - Monday 04"] else ""),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Custom3",{{"Forecast 04 CY", type number}}),
+				    #"Added Custom4" = Table.AddColumn(#"Changed Type5", "Order 01 LY", each if [Year]="2324" then [Order 01] else ""),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Added Custom4",{{"Order 01 LY", type number}}),
+				    #"Added Custom5" = Table.AddColumn(#"Changed Type6", "Order 01 CY", each if [Year]="2425" then [Order 01] else ""),
+				    #"Changed Type7" = Table.TransformColumnTypes(#"Added Custom5",{{"Order 01 CY", type number}}),
+				    #"Added Custom6" = Table.AddColumn(#"Changed Type7", "Order 04 LY", each if [Year]="2324" then [Order 04] else ""),
+				    #"Changed Type8" = Table.TransformColumnTypes(#"Added Custom6",{{"Order 04 LY", type number}}),
+				    #"Added Custom7" = Table.AddColumn(#"Changed Type8", "Order 04 CY", each if [Year]="2425" then [Order 04] else ""),
+				    #"Changed Type9" = Table.TransformColumnTypes(#"Added Custom7",{{"Order 04 CY", type number}}),
+				    #"Added Custom8" = Table.AddColumn(#"Changed Type9", "Abs 01 LY", each if [Year]="2324" then [Abs Delta on Order_CR 01] else ""),
+				    #"Changed Type10" = Table.TransformColumnTypes(#"Added Custom8",{{"Abs 01 LY", type number}}),
+				    #"Added Custom9" = Table.AddColumn(#"Changed Type10", "Abs 01 CY", each if [Year]="2425" then [Abs Delta on Order_CR 01] else ""),
+				    #"Changed Type11" = Table.TransformColumnTypes(#"Added Custom9",{{"Abs 01 CY", type number}}),
+				    #"Added Custom10" = Table.AddColumn(#"Changed Type11", "Abs 04 LY", each if [Year]="2324" then [Abs Delta on Order_CR 04] else ""),
+				    #"Changed Type12" = Table.TransformColumnTypes(#"Added Custom10",{{"Abs 04 LY", type number}}),
+				    #"Added Custom11" = Table.AddColumn(#"Changed Type12", "Abs 04 CY", each if [Year]="2425" then [#"SFA % on Order_CR 04"] else ""),
+				    #"Changed Type13" = Table.TransformColumnTypes(#"Added Custom11",{{"Abs 04 CY", type number}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type13",{ "Forecast - Monday 01", "Order 01", "BIAS% on Order 01", "SFA % on Order_CR 01", "Abs Delta on Order_CR 01", "MAPE % on Order_CR 01", "Forecast - Monday 04", "Order 04", "BIAS% on Order 04", "SFA % on Order_CR 04", "Abs Delta on Order_CR 04", "MAPE % on Order_CR 04"}),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(#"Removed Columns1", "Source", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Source.1", "Source.2"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Split Column by Delimiter1",{"Source.2"}),
+				    #"Changed Type14" = Table.TransformColumnTypes(#"Removed Columns2",{{"Material Group", type text}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Changed Type14",{{"Forecast 01 LY", "Forecast 01 2324"}, {"Forecast 01 CY", "Forecast 01 2425"}, {"Forecast 04 LY", "Forecast 04 2324"}, {"Order 01 LY", "Order 01 2324"}, {"Order 04 LY", "Order 04 2324"}, {"Abs 01 LY", "Abs 01 2324"}, {"Abs 04 LY", "Abs 04 2324"}, {"Abs 04 CY", "Abs 04 2425"}, {"Abs 01 CY", "Abs 01 2425"}, {"Order 04 CY", "Order 04 2425"}, {"Order 01 CY", "Order 01 2425"}, {"Forecast 04 CY", "Forecast 04 2425"}, {"Source.1", "Source"}})
+				in
+				    #"Renamed Columns2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

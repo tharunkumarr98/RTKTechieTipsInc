@@ -1,0 +1,62 @@
+table Container_Refresh
+	lineageTag: 4a176cb5-e859-40ae-bf21-ded483446ed8
+
+	column DateTime
+		dataType: string
+		lineageTag: 29fb0676-b565-4094-a0b7-bf4035a255f4
+		summarizeBy: none
+		sourceColumn: DateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7b147b66-4f26-4b93-8b64-53894ad06034
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: b762858d-3432-4a2a-b4ec-94173bb8ada0
+			defaultHierarchy: LocalDateTable_e78dffc5-cd2a-40da-bb00-db8a1246878a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Week of Year'
+		dataType: string
+		lineageTag: d458b349-0b08-4291-bc8e-df9016893c20
+		summarizeBy: none
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Refresh_IGO
+		dataType: string
+		lineageTag: 393fcbc5-756a-4bfd-88ce-9eaf9600e964
+		summarizeBy: none
+		sourceColumn: Week_Refresh_IGO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Container_Refresh = m
+		mode: import
+		source =
+				let
+				    Source = DateTime.FixedLocalNow(),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "DateTime"}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Renamed Columns", "DateTime", "DateTime - Copy"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Duplicated Column",{{"DateTime - Copy", type date}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"DateTime - Copy", "Date"}}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Renamed Columns1", "Week of Year", each Date.WeekOfYear([DateTime])-1),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Week of Year", "Week_Refresh_IGO", each "W" & Text.From([Week of Year]))
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

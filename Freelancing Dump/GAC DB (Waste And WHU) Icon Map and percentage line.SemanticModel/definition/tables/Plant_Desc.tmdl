@@ -1,0 +1,36 @@
+table Plant_Desc
+	lineageTag: af31023c-fb5f-489b-a4a3-c12ff93a0146
+
+	column Plant
+		dataType: string
+		lineageTag: ee325209-be7d-4d41-8bc3-bee7bf115db6
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: cda8c1cd-2afb-447e-9aed-72d15d4eb10f
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Plant_Desc = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Item] = "Plant_Desc")),
+				    #"Expanded Data" = Table.ExpandTableColumn(#"Filtered Rows", "Data", {"Plant", "Description"}, {"Data.Plant", "Data.Description"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded Data",{"Name", "Item", "Kind", "Hidden"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Data.Plant", "Plant"}, {"Data.Description", "Description"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Description", type text}, {"Plant", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

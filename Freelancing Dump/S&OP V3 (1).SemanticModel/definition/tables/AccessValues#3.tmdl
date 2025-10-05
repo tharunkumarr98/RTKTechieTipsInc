@@ -1,0 +1,36 @@
+table AccessValues#3
+	lineageTag: b71385a4-8ac9-4db8-b66e-d1ef943f1397
+
+	column Access
+		lineageTag: 724bd862-972d-43c3-a11a-04a46aa65ad1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Access]
+		sortByColumn: ColOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColOrder
+		formatString: 0
+		lineageTag: 417d0f91-36b6-452a-9278-902a1be9150e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ColOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AccessValues#3 = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Access", STRING, "ColOrder", INTEGER,
+				    {
+				        {"Jun", 4},
+				        {"July", 3},
+				        {"Budget", 2},
+				        {"LY", 1}
+				    })
+
+	annotation PBI_Id = 2be261bda09b40fb86e9ee52050b64e8
+

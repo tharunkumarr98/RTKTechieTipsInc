@@ -1,0 +1,303 @@
+table 'STT S&OP NY (2526)'
+	lineageTag: c740033c-7d85-4c25-82b3-12c3e81a3d5a
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: ac30e935-29da-4afb-a309-0bf24d788b77
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: string
+		lineageTag: d080d46a-5fb3-49ec-929b-7e23c92d3fda
+		summarizeBy: none
+		sourceColumn: Week
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G-Market (Ship-To)'
+		dataType: string
+		lineageTag: 674d79de-3eb5-4018-9aaf-7dfe4cbea0e9
+		summarizeBy: none
+		sourceColumn: G-Market (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G-Sales District (Ship-To)'
+		dataType: string
+		lineageTag: be2de15f-76f6-49ef-8cbb-40d806f78302
+		summarizeBy: none
+		sourceColumn: G-Sales District (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Brand
+		dataType: string
+		lineageTag: 5c494989-c046-45ff-9f46-4612632ab32d
+		summarizeBy: none
+		sourceColumn: P-Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P-Commercial Reference'
+		dataType: string
+		lineageTag: ddc594cf-5ee7-4979-b3ea-e41545d119c6
+		summarizeBy: none
+		sourceColumn: P-Commercial Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: a953aedb-4137-4510-a0f7-045b1e1bda2a
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'T-Cal. Year/Month'
+		dataType: string
+		lineageTag: a86c5a3b-6296-4d09-b957-f00f0798a88e
+		summarizeBy: none
+		sourceColumn: T-Cal. Year/Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column '09.2025'
+		dataType: double
+		lineageTag: 6d72818b-e612-476d-b726-0f6a80ded200
+		summarizeBy: sum
+		sourceColumn: 09.2025
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '10.2025'
+		dataType: double
+		lineageTag: 7aa139b8-97aa-4fa8-be62-192df491a8ac
+		summarizeBy: sum
+		sourceColumn: 10.2025
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '11.2025'
+		dataType: double
+		lineageTag: 276b66e5-8823-4da8-9ff5-67c3dd75cf95
+		summarizeBy: sum
+		sourceColumn: 11.2025
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '12.2025'
+		dataType: double
+		lineageTag: 237164e7-35e6-4d08-91de-308996e33fd0
+		summarizeBy: sum
+		sourceColumn: 12.2025
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '01.2026'
+		dataType: double
+		lineageTag: 655dab9a-f896-45a8-ae90-b9079e599670
+		summarizeBy: sum
+		sourceColumn: 01.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '02.2026'
+		dataType: double
+		lineageTag: 69f090eb-b05b-4964-a52c-57f3889e07ae
+		summarizeBy: sum
+		sourceColumn: 02.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '03.2026'
+		dataType: double
+		lineageTag: 6af401bc-02d1-4f3c-ab07-d0c32b669f65
+		summarizeBy: sum
+		sourceColumn: 03.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '04.2026'
+		dataType: double
+		lineageTag: 9cf19ee5-6bf7-4d7d-b417-938b66705d99
+		summarizeBy: sum
+		sourceColumn: 04.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '05.2026'
+		dataType: double
+		lineageTag: 016fe51a-2068-49c6-a67a-90bd96e9f2e4
+		summarizeBy: sum
+		sourceColumn: 05.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '06.2026'
+		dataType: double
+		lineageTag: e39952be-cb7e-44ca-9d4e-dc6502a276a6
+		summarizeBy: sum
+		sourceColumn: 06.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '07.2026'
+		dataType: double
+		lineageTag: e3070d99-abb9-444e-a1c0-273f6b5576f2
+		summarizeBy: sum
+		sourceColumn: 07.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '08.2026'
+		dataType: double
+		lineageTag: cbe12b5b-052a-40dd-81ad-988ee2f74ad1
+		summarizeBy: sum
+		sourceColumn: 08.2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FY
+		dataType: double
+		lineageTag: f2f4e43b-f2dd-4037-b534-380937a2da45
+		summarizeBy: sum
+		sourceColumn: FY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Key
+		dataType: string
+		lineageTag: 4900be93-481c-4d82-b97c-8d128e4d14f0
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'S&OP Country'
+		dataType: string
+		lineageTag: 81a6e295-601c-4e00-9280-203eaf64cc87
+		summarizeBy: none
+		sourceColumn: S&OP Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'S&OP Cycle'
+		dataType: string
+		lineageTag: d8917e1c-8d1a-4b9b-ad3a-52e01c6467d3
+		summarizeBy: none
+		sourceColumn: S&OP Cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 146d5640-7aca-4342-8b9a-c1942d754d88
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category 2'
+		dataType: string
+		lineageTag: 37621fb1-8896-4571-bb42-eb2fc124e33c
+		summarizeBy: none
+		sourceColumn: Category 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTD (Avg)'
+		dataType: double
+		formatString: 0
+		lineageTag: 011be3c1-7728-4f77-8f7e-4949072b0c64
+		summarizeBy: sum
+		sourceColumn: YTD (Avg)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTG (Avg)'
+		dataType: double
+		lineageTag: a748b156-b9f5-4881-9807-c8781dffd442
+		summarizeBy: sum
+		sourceColumn: YTG (Avg)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column YTD
+		dataType: double
+		formatString: 0
+		lineageTag: 48afab8a-2af8-4d9b-b3ec-7b4c8d490870
+		summarizeBy: sum
+		sourceColumn: YTD
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTG '
+		dataType: double
+		lineageTag: 15d29ca7-11da-461d-8829-7f3b64a1bd91
+		summarizeBy: sum
+		sourceColumn: "YTG "
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'STT S&OP NY (2526)' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\S&OP V3.0\Data Files\STT"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (64)", each #"Transform File (64)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (64)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (64)", Table.ColumnNames(#"Transform File (64)"(#"Sample File (64)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Week", type number}, {"G-Market (Ship-To)", type text}, {"G-Sales District (Ship-To)", type text}, {"P-Brand", type text}, {"P-Commercial Reference", type text}, {"SKU", type text}, {"T-Cal. Year/Month", type any}, {"09.2025", type number}, {"10.2025", type number}, {"11.2025", type number}, {"12.2025", type number}, {"01.2026", type number}, {"02.2026", type number}, {"03.2026", type number}, {"04.2026", type number}, {"05.2026", type number}, {"06.2026", type number}, {"07.2026", type number}, {"08.2026", type number}, {"FY", type number}, {"Key", type text}, {"S&OP Country", type text}, {"S&OP Cycle", type text}, {"Category", type text}, {"Category 2", type text}, {"YTD (Avg)", Int64.Type}, {"YTG (Avg)", type number}, {"YTD", Int64.Type}, {"YTG ", type number}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","KSA","Saudi Arabia",Replacer.ReplaceText,{"S&OP Country"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","LGI","Other Lower Gulf",Replacer.ReplaceText,{"S&OP Country"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Abudhabi","Abu Dhabi",Replacer.ReplaceText,{"S&OP Country"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value2", each true)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

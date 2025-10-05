@@ -1,0 +1,35 @@
+table Exchange3
+	lineageTag: be65938e-bfae-43e1-86f3-467d7561692e
+
+	column Market
+		dataType: string
+		lineageTag: 6f9576ae-8a9c-4e9a-9cca-5cc0bf1ab29b
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column '1 EUR'
+		dataType: double
+		lineageTag: b0f99128-934a-4446-84d6-0a6dd2685673
+		summarizeBy: sum
+		sourceColumn: 1 EUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Exchange3 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Exchange3_Table = Source{[Item="Exchange3",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Exchange3_Table,{{"Market", type text}, {"1 EUR", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,135 @@
+table Calendar_Table
+	lineageTag: 6132f3ed-d6c0-421f-9ebf-04cf18c53a0c
+
+	column Cal_Seq
+		dataType: string
+		lineageTag: 30a4fe3b-0335-4aa7-89a8-dcd933de9052
+		summarizeBy: none
+		sourceColumn: Cal_Seq
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cal_Day
+		dataType: string
+		lineageTag: 791bc357-7348-444c-9222-52e359f6b8d7
+		summarizeBy: none
+		sourceColumn: Cal_Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cal_Mon
+		dataType: string
+		lineageTag: d105776b-89e5-44dd-a1d2-51a12c8944ec
+		summarizeBy: none
+		sourceColumn: Cal_Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cal_Session
+		dataType: string
+		lineageTag: ccf95b6e-4d89-4675-8ffc-77d752639a51
+		summarizeBy: none
+		sourceColumn: Cal_Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cal_Yr
+		dataType: string
+		lineageTag: 63a5b6cc-57b1-452d-b3fc-ad6f8b570c9d
+		summarizeBy: none
+		sourceColumn: Cal_Yr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date (Key)'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 5c2e0a67-dc04-4a34-8f89-012f71318a99
+		summarizeBy: none
+		sourceColumn: Date (Key)
+
+		variation Variation
+			isDefault
+			relationship: 716f1cf5-e8b1-492b-9eef-0f113e4181c6
+			defaultHierarchy: LocalDateTable_3901d73c-9ec3-4b37-83b4-33b11e8f6bd3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Ferr_Session
+		dataType: string
+		lineageTag: e09e6347-9042-48f8-be41-1ddb1bc8ed9b
+		summarizeBy: none
+		sourceColumn: Ferr_Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ferr_Yr
+		dataType: string
+		lineageTag: 2d817b30-2211-4984-822c-4c86a3fdbdcc
+		summarizeBy: none
+		sourceColumn: Ferr_Yr
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cal_Mon_No
+		dataType: string
+		lineageTag: 6500be4c-b382-48fc-94b0-8f81ca78db7e
+		summarizeBy: none
+		sourceColumn: Cal_Mon_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date_Format (Key)'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: fbabfc22-4dcb-4fd1-b74e-7f5f02fe778c
+		summarizeBy: none
+		sourceColumn: Date_Format (Key)
+
+		variation Variation
+			isDefault
+			relationship: a5f27c88-2585-4c40-903c-9062a9641954
+			defaultHierarchy: LocalDateTable_89771843-7c97-4fa7-be4f-8c46200b2d56.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Wk_Cal
+		dataType: string
+		lineageTag: 7e39e0e9-7e5e-444e-b113-bef13894c624
+		summarizeBy: none
+		sourceColumn: Wk_Cal
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Wk_Mon
+		dataType: string
+		lineageTag: 3ad780e9-005d-4830-9512-47daf3731f4b
+		summarizeBy: none
+		sourceColumn: Wk_Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Calendar_Table_Table = Source{[Item="Calendar_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Calendar_Table_Table,{{"Date_Format (Key)", type date}, {"Date (Key)", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

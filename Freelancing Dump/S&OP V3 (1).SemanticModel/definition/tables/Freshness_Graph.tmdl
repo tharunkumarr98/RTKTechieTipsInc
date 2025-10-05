@@ -1,0 +1,62 @@
+table Freshness_Graph
+	lineageTag: b3ea23ab-da29-4fe0-b411-ab36980cfbe9
+
+	column Month
+		dataType: string
+		lineageTag: 85be6f9a-19c4-4fd0-a8a5-020817639219
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: a42b5467-b431-48f8-99ff-066e4dc4d421
+		summarizeBy: sum
+		sourceColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column 2425
+		dataType: int64
+		formatString: 0
+		lineageTag: 954df16a-c7f9-41a6-affb-5da0600a8306
+		summarizeBy: sum
+		sourceColumn: 2425
+
+		annotation SummarizationSetBy = Automatic
+
+	column 2324
+		dataType: int64
+		formatString: 0
+		lineageTag: 9ef6da8f-1dc8-4a33-9524-0199b114d4aa
+		summarizeBy: sum
+		sourceColumn: 2324
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tgt 2425'
+		dataType: int64
+		formatString: 0
+		lineageTag: ec4cf4b6-5db1-49d7-9dd7-be76f242a1a9
+		summarizeBy: sum
+		sourceColumn: Tgt 2425
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Freshness_Graph = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Freshness_Graph_Table = Source{[Item="Freshness_Graph",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Freshness_Graph_Table,{{"Month", type text}, {"Sort", Int64.Type}, {"2425", Int64.Type}, {"2324", Int64.Type}, {"Tgt 2425", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

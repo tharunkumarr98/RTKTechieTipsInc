@@ -1,0 +1,46 @@
+table Brand_Table_Cvg
+	lineageTag: b5202f8f-4712-4288-841e-ed818c612d85
+
+	column 'Brand (Key)'
+		dataType: string
+		lineageTag: c81f6762-3d11-4e81-9588-89c1e4d91f9a
+		summarizeBy: none
+		sourceColumn: Brand (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		dataType: string
+		lineageTag: 622e6335-48e6-4970-843b-5be3deaaea62
+		summarizeBy: none
+		sourceColumn: Sort Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short Name'
+		dataType: string
+		lineageTag: 47a9fc9b-4334-4c14-92eb-565a42ae584e
+		summarizeBy: none
+		sourceColumn: Short Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Group (Key)'
+		dataType: string
+		lineageTag: 42280334-3905-4c5d-bcd6-d01cc5f977fd
+		summarizeBy: none
+		sourceColumn: Material Group (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Brand_Table_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Brand_Table_Table = Source{[Item="Brand_Table",Kind="Table"]}[Data]
+				in
+				    Brand_Table_Table
+
+	annotation PBI_ResultType = Table
+

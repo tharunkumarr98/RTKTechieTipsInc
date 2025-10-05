@@ -1,0 +1,17 @@
+table 'Slicer Table_Main'
+	lineageTag: 14059746-ed3e-40ff-bffc-a53945ff2ab5
+
+	column Value
+		lineageTag: f53de774-cfcd-4328-b14d-cc43fcf41697
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Table_Main' = calculated
+		mode: import
+		source = { "MTD", "YTD"}
+
+	annotation PBI_Id = 29ac669065d34068a30eaab4177e7157
+

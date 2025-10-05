@@ -1,0 +1,214 @@
+relationship 27d9fbc5-d13c-4db7-bac5-87003c14b388
+	fromColumn: Conc_Table.'Brand (Subcall Desc)'
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship bad78e32-bf7f-45fd-94af-d0f5f76a7a56
+	fromColumn: MMD.'Brand (Sub-Class Desc.)'
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship cb5649f1-0901-41e9-8d07-7715771a2452
+	fromColumn: 'SFA Folder'.'APO Location'
+	toColumn: Market.'Market (Key)'
+
+relationship 00207114-b3ca-4a22-a284-ada91bb21874
+	fromColumn: 'SFA Folder'.Mon
+	toColumn: Month_Sort.Month
+
+relationship 5e86d3da-3fbb-460b-aaf7-eda4a6029f01
+	fromColumn: 'SFA Folder'.'Material Group'
+	toColumn: Brand_Table.'Material Group (Key)'
+
+relationship ac580dca-15c1-41cc-80bd-d18d4e0d9a37
+	fromColumn: 'SFA Folder'.'Commercial Ref.'
+	toColumn: Driver_Table.'Com (Key)'
+
+relationship 8ea5507e-4bd7-edc7-f87a-eb20769c0447
+	fromColumn: 'STD Digitalization'.'G-Market (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 90446c61-d536-b7b7-8a3b-3b4ec8cce7cb
+	fromColumn: 'STD Digitalization'.P-Brand
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship 1432c9ab-9d50-01ca-e65b-cd51c7f09e14
+	fromColumn: MonthWeek.Month
+	toColumn: Month_Sort.Month
+
+relationship b0c865ff-3272-594c-fb4a-324538c5bec2
+	fromColumn: 'STD Digitalization'.'STDWk.Bucket (Correct Mon)'
+	toColumn: Month_Sort.Month
+
+relationship AutoDetected_8e21702c-75a4-4704-a998-551629e7dd22
+	fromColumn: SFA_Driver.'Material Group'
+	toColumn: Brand_Table.'Material Group (Key)'
+
+relationship fff7d383-ea5c-195f-18b0-02452982fab8
+	fromColumn: SFA_Driver.'APO Location'
+	toColumn: Market.'Market (Key)'
+
+relationship be0a95df-075a-bad1-429d-fdc4810fddc0
+	fromColumn: SFA_Driver.Mon
+	toColumn: Month_Sort.Month
+
+relationship 11271245-080b-7d56-2768-574f36423ee4
+	fromColumn: SFA_Comment.TableDriver
+	toColumn: DriverTable.Driver
+
+relationship 917b6f3a-b1f0-11e2-6c42-4bbcec1043f2
+	fromColumn: SFA_Comment.Mon
+	toColumn: Month_Sort.Month
+
+relationship 9b3b4173-6d5e-e5a4-c820-f7d73fe3af23
+	fromColumn: SFA_Comment.'Commercial Ref.'
+	toColumn: Driver_Table.'Com (Key)'
+
+relationship 56535fbe-d48f-2c34-c8cf-f090c3df5fd1
+	fromColumn: SFA_Comment.'APO Location'
+	toColumn: Market.'Market (Key)'
+
+relationship f155cc27-3bb5-bfba-d379-d75a563d9686
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Freshness_Graph.Month
+	toColumn: Month_Sort.Month
+
+relationship AutoDetected_fd993ae8-5dbb-458a-9f59-5748684459b0
+	fromColumn: 'STD Digitalization'.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship 998bd30b-afe8-4d7f-a9b3-49efea537cfe
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MaterialID.In
+	toColumn: LocalDateTable_f4bd4078-62c4-413f-bfd8-e06571a7626b.Date
+
+relationship bf59d4d7-80d0-1bcb-a915-0be38ec6e052
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: CRMD.'Brand (Subclass Desc)'
+	toColumn: MMD.'Brand (Sub-Class Desc.)'
+
+relationship f3137563-4758-3f11-28c1-dbc352550e64
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Driver_Table.'Com (Key)'
+	toColumn: CRMD.'Comm Ref'
+
+relationship AutoDetected_b6679152-c47a-48a5-999b-b6b4fae360d1
+	fromColumn: 'STD S&OP LY (2425)'.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship 04caa6ae-f55c-c2c7-9121-b0467c6fe818
+	fromColumn: 'STD S&OP LY (2425)'.'S&OP Country'
+	toColumn: Market.'Market (Key)'
+
+relationship AutoDetected_fc17785b-dcf1-406c-9354-0aef5462c583
+	fromColumn: 'STD S&OP NY (2526)'.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship AutoDetected_75b91769-889d-4b52-b134-f831ff876219
+	fromColumn: 'STD BDGT'.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 1f410255-ff2a-8c15-ad53-cd450e823159
+	fromColumn: 'STD S&OP NY (2526)'.'S&OP Country'
+	toColumn: Market.'Market (Key)'
+
+relationship AutoDetected_6b176629-c64b-476d-b7de-5fa835619e11
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Brand_MD.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship 0c6d1b75-605e-bb8c-7947-5b85e0b38724
+	fromColumn: 'STD S&OP NY (2526)'.P-Brand
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship AutoDetected_eb434a44-90c6-4d36-b999-b943b77f9414
+	fromColumn: 'STD BDGT'.Conc
+	toColumn: Conc_Table.'Conc (Key)'
+
+relationship 1e5f8350-656c-015f-db54-49dfacf34d32
+	fromColumn: 'STD S&OP LY (2425)'.P-Brand
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship AutoDetected_306baf41-bdfb-4a2a-b46a-281d58fdd5f6
+	fromColumn: Brand_Table.'New Categ'
+	toColumn: Categ_Table.'New Categ'
+
+relationship 9d6fccef-1dec-c89c-d3d1-c1fbe71c9a16
+	fromColumn: Brand_Table.'New Categ Other'
+	toColumn: Categ_Table_Other.Other
+
+relationship c4e96f30-7422-33cf-2e7a-ffdfb9333d83
+	fromColumn: SAPBW70_DOWNLOAD.Conc
+	toColumn: Conc_Table.'Conc (Key)'
+
+relationship b96e38e3-d7ef-f124-46f4-3bd6dd838e08
+	fromColumn: SAPBW70_DOWNLOAD.Country
+	toColumn: Market.'Market (Key)'
+
+relationship AutoDetected_5f8c70f5-0c9f-4062-9f27-a5f242ae069d
+	fromColumn: 'STT S&OP LY (2425)'.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship AutoDetected_1629605f-9ea2-4fb1-b292-cb6cedf2fd06
+	fromColumn: 'STT S&OP NY (2526)'.P-Brand
+	toColumn: Brand_Sort.P-Brand
+
+relationship f74005b1-dfe6-1c7f-a431-f5c7cc91261c
+	fromColumn: 'STT BDGT'.'S&OP Country'
+	toColumn: Market.'Market (Key)'
+
+relationship 9446315e-4aa7-2ff2-902f-6b148301a341
+	fromColumn: 'STT S&OP LY (2425)'.'S&OP Country'
+	toColumn: Market.'Market (Key)'
+
+relationship 8d99d083-b6a1-1ba9-bc39-148e2a4c7200
+	fromColumn: 'STT S&OP NY (2526)'.'S&OP Country'
+	toColumn: Market.'Market (Key)'
+
+relationship 02667709-e582-b38f-d107-769989f978f2
+	fromColumn: 'STT S&OP LY (2425)'.P-Brand
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship 4ed8ef8b-4983-68fa-39d7-67ad11f47c2f
+	fromColumn: 'STT S&OP NY (2526)'.P-Brand
+	toColumn: Brand_Table.'Brand (Key)'
+
+relationship e2bd2d80-31b8-fcd7-b313-e733da9e30f6
+	fromColumn: 'STT BDGT'.Conc
+	toColumn: Conc_Table.'Conc (Key)'
+
+relationship 349ed0cc-10d1-35de-6914-ce2db6d035dc
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'STT S&OP NY (2526)'.Week
+	toColumn: S_OP_Cal.'S&OP Cycle (Wk.Yr)'
+
+relationship d44b012b-c65d-2551-a3fa-4a596b7c5ffd
+	fromColumn: 'STD S&OP NY (2526)'.Week
+	toColumn: S_OP_Cal.'S&OP Cycle (Wk.Yr)'
+
+relationship 817887b9-9719-567b-dc52-5661d4395d0c
+	fromColumn: 'STT S&OP LY (2425)'.Week
+	toColumn: S_OP_Cal.'S&OP Cycle (Wk.Yr)'
+
+relationship 5ecd36f3-ce04-555f-ad08-e4a77e90c6c0
+	fromColumn: 'STD S&OP LY (2425)'.Week
+	toColumn: S_OP_Cal.'S&OP Cycle (Wk.Yr)'
+
+relationship AutoDetected_82f52389-6fee-4dcd-8087-1924cdbd6cf6
+	fromColumn: 'STD S&OP NY (2526)'.'Month_Sort.Month_Number'
+	toColumn: Month_Sort.Month_Number
+
+relationship 0fd1f820-0327-b2aa-9a2c-ffd84424861a
+	fromColumn: 'STT S&OP LY (2425)'.'S&OP Cycle'
+	toColumn: Month_Sort.Month
+
+relationship 98398632-8643-3927-3285-f44706c1c8d4
+	fromColumn: 'STT S&OP NY (2526)'.'S&OP Cycle'
+	toColumn: Month_Sort.Month
+
+relationship 8d67aa89-d6d0-5507-743e-415517c12f0a
+	fromColumn: 'STD S&OP LY (2425)'.'S&OP Cycle'
+	toColumn: Month_Sort.Month
+

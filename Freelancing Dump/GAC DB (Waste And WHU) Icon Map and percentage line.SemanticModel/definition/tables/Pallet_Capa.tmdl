@@ -1,0 +1,138 @@
+table Pallet_Capa
+	lineageTag: aadd4aed-af9e-42e2-9e63-f9824edd959c
+
+	measure foremate_forecast = FORMAT(AVERAGE([Forecast (day)]),"# (d)")
+		lineageTag: 3909fb45-331f-488f-ab5f-06b847e01611
+
+	measure %Occupied =
+			
+			DIVIDE(
+				SUM('Pallet_Capa'[Total Occupied (Act Pallets)]),
+				SUM('Pallet_Capa'[Total Availble])
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 4edaf456-fefd-4f98-a0d7-0db78899cea0
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+	measure '%Occupied temp' = ```
+			
+			Var __occupany = DIVIDE(
+				SUM('Pallet_Capa'[Total Occupied (Act Pallets)]),
+				SUM('Pallet_Capa'[Total Availble])
+			)
+			Var __Factor = CALCULATE( DIVIDE(MAX(Pallet_Capa[Max Capa])+MAX(Pallet_Capa[Contractual Capa]),2), REMOVEFILTERS(Mon_Sort_2))
+			Var __Result = IF(ISBLANK(__occupany), BLANK(), __occupany * __Factor) 
+			RETURN __Result   
+			
+			```
+		lineageTag: e046f201-cd2e-4a51-b1cf-4d9e8e4fcaf7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure __PrevForecast = ```
+			
+			Var __SelectedSort = SELECTEDVALUE(Mon_Sort_2[Sort])
+			Var __LastYearSort = __SelectedSort - 12
+			Var __Result = CALCULATE(SUM(Pallet_Capa[Forecast (day)]), Mon_Sort_2[Sort] = __LastYearSort, REMOVEFILTERS(Mon_Sort_2))
+			RETURN __Result 
+			```
+		lineageTag: f61b24d3-5599-4d2e-823b-c0dc2e17d7a3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Mon
+		dataType: string
+		lineageTag: 36e9f1fa-67a7-4073-a3b6-054e1a98e3a7
+		summarizeBy: none
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: d9ebaab2-8673-42a7-9a08-151f51df76ef
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast (day)'
+		dataType: double
+		formatString: 0
+		lineageTag: db45fbd2-1689-4e66-849a-92d7ca82e200
+		summarizeBy: sum
+		sourceColumn: Forecast (day)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contractual Capa'
+		dataType: double
+		formatString: 0
+		lineageTag: 78a3e483-aa78-44ba-805a-95b660da4695
+		summarizeBy: sum
+		sourceColumn: Contractual Capa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Max Capa'
+		dataType: double
+		formatString: 0
+		lineageTag: 7717efad-9ac6-40f2-bb24-47576489094e
+		summarizeBy: sum
+		sourceColumn: Max Capa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Occupied (Act Pallets)'
+		dataType: double
+		formatString: 0
+		lineageTag: ee110631-07ea-4a23-8eb0-9734933494d1
+		summarizeBy: sum
+		sourceColumn: Total Occupied (Act Pallets)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Total Availble'
+		dataType: double
+		formatString: 0
+		lineageTag: fbc4cbba-4b85-477b-8aa0-26596aff1598
+		summarizeBy: sum
+		sourceColumn: Total Availble
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Percentage Occupied'
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7dd20362-e672-4e0e-83bf-ecb19cfedde8
+		summarizeBy: sum
+		sourceColumn: Percentage Occupied
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Pallet_Capa = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Contractual Capacity.xlsx"), null, true),
+				    Pallet_Capa_Table = Source{[Item="Pallet_Capa",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Pallet_Capa_Table,{{"Mon", type text}, {"Plant", type text}, {"Forecast (day)", Int64.Type}, {"Contractual Capa", Int64.Type}, {"Max Capa", Int64.Type}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"Forecast (day)", type number}, {"Contractual Capa", type number}, {"Max Capa", type number}, {"Percentage Occupied", type number}, {"Total Availble", type number}, {"Total Occupied (Act Pallets)", type number}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

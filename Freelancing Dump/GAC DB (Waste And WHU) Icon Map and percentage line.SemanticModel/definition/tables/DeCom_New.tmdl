@@ -1,0 +1,226 @@
+table DeCom_New
+	lineageTag: abd8a6ec-1e9e-4531-893c-b61ec6cdcc48
+
+	measure DeCom_Gross_23/24 = ```
+			
+			IF(
+			    MIN(DeCom_New[T-Actual GI Date]) > DATE(2024, 8, 31) || MAX(DeCom_New[T-Actual GI Date]) < DATE(2023, 9, 1),
+			    BLANK(),
+			
+			DIVIDE(
+			    CALCULATE(
+			    SUM(DeCom_New[DEL.DOC.QTY (QL)]),
+			     FILTER(
+			                DeCom_New,
+			                DeCom_New[T-Actual GI Date] >= MAX(DATE(2023, 9, 1), MIN(DeCom_New[T-Actual GI Date])) &&
+			                DeCom_New[T-Actual GI Date] <= MIN(DATE(2024, 8, 31), MAX(DeCom_New[T-Actual GI Date]))
+			            )),
+			     
+			     CALCULATE(
+			     DISTINCTCOUNT(DeCom_New[D-# Delivery Doc.]),FILTER(DeCom_New,
+			                DeCom_New[T-Actual GI Date] >= MAX(DATE(2023, 9, 1), MIN(DeCom_New[T-Actual GI Date])) &&
+			                DeCom_New[T-Actual GI Date] <= MIN(DATE(2024, 8, 31), MAX(DeCom_New[T-Actual GI Date]))
+			            ))
+			
+			
+			
+			
+			
+			))
+			```
+		formatString: 0.00
+		lineageTag: d847b7bd-88b0-48a1-aff2-2f493be59356
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+	measure DeCom_Gross_22/23 = ```
+			
+			IF(
+			    MIN(DeCom_New[T-Actual GI Date]) > DATE(2023, 8, 31) || MAX(DeCom_New[T-Actual GI Date]) < DATE(2022, 9, 1),
+			    BLANK(),
+			
+			DIVIDE(
+			    CALCULATE(
+			    SUM(DeCom_New[DEL.DOC.QTY (QL)]),
+			     FILTER(
+			                DeCom_New,
+			                DeCom_New[T-Actual GI Date] >= MAX(DATE(2022, 9, 1), MIN(DeCom_New[T-Actual GI Date])) &&
+			                DeCom_New[T-Actual GI Date] <= MIN(DATE(2023, 8, 31), MAX(DeCom_New[T-Actual GI Date]))
+			            )),
+			     
+			     CALCULATE(
+			     DISTINCTCOUNT(DeCom_New[D-# Delivery Doc.]),FILTER(DeCom_New,
+			                DeCom_New[T-Actual GI Date] >= MAX(DATE(2022, 9, 1), MIN(DeCom_New[T-Actual GI Date])) &&
+			                DeCom_New[T-Actual GI Date] <= MIN(DATE(2023, 8, 31), MAX(DeCom_New[T-Actual GI Date]))
+			            ))))
+			```
+		formatString: 0.00
+		lineageTag: 7bb6b941-e3ae-4ecc-9085-f4fec4a238c4
+
+	measure DeCom_LY = ```
+			
+			
+			if(SELECTEDVALUE ( Month_Sort[Month] ) = "LY",
+			
+			DIVIDE(
+			    CALCULATE(
+			    SUM(DeCom_New[DEL.DOC.QTY (QL)]), 
+			    DeCom_New[T-Actual GI Date]>= DATE(2022, 9, 1),
+			    DeCom_New[T-Actual GI Date]>= DATE(2023, 8, 31),REMOVEFILTERS(month_sort)),
+			
+			CALCULATE( DISTINCTCOUNT(DeCom_New[D-# Delivery Doc.]),
+			DeCom_New[T-Actual GI Date]>= DATE(2022, 9, 1),
+			DeCom_New[T-Actual GI Date]>= DATE(2023, 8, 31),REMOVEFILTERS(month_sort)),BLANK()))
+			
+			
+			
+			
+			
+			```
+		lineageTag: dd7a0e2b-69c1-4b9b-b958-8eff532c1488
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Decom_YTD = ```
+			
+			IF(
+			    SELECTEDVALUE(MONTH_SORT[MONTH]) = "YTD",
+			    DIVIDE(
+			        CALCULATE(
+			            SUM(DeCom_New[DEL.DOC.QTY (QL)]), 
+			            DeCom_New[T-Actual GI Date] >= DATE(2023, 9, 1),
+			            DeCom_New[T-Actual GI Date] <= DATE(2024, 8, 31),
+			            REMOVEFILTERS(month_sort)
+			        ),
+			        CALCULATE(
+			            DISTINCTCOUNT(DeCom_New[D-# Delivery Doc.]),
+			            DeCom_New[T-Actual GI Date] >= DATE(2023, 9, 1),
+			            DeCom_New[T-Actual GI Date] <= DATE(2024, 8, 31),
+			            REMOVEFILTERS(month_sort)
+			        )
+			    , BLANK())
+			)
+			
+			
+			```
+		lineageTag: bb2c03f2-e96e-4cc8-9bde-8e7fadab1958
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'C-Ship-To Party'
+		dataType: int64
+		formatString: 0
+		lineageTag: a02d5422-7686-4f5e-8a82-4a73bbd87dc6
+		summarizeBy: none
+		sourceColumn: C-Ship-To Party
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'O-Sales Organization'
+		dataType: string
+		lineageTag: 64266b47-9863-43d6-b6ca-60ef914f2033
+		summarizeBy: none
+		sourceColumn: O-Sales Organization
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-Type Sales Doc.'
+		dataType: string
+		lineageTag: d090a183-9432-42d8-a271-5d27765cffcb
+		summarizeBy: none
+		sourceColumn: D-Type Sales Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C-Market Channel(I)'
+		dataType: string
+		lineageTag: 4360eee6-614d-436f-991e-05dd8113df3b
+		summarizeBy: none
+		sourceColumn: C-Market Channel(I)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-# Delivery Doc.'
+		dataType: int64
+		formatString: 0
+		lineageTag: fe06884c-cc02-4312-b714-018f5324d14b
+		summarizeBy: sum
+		sourceColumn: D-# Delivery Doc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'T-Actual GI Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 86c3f41e-50e8-4b52-9464-2d8fc0a49164
+		summarizeBy: none
+		sourceColumn: T-Actual GI Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'DEL.DOC.QTY (QL)'
+		dataType: double
+		lineageTag: dfb42a17-d090-46fc-b9d8-9555c6dadbd5
+		summarizeBy: sum
+		sourceColumn: DEL.DOC.QTY (QL)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Mon
+		dataType: int64
+		formatString: 0
+		lineageTag: 473c4db9-0b92-49b7-a6ee-14f415f09925
+		summarizeBy: sum
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer_Master.C-Market Channel(I)'
+		dataType: string
+		lineageTag: 0c1684d2-af5c-47d1-82ae-ad44257b961f
+		summarizeBy: none
+		sourceColumn: Customer_Master.C-Market Channel(I)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DeCom_New = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    DeCom_New_Table = Source{[Item="DeCom_New",Kind="Table"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(DeCom_New_Table, each ([#"T-Actual GI Date"] <> "#")),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"C-Ship-To Party", Int64.Type}, {"O-Sales Organization", type text}, {"D-Type Sales Doc.", type text}, {"C-Market Channel(I)", type text}, {"D-# Delivery Doc.", Int64.Type}, {"T-Actual GI Date", type date}, {"DEL.DOC.#(lf)QTY (QL)", type number}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","AE01","Dubai",Replacer.ReplaceText,{"O-Sales Organization"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","SA01","Saudi Arabia",Replacer.ReplaceText,{"O-Sales Organization"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","KW01","Kuwait",Replacer.ReplaceText,{"O-Sales Organization"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Replaced Value2", "T-Actual GI Date", "T-Actual GI Date - Copy"),
+				    #"Extracted Month" = Table.TransformColumns(#"Duplicated Column",{{"T-Actual GI Date - Copy", Date.Month, Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Extracted Month",{{"T-Actual GI Date - Copy", "Mon"}}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Renamed Columns","ZC03","Van",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","ZC25","Pre-Sales1",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","ZC11","Pre-Sales2",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","ZC27","Physical Returns",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","ZC05","Refusal",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","ZC68","Reg. Orders",Replacer.ReplaceText,{"D-Type Sales Doc."}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value8", {"C-Ship-To Party"}, Customer_Master, {"Ship_To (Key)"}, "Customer_Master", JoinKind.LeftOuter),
+				    #"Expanded Customer_Master" = Table.ExpandTableColumn(#"Merged Queries", "Customer_Master", {"C-Market Channel(I)"}, {"Customer_Master.C-Market Channel(I)"})
+				in
+				    #"Expanded Customer_Master"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

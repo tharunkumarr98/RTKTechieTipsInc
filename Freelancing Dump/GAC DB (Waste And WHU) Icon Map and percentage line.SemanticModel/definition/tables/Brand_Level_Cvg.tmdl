@@ -1,0 +1,96 @@
+table Brand_Level_Cvg
+	lineageTag: a817cca7-569d-4f29-99ec-3531ab8b9e79
+
+	measure Cvg_KPI = ```
+			SWITCH() 
+			```
+		lineageTag: 2fd1f4f6-8b48-4f1a-b931-378babb96c4b
+
+	measure 'Formate I.G.O' = FORMAT([Act_Indust_G.Out_Graph],"# (d)")
+		lineageTag: 168cffd8-8158-4eaf-8efa-7a38113adbfd
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: aee077f6-a40a-49a1-bb66-3f29c39a7b36
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Num
+		dataType: string
+		lineageTag: ae8ce691-79f0-4b06-9b7e-e0baf26366b5
+		summarizeBy: none
+		sourceColumn: Week_Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 8e4c2b04-0a84-4a98-9e2c-9fbfc12bea59
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: ecc8a8db-debd-423a-a4b1-77451b3fb018
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column cvg
+		dataType: double
+		lineageTag: 8434aaee-c307-4dbc-8bfd-3889599eb9e2
+		summarizeBy: sum
+		sourceColumn: cvg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'cvg w+1'
+		dataType: double
+		lineageTag: eba28aa7-a4ae-48cb-9e07-6bcefd168a3b
+		summarizeBy: sum
+		sourceColumn: cvg w+1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gr_Tgt
+		dataType: double
+		lineageTag: b1804f4e-0c47-4172-980b-96891b622586
+		summarizeBy: sum
+		sourceColumn: Gr_Tgt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Brand_Level_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Data_Files"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (12)", each #"Transform File (12)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (12)"}),
+				    #"Expanded Transform File (12)" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (12)", {"Brand", "Market", "cvg", "cvg w+1", "Gr_Tgt"}, {"Transform File (12).Brand", "Transform File (12).Market", "Transform File (12).cvg", "Transform File (12).cvg w+1", "Transform File (12).Gr_Tgt"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded Transform File (12)",{{"Transform File (12).Brand", "Brand"}, {"Transform File (12).Market", "Market"}, {"Transform File (12).cvg", "cvg"}, {"Transform File (12).cvg w+1", "cvg w+1"}, {"Transform File (12).Gr_Tgt", "Gr_Tgt"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Source.Name", type text}, {"Brand", type text}, {"Market", type text}, {"cvg", type number}, {"cvg w+1", type any}, {"Gr_Tgt", type number}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Position" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByRepeatedLengths(6), {"Source.Name - Copy.1", "Source.Name - Copy.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Position",{{"Source.Name - Copy.1", type text}, {"Source.Name - Copy.2", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Source.Name - Copy.2"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "Week_Num"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns",{{"cvg w+1", type number}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_ResultType = Table
+

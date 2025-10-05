@@ -1,0 +1,110 @@
+table Transit_Time
+	lineageTag: 818eff8b-36da-44dd-b856-a267c7cccb1a
+
+	column Name
+		dataType: string
+		lineageTag: e45beb74-1e84-4209-ad99-0e6929acf327
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Plant'
+		dataType: string
+		lineageTag: 69571469-ecce-4fe0-9a21-c877a4eec8e8
+		summarizeBy: none
+		sourceColumn: Data.Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Customer'
+		dataType: string
+		lineageTag: cda9efab-4018-4ad1-ab17-53a279e67b7f
+		summarizeBy: none
+		sourceColumn: Data.Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Country'
+		dataType: string
+		lineageTag: 488fec6f-a69a-437a-9011-6dfa2499cf76
+		summarizeBy: none
+		sourceColumn: Data.Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Code for Route'
+		dataType: string
+		lineageTag: ada9bcd5-3130-4a73-ab9a-7e64065353b6
+		summarizeBy: none
+		sourceColumn: Data.Code for Route
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Code for Route2'
+		dataType: string
+		lineageTag: f7e99772-9363-4827-9548-38e540215ed3
+		summarizeBy: none
+		sourceColumn: Data.Code for Route2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Transit_Time'
+		dataType: int64
+		formatString: 0
+		lineageTag: 24c2502b-b001-48b5-8a7a-21b1f37938df
+		summarizeBy: sum
+		sourceColumn: Data.Transit_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Target'
+		dataType: double
+		lineageTag: 3afe2c46-06c6-4feb-9063-7a2f1c5d30a3
+		summarizeBy: sum
+		sourceColumn: Data.Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Item
+		dataType: string
+		lineageTag: e1580bae-0238-4d38-9d3a-920afee1c193
+		summarizeBy: none
+		sourceColumn: Item
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kind
+		dataType: string
+		lineageTag: cf1115bf-3ec7-4e97-bb95-e7a5bd486f61
+		summarizeBy: none
+		sourceColumn: Kind
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hidden
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 65561be8-6a64-4e5c-8f86-ae42340b5306
+		summarizeBy: none
+		sourceColumn: Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Transit_Time = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Item] = "Transit_Time")),
+				    #"Expanded Data" = Table.ExpandTableColumn(#"Filtered Rows", "Data", {"Plant", "Customer", "Country", "Code for Route", "Code for Route2", "Transit_Time", "Target"}, {"Data.Plant", "Data.Customer", "Data.Country", "Data.Code for Route", "Data.Code for Route2", "Data.Transit_Time", "Data.Target"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Data",{{"Data.Plant", type text}, {"Data.Customer", type text}, {"Data.Country", type text}, {"Data.Code for Route", type text}, {"Data.Code for Route2", type text}, {"Data.Transit_Time", Int64.Type}, {"Data.Target", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,58 @@
+table tgt_cont_util
+	lineageTag: a7b1cf10-490f-482b-9804-cae188ce0542
+
+	column Country
+		dataType: string
+		lineageTag: 06e82b3f-bcbf-4b35-8b37-9c7c8c43d8db
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Code for Route'
+		dataType: string
+		lineageTag: 540cdabc-30c6-4fd2-9139-7f1690b6924c
+		summarizeBy: none
+		sourceColumn: Code for Route
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Code for Route2'
+		dataType: string
+		lineageTag: 8bc36ee4-bbc4-427d-892a-e3b25109ea42
+		summarizeBy: none
+		sourceColumn: Code for Route2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transit Time'
+		dataType: int64
+		formatString: 0
+		lineageTag: bccaf9ea-47c7-4e60-b012-8475491e2065
+		summarizeBy: sum
+		sourceColumn: Transit Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: 1983f5c4-da34-4db0-9a3b-abce37cf0c9a
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition tgt_cont_util = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    tgt_cont_util_Table = Source{[Item="tgt_cont_util",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(tgt_cont_util_Table,{{"Country", type text}, {"Code for Route", type text}, {"Code for Route2", type text}, {"Transit Time", Int64.Type}, {"Target", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,1197 @@
+table Reversals
+	lineageTag: 67ef29b1-7165-4f10-b49d-db0786fb3ae0
+
+	measure 'Return 23/24' = ```
+			
+			CALCULATE(
+			DIVIDE(
+				SUM('Reversals'[Invoice Gross Amount]),
+				SUM('Gross Data'[GROSS1])
+			), 
+			        FILTER(
+			        Calendar_Table,
+			        Calendar_Table[Date_Format (Key)] >= DATE(2023, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2024, 8, 31)
+			    ))
+			--  DIVIDE(
+			--        CALCULATE(
+			--           SUM(Reversals[Invoice Gross Amount]),
+			--            FILTER(
+			--                'Reversals',
+			--                'Reversals'[Created On_2] >= MAX(DATE(2023, 9, 1), MIN('Reversals'[Created On_2])) &&
+			--                'Reversals'[Created On_2] <= MIN(DATE(2024, 8, 31), MAX('Reversals'[Created On_2]))
+			--            )
+			--        ),
+			--        CALCULATE(
+			--            SUM('Gross Data'[GROSS1]),
+			--            FILTER(
+			--               'Gross Data',
+			--               'Gross Data'[Billing Date] >= MAX(DATE(2023, 9, 1), MIN('Gross Data'[Billing Date])) &&
+			--                'Gross Data'[Billing Date] <= MIN(DATE(2024, 8, 31), MAX('Gross Data'[Billing Date]))          )
+			--        )
+			--    )   
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 83c91216-b966-435a-b8f7-3f37154702c4
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+	measure 'Refusal% LY' =
+			
+			CALCULATE(
+			DIVIDE( DISTINCTCOUNT(Reversals[Sales Document]),
+			        DISTINCTCOUNT('Gross Data'[Sales Doc.]))
+				--DISTINCTCOUNT(Reversals[Sales Document]),
+				--DISTINCTCOUNT('Gross Data'[Sales Doc.])
+			    , FILTER(
+			            Calendar_Table,
+			            Calendar_Table[Date_Format (Key)] >= DATE(2022, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2023, 8, 31)
+			        ))
+			
+			
+			--DIVIDE(
+			--    CALCULATE(
+			--        SUM('CFR'[Delivery Item Gross Amount]),
+			--        FILTER(
+			--            'CFR',
+			--            'CFR'[Requested deliv.date] >= DATE(2022, 9, 1) && 'CFR'[Requested deliv.date] --<= DATE(2023, 8, 31)
+			--        )
+			--    ),
+			--    CALCULATE(
+			--        SUM('CFR'[Order Item Gross Amount]),
+			--        FILTER(
+			--            'CFR',
+			--            'CFR'[Requested deliv.date] >= DATE(2022, 9, 1) && 'CFR'[Requested deliv.date] --<= DATE(2023, 8, 31)
+			 --       )
+			 --   )
+			--))))))))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f321106e-bec0-4827-a50e-b818595b9100
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+	measure Reversal_Sign = if (Reversals[Refusal% CY] > sum(Targets_GAC_Main[tgt]), "Bad", if (Reversals[Return 23/24] = sum(Targets_GAC_Main[tgt]), "Med","Good"))
+		lineageTag: 9cff763e-9146-4131-b185-629d7de6d96c
+
+	measure Refusal_Contrb_Measure = ```
+			
+			VAR TotalValue = DISTINCTCOUNT(Reversals[Sales Document])
+			VAR TotalValueAllSelected = 
+			    CALCULATE(
+			        DISTINCTCOUNT(Reversals[Sales Document]),
+			        ALLSELECTED()
+			    )
+			RETURN 
+			DIVIDE(
+			    TotalValue, 
+			    TotalValueAllSelected, 
+			    0
+			) * 100
+			```
+		lineageTag: 561effb2-018d-4a70-8814-15ed55d6d592
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Return_Contrb_Measure = ```
+			
+			VAR TotalValue = SUM(Reversals[Invoice Gross Amount])
+			VAR TotalValueAllSelected = 
+			    CALCULATE(
+			        SUM(Reversals[Invoice Gross Amount]),
+			        ALLSELECTED()
+			    )
+			RETURN 
+			DIVIDE(
+			    TotalValue, 
+			    TotalValueAllSelected, 
+			    0
+			) * 100
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: dc73d6f6-1537-435e-95a1-76f19df70e75
+
+	measure Refusal%_Total = ```
+			
+			IF (SELECTEDVALUE ( Month_Sort[Month] ) = "YTD", 
+			
+			DIVIDE(    
+			CALCULATE( DISTINCTCOUNT( Reversals[Billing Document]),
+			Reversals[Created On_2] >= DATE(2023, 9, 1),
+			Reversals[Created On_2] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort))
+			
+			,
+			
+			CALCULATE( DISTINCTCOUNT('Gross Data'[Bill.Doc.] ),
+			'Gross Data'[Billing Date] >= DATE(2023, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),
+			
+			if(SELECTEDVALUE ( Month_Sort[Month] ) = "LY",
+			DIVIDE(    
+			CALCULATE( DISTINCTCOUNT( Reversals[Billing Document]),
+			Reversals[Created On_2] >= DATE(2022, 9, 1),
+			Reversals[Created On_2] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort))
+			,
+			CALCULATE( DISTINCTCOUNT('Gross Data'[Bill.Doc.] ),
+			'Gross Data'[Billing Date] >= DATE(2022, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),BLANK()))
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 4d52fb2d-11a6-42e7-b55b-2a3ff91e1e31
+
+	measure Return_Sign = if (Reversals[Delta vs. LY]<0,"Good", IF(Reversals[Delta vs. LY]=0.00,"Med","Bad"))
+		lineageTag: e1ae3197-97ee-4f63-ba96-09fece2624b4
+
+	measure 'Refusal% CY' = ```
+			
+			CALCULATE(
+			    DIVIDE(
+			        DISTINCTCOUNT(Reversals[Sales Document]),
+			        DISTINCTCOUNT('Gross Data'[Sales Doc.])
+			    ),
+			    FILTER(
+			        Calendar_Table,
+			        Calendar_Table[Date_Format (Key)] >= DATE(2023, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2024, 8, 31)
+			    )
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 82f07947-b9e8-472f-855d-a6c0ed85a8ee
+
+	measure 'Return% 22/23' = ```
+			
+			--CALCULATE(
+			--DIVIDE(
+			--	SUM('Reversals'[Invoice Gross Amount]),
+			--	SUM('Gross Data'[GROSS1])
+			--), 
+			--           FILTER(
+			--        Calendar_Table,
+			--        Calendar_Table[Date_Format (Key)] >= DATE(2022, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2023, 8, 31)
+			--))
+			
+			    --IF(
+			    --MIN('CFR'[Requested deliv.date]) > DATE(2023, 8, 31) || MAX('CFR'[Requested deliv.date]) < DATE(2022, 9, 1),
+			    --BLANK(),
+			    DIVIDE(
+			        CALCULATE(
+			            SUM(Reversals[Invoice Gross Amount]),
+			            FILTER(
+			                'Reversals',
+			                'Reversals'[Created On_2] >= MAX(DATE(2022, 9, 1), MIN('Reversals'[Created On_2])) &&
+			                'Reversals'[Created On_2] <= MIN(DATE(2023, 8, 31), MAX('Reversals'[Created On_2]))
+			            )
+			        ),
+			        CALCULATE(
+			            SUM('Gross Data'[GROSS1]),
+			            FILTER(
+			                'Gross Data',
+			                'Gross Data'[Billing Date] >= MAX(DATE(2022, 9, 1), MIN('Gross Data'[Billing Date])) &&
+			                'Gross Data'[Billing Date] <= MIN(DATE(2023, 8, 31), MAX('Gross Data'[Billing Date]))
+			            )
+			        )
+			    )
+			        
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2cb732bc-f1f0-4db3-ad98-27065e05197a
+
+	measure Refusal_Tgt =
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM(Targets_GAC_Main[TGT])*100,
+			    FILTER(Targets_GAC_Main, Targets_GAC_Main[Market] = SelectedRegion && Targets_GAC_Main[KPI]="Refusal %Order"
+			))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 095f260f-1f05-45a8-af5d-db0bfeae590b
+
+	measure Return_Tgt =
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM(Targets_GAC_Main[TGT]),
+			    FILTER(Targets_GAC_Main, Targets_GAC_Main[Market] = SelectedRegion && Targets_GAC_Main[KPI]="Returns %GS"
+			))
+		lineageTag: 8d87cd4e-8cba-4965-b261-f6703204d548
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Test =
+			
+			DIVIDE(
+				SUM('Reversals'[Invoice Gross Amount]),
+				SUM('Gross Data'[GROSS1])
+			)
+		formatString: #,0.0
+		lineageTag: b06e486d-00e3-45d1-8ce7-e78b5f3a73ea
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+	measure 'Delta vs. LY' =
+			
+			VAR BASELINE_VALUE = [Return% 22/23]
+			VAR VALUE_TO_COMPARE = [Return 23/24]
+			RETURN
+				IF(
+					NOT ISBLANK(VALUE_TO_COMPARE),
+					VALUE_TO_COMPARE - BASELINE_VALUE
+				)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 4d1b21a2-2fc0-47ad-974f-053db8d3b92a
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalPercentageDifference"
+				}
+
+		changedProperty = FormatString
+
+	measure Return%_Total = ```
+			
+			IF (SELECTEDVALUE ( Month_Sort[Month] ) = "YTD", 
+			
+			DIVIDE(    
+			CALCULATE( DISTINCTCOUNT( Reversals[Invoice Gross Amount]),
+			Reversals[Created On_2] >= DATE(2023, 9, 1),
+			Reversals[Created On_2] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort))
+			
+			,
+			
+			CALCULATE( DISTINCTCOUNT('Gross Data'[GROSS1] ),
+			'Gross Data'[Billing Date] >= DATE(2023, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),
+			
+			if(SELECTEDVALUE ( Month_Sort[Month] ) = "LY",
+			DIVIDE(    
+			CALCULATE( DISTINCTCOUNT( Reversals[Invoice Gross Amount]),
+			Reversals[Created On_2] >= DATE(2022, 9, 1),
+			Reversals[Created On_2] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort))
+			,
+			CALCULATE( DISTINCTCOUNT('Gross Data'[GROSS1] ),
+			'Gross Data'[Billing Date] >= DATE(2022, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),BLANK()))
+			```
+		formatString: 0.00
+		lineageTag: 28463576-bfa6-4c4c-885d-86144433d183
+
+	measure 'Refusal% CY_Val' = ```
+			
+			CALCULATE(
+			    DIVIDE(
+			        Sum(Reversals[Invoice Gross Amount]),
+			        Sum('Gross Data'[GROSS1])
+			    ),
+			    FILTER(
+			        Calendar_Table,
+			        Calendar_Table[Date_Format (Key)] >= DATE(2023, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2024, 8, 31)
+			    )
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 4c5a83db-1652-4cb2-893d-688fab16e008
+
+	measure 'Refusal% LY_Val' =
+			
+			CALCULATE(
+			DIVIDE( SUM(Reversals[Invoice Gross Amount]),
+			        SUM('Gross Data'[GROSS1]))
+			
+			    , FILTER(
+			            Calendar_Table,
+			            Calendar_Table[Date_Format (Key)] >= DATE(2022, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2023, 8, 31)
+			        ))
+		formatString: 0%;-0%;0%
+		lineageTag: ba322ad2-5804-4321-81ba-f8513e16572d
+
+	measure Refusal%_Total_Val = ```
+			
+			IF (SELECTEDVALUE ( Month_Sort[Month] ) = "YTD", 
+			
+			DIVIDE(    
+			CALCULATE( SUM( Reversals[Invoice Gross Amount]),
+			Reversals[Created On_2] >= DATE(2023, 9, 1),
+			Reversals[Created On_2] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort))
+			
+			,
+			
+			CALCULATE( SUM('Gross Data'[GROSS1]),
+			'Gross Data'[Billing Date] >= DATE(2023, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2024, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),
+			
+			if(SELECTEDVALUE ( Month_Sort[Month] ) = "LY",
+			DIVIDE(    
+			CALCULATE( SUM( Reversals[Invoice Gross Amount]),
+			Reversals[Created On_2] >= DATE(2022, 9, 1),
+			Reversals[Created On_2] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort))
+			,
+			CALCULATE( SUM('Gross Data'[GROSS1] ),
+			'Gross Data'[Billing Date] >= DATE(2022, 9, 1),
+			'Gross Data'[Billing Date] <= DATE(2023, 8, 31),
+			REMOVEFILTERS(month_sort)) 
+			),BLANK()))
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: db71d4b0-2f5b-49d2-bd01-43ed0460b37e
+
+	measure Selection_Refusal = ```
+			
+			     SWITCH(
+			         SELECTEDVALUE(Reversal_Selection_Table[Value]),
+			         "Volume_QL", SUM(Reversals[Invoice Item Net QLY]),
+			         "Value_Local", sum(Reversals[Invoice Gross Amount]),
+			         "Count_DNs", DISTINCTCOUNT(Reversals[Billing Document]),
+			         "Contribution %", [Refusal_Contrb_Measure],
+			         sum(Reversals[Invoice Gross Amount])  -- default to ValueMeasure if no selection is made
+			     )
+			```
+		formatString: #,0.0
+		lineageTag: 7ccd96d1-b050-4307-9432-0da11a2d081f
+
+	measure Selection_Return = ```
+			
+			     SWITCH(
+			         SELECTEDVALUE(Reversal_Selection_Table[Value]),
+			         "Volume_QL", SUM(Reversals[Invoice Item Net QLY]),
+			         "Value_Local", sum(Reversals[Invoice Gross Amount]),
+			         "Count_DNs", DISTINCTCOUNT(Reversals[Delivery]),
+			         "Contribution %", [Return_Contrb_Measure],
+			          sum(Reversals[Invoice Gross Amount])  -- default to ValueMeasure if no selection is made
+			     )
+			```
+		lineageTag: 1cf1f86d-f2c5-4f2a-b75c-426e36e3654e
+
+	measure Reversals%_Test = sum(Reversals[Invoice Gross Amount])/sum('Gross Data'[GROSS1])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: bf1a2e34-84b5-4d0c-83b0-397ac826767b
+
+	measure 'Return 23/24_New' = ```
+			
+			--CALCULATE(
+			--DIVIDE(
+			--	SUM('Reversals'[Invoice Gross Amount]),
+			--	SUM('Gross Data'[GROSS1])
+			--), 
+			--        FILTER(
+			--      Calendar_Table,
+			 --       Calendar_Table[Date_Format (Key)] >= DATE(2023, 9, 1) && Calendar_Table[Date_Format (Key)] <= DATE(2024, 8, 31)
+			 --   ))
+			  DIVIDE(
+			        CALCULATE(
+			           SUM(Reversals[Invoice Gross Amount]),
+			            FILTER(
+			                'Reversals',
+			                'Reversals'[Created On_2] >= MAX(DATE(2023, 9, 1), MIN('Reversals'[Created On_2])) &&
+			                'Reversals'[Created On_2] <= MIN(DATE(2024, 8, 31), MAX('Reversals'[Created On_2]))
+			            )
+			        ),
+			        CALCULATE(
+			            SUM('Gross Data'[GROSS1]),
+			            FILTER(
+			               'Gross Data',
+			               'Gross Data'[Billing Date] >= MAX(DATE(2023, 9, 1), MIN('Gross Data'[Billing Date])) &&
+			                'Gross Data'[Billing Date] <= MIN(DATE(2024, 8, 31), MAX('Gross Data'[Billing Date]))          )
+			        )
+			    )   
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 66fad18e-cbdd-4c7c-82b6-8ae17c84f1fc
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 4314bb09-47f9-4fea-b513-44e61d26e331
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: int64
+		formatString: 0
+		lineageTag: f159461f-b384-41ca-b269-debba319cf5e
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Name 1'
+		dataType: string
+		lineageTag: 17796ffa-6d2c-4108-8c32-7799450236fb
+		summarizeBy: none
+		sourceColumn: Name 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Document'
+		dataType: int64
+		formatString: 0
+		lineageTag: d2580587-76d3-4335-b503-97a5ac757dc4
+		summarizeBy: sum
+		sourceColumn: Sales Document
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Document Item'
+		dataType: int64
+		formatString: 0
+		lineageTag: a6895ba6-eef2-4d00-97c4-629e9a7f8df5
+		summarizeBy: sum
+		sourceColumn: Sales Document Item
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Order Type'
+		dataType: string
+		lineageTag: b761fc3b-e80d-4eb7-a23b-32c08e2f2c8b
+		summarizeBy: none
+		sourceColumn: Sales Order Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer purchase order'
+		dataType: string
+		lineageTag: bb518872-2dc2-4def-a154-33917d665898
+		summarizeBy: none
+		sourceColumn: Customer purchase order
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Requested deliv.date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: ae16503d-7b93-463e-b1d4-0ed4d68bc889
+		summarizeBy: none
+		sourceColumn: Requested deliv.date
+
+		variation Variation
+			isDefault
+			relationship: 565ee6e1-3292-417f-8774-d6499b1c622c
+			defaultHierarchy: LocalDateTable_75bc8f6b-9094-47f7-8891-dc95f9a11cdd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Pricing Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 5a149637-75fc-4a0a-916a-3d29c6064449
+		summarizeBy: none
+		sourceColumn: Pricing Date
+
+		variation Variation
+			isDefault
+			relationship: 0a280e1e-d855-44ee-9509-c3a3509e2907
+			defaultHierarchy: LocalDateTable_ea23a5cf-07ac-49cd-8439-0608092ea16e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Delivery Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 0d704121-1168-4397-9465-2f106b18ab13
+		summarizeBy: none
+		sourceColumn: Delivery Date
+
+		variation Variation
+			isDefault
+			relationship: f5ba00b7-2d25-4ebc-bb9f-cf35c2a7a275
+			defaultHierarchy: LocalDateTable_c4babb5e-6776-4d7c-a6e6-e44548f4f0b9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Delivery status'
+		dataType: string
+		lineageTag: 1b4bc744-a193-411d-a70b-3332a18e7219
+		summarizeBy: none
+		sourceColumn: Delivery status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Exception ATP'
+		dataType: string
+		lineageTag: 0c7c9d40-3114-4b70-9169-8c0fc9d1fbfc
+		summarizeBy: none
+		sourceColumn: Exception ATP
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Schedule Line Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2034a0ba-3964-4b89-92bc-ff9ad8dc0107
+		summarizeBy: sum
+		sourceColumn: Schedule Line Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Item Category'
+		dataType: string
+		lineageTag: a1172924-a1e5-4679-9754-f1a671ca61d8
+		summarizeBy: none
+		sourceColumn: Item Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Material
+		dataType: int64
+		formatString: 0
+		lineageTag: 17ed0884-1952-4863-b609-81d515a49070
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Description'
+		dataType: string
+		lineageTag: 2ca33de6-c73c-42a4-bce8-2489a77c7625
+		summarizeBy: none
+		sourceColumn: Material Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PCB CU TU'
+		dataType: int64
+		formatString: 0
+		lineageTag: 233a8910-4f2d-4817-9f65-e60682732b38
+		summarizeBy: sum
+		sourceColumn: PCB CU TU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAN CU'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d2ceda4-4fe7-41f5-8976-1fd0a73b7cb2
+		summarizeBy: sum
+		sourceColumn: EAN CU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 230f7bda-b581-40be-b49a-89958d4fa016
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Unit'
+		dataType: string
+		lineageTag: 64bb75ab-2e3c-4361-90e6-8a9e446b18cb
+		summarizeBy: none
+		sourceColumn: Sales Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Confirmed Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 66a6c986-2765-4b0d-a078-46438799c12b
+		summarizeBy: sum
+		sourceColumn: Confirmed Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Item Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 14e7896b-8582-45d0-abc9-f31b18e178d0
+		summarizeBy: sum
+		sourceColumn: Order Item Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Open Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 23fb58b1-d259-45af-ba47-27a161439a1f
+		summarizeBy: sum
+		sourceColumn: Open Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cumul.confirmed qty'
+		dataType: int64
+		formatString: 0
+		lineageTag: a37a2c65-8c4c-4009-9e0a-ed7dd9cd3938
+		summarizeBy: sum
+		sourceColumn: Cumul.confirmed qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reason for rejection'
+		dataType: string
+		lineageTag: 15ed0795-160a-4c27-955f-af4c0222d7ef
+		summarizeBy: none
+		sourceColumn: Reason for rejection
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PD quantity'
+		dataType: double
+		lineageTag: 8926e9e0-1207-4357-8684-2fe4428ef979
+		summarizeBy: sum
+		sourceColumn: PD quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Item Net Weight'
+		dataType: double
+		lineageTag: 4aac95e6-9478-4b98-b9d6-1361c5c25b62
+		summarizeBy: sum
+		sourceColumn: Order Item Net Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Created On'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 8ba142cb-c132-41c2-9d40-27c290b6b08c
+		summarizeBy: none
+		sourceColumn: Created On
+
+		variation Variation
+			isDefault
+			relationship: d26bfc2d-dbed-4c39-9508-ce0b3b6bb4d1
+			defaultHierarchy: LocalDateTable_4613afff-ec1c-4a70-a1b8-cdc84ffdd4ef.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Created By'
+		dataType: string
+		lineageTag: fc809d5c-0793-40ad-9ba4-4cc70b30e915
+		summarizeBy: none
+		sourceColumn: Created By
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hour of sales order'
+		dataType: dateTime
+		formatString: mm/dd/yyyy
+		lineageTag: 89904929-7172-4697-84c7-af25ded7d6f9
+		summarizeBy: none
+		sourceColumn: Hour of sales order
+
+		variation Variation
+			isDefault
+			relationship: f2e6564c-eb43-4081-9222-0c0a1ee594bc
+			defaultHierarchy: LocalDateTable_5fd5fdcc-e49b-4170-b059-edd4a62130a2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Order reason'
+		dataType: string
+		lineageTag: 9c0fe69f-25bd-4676-8e4a-7463733b8c66
+		summarizeBy: none
+		sourceColumn: Order reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 917fd65a-49a0-42ff-ae40-33a17b56660a
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer subgroup'
+		dataType: int64
+		formatString: 0
+		lineageTag: 43391fb4-09f0-4e2b-a1da-a72cf4d46a3a
+		summarizeBy: sum
+		sourceColumn: Customer subgroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer group name'
+		dataType: string
+		lineageTag: 3dfe9649-e04d-4758-a370-fafdc95737be
+		summarizeBy: none
+		sourceColumn: Customer group name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sub-class description'
+		dataType: string
+		lineageTag: 706f2908-c7f6-41db-8243-c9c0328c6089
+		summarizeBy: none
+		sourceColumn: Sub-class description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial ref.'
+		dataType: string
+		lineageTag: 64923ad3-af2d-42b2-b075-fd26d9b39ca9
+		summarizeBy: none
+		sourceColumn: Commercial ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 8469514a-a982-40f9-a4b1-d8584cdb0055
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery
+		dataType: int64
+		formatString: 0
+		lineageTag: 77cf7cde-7d20-4793-a0df-0262eb85e8fe
+		summarizeBy: sum
+		sourceColumn: Delivery
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created On_1'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: fee707b2-1b97-4069-aeb6-9e08929aeece
+		summarizeBy: none
+		sourceColumn: Created On_1
+
+		variation Variation
+			isDefault
+			relationship: 542d4cbd-a5ec-4418-a985-d4c02294f5b5
+			defaultHierarchy: LocalDateTable_c250ef0b-ec48-4142-9a4d-336f6b279261.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Time
+		dataType: dateTime
+		formatString: mm/dd/yyyy
+		lineageTag: ff46605d-8ee7-45c7-b9eb-de429567e61e
+		summarizeBy: none
+		sourceColumn: Time
+
+		variation Variation
+			isDefault
+			relationship: fcef6c78-419f-450e-ac8d-bd8a93702bd6
+			defaultHierarchy: LocalDateTable_d21f482f-7ab4-492a-91fc-b275866b0ad5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Pland Gds Mvmnt Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 46d0c5e0-dfe4-4315-bed0-84574ea1a934
+		summarizeBy: none
+		sourceColumn: Pland Gds Mvmnt Date
+
+		variation Variation
+			isDefault
+			relationship: 6217ef98-5855-4fb0-b1a0-d4bd4daec2fa
+			defaultHierarchy: LocalDateTable_241f8ebe-a4d4-439b-980a-fcb55ff58762.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Act. Gds Mvmnt Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 9f30683f-78a4-428f-9017-b0ae2ef6d834
+		summarizeBy: none
+		sourceColumn: Act. Gds Mvmnt Date
+
+		variation Variation
+			isDefault
+			relationship: 57e4d49f-ad06-4177-9a06-72acfdac434d
+			defaultHierarchy: LocalDateTable_faa52c27-8151-49f4-bbaa-b555b1592d33.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Delivery quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 103d1447-e376-41d7-a00b-edffb79a639b
+		summarizeBy: sum
+		sourceColumn: Delivery quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Document'
+		dataType: int64
+		formatString: 0
+		lineageTag: 905af5e0-0c2d-4e4d-9263-b9433810da3f
+		summarizeBy: sum
+		sourceColumn: Billing Document
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created On_2'
+		dataType: dateTime
+		formatString: m/d/yy
+		lineageTag: a42e781d-3dba-461d-ac4c-d76175b43b42
+		summarizeBy: none
+		sourceColumn: Created On_2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Time_3
+		dataType: dateTime
+		formatString: mm/dd/yyyy
+		lineageTag: fed879bd-8f66-4a19-b31d-4f3629443a85
+		summarizeBy: none
+		sourceColumn: Time_3
+
+		variation Variation
+			isDefault
+			relationship: 996f1324-b33d-4fab-b4f7-15025fad4a40
+			defaultHierarchy: LocalDateTable_5bc0aad4-029a-4df0-984f-3444204aab02.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'TU billed'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7bebad90-b40a-4411-b605-1fbd4218cfe8
+		summarizeBy: sum
+		sourceColumn: TU billed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net value'
+		dataType: double
+		lineageTag: 798bdfe5-e6ef-4617-a739-f83ff3f495a7
+		summarizeBy: sum
+		sourceColumn: Net value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Item Gross Unit Amount'
+		dataType: double
+		lineageTag: d1b1a63c-c0b1-4c0a-8e06-bce0976754c0
+		summarizeBy: sum
+		sourceColumn: Order Item Gross Unit Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Item Gross Amount'
+		dataType: double
+		lineageTag: 46cdff61-9284-4abf-9557-6751ac7e217a
+		summarizeBy: sum
+		sourceColumn: Order Item Gross Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Delivery Item Net Amount'
+		dataType: double
+		lineageTag: 08375263-d0e6-4af1-bc28-775c7f45d88b
+		summarizeBy: sum
+		sourceColumn: Delivery Item Net Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Delivery Item Gross Amount'
+		dataType: double
+		lineageTag: c68e910f-cfc3-44e5-919d-5002f7e2af01
+		summarizeBy: sum
+		sourceColumn: Delivery Item Gross Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Invoice Gross Amount'
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 65704f42-a16e-478f-a076-75b95141b6d8
+		summarizeBy: sum
+		sourceColumn: Invoice Gross Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Invoice Gross Unit Amount'
+		dataType: double
+		lineageTag: 53dc6ac7-2cfd-4e08-9a1b-a1c1b0e91856
+		summarizeBy: sum
+		sourceColumn: Invoice Gross Unit Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Item Net Amount'
+		dataType: double
+		lineageTag: b330bfc6-175c-48d0-a1d2-9516e03c0e0b
+		summarizeBy: sum
+		sourceColumn: Order Item Net Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Item Net QLY'
+		dataType: double
+		lineageTag: a2e67fc7-bff8-4b3d-8845-a0baeb0d1e93
+		summarizeBy: sum
+		sourceColumn: Order Item Net QLY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Delivery Item Net QLY'
+		dataType: double
+		lineageTag: 19108978-0965-4b6c-88c7-267e6977ea68
+		summarizeBy: sum
+		sourceColumn: Delivery Item Net QLY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Invoice Item Net QLY'
+		dataType: double
+		lineageTag: 3e665e23-8037-4d48-8522-2c9780db581c
+		summarizeBy: sum
+		sourceColumn: Invoice Item Net QLY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Region
+		dataType: int64
+		formatString: 0
+		lineageTag: 1dd01db3-ec22-4e27-a62d-c6fa830bd3a6
+		summarizeBy: sum
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer subgroup name'
+		dataType: string
+		lineageTag: dc1cf2bf-34b6-4b68-8bdb-19df7476c0bb
+		summarizeBy: none
+		sourceColumn: Customer subgroup name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer group'
+		dataType: int64
+		formatString: 0
+		lineageTag: cb884a84-34e3-4c1d-bf1e-3d8156b721a7
+		summarizeBy: sum
+		sourceColumn: Customer group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship To Party'
+		dataType: int64
+		formatString: 0
+		lineageTag: f0a75303-1d93-4c5b-8cd6-d6c274e30abc
+		summarizeBy: sum
+		sourceColumn: Ship To Party
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship To Party Name'
+		dataType: string
+		lineageTag: 3adf8cd9-f71f-4537-80c9-0bf9633183b5
+		summarizeBy: none
+		sourceColumn: Ship To Party Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdRsDescription
+		dataType: string
+		lineageTag: aacd2c18-38fb-4860-a98d-8d33ddf78e57
+		summarizeBy: none
+		sourceColumn: OrdRsDescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: 2371088c-63b1-4a8e-9e60-6bb5a4a77889
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer central name'
+		dataType: string
+		lineageTag: 2c004973-d3d7-4a8a-b60f-4d000306ae30
+		summarizeBy: none
+		sourceColumn: Customer central name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Payer name'
+		dataType: string
+		lineageTag: e7139474-666c-4f6b-826c-6c7a1ade107e
+		summarizeBy: none
+		sourceColumn: Payer name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 864ad058-e91b-4630-9630-58429bd17d91
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mon_Inv
+		dataType: string
+		lineageTag: cc4808d1-a2f5-49a0-8592-069a62ab426e
+		summarizeBy: none
+		sourceColumn: Mon_Inv
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mon_File
+		dataType: string
+		lineageTag: 31d86dd5-9a71-4260-a64c-e045c0a18938
+		summarizeBy: none
+		sourceColumn: Mon_File
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: e86e462b-50e1-4c42-9438-3fa82dece410
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hour of the delivery'
+		dataType: string
+		lineageTag: 1092ed60-9334-4c2e-bf78-77386dca6475
+		summarizeBy: none
+		sourceColumn: Hour of the delivery
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Reversals = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Reversals"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (2)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Customer", Int64.Type}, {"Name 1", type text}, {"Sales Document", Int64.Type}, {"Sales Document Item", Int64.Type}, {"Sales Order Type", type text}, {"Customer purchase order", type text}, {"Requested deliv.date", type date}, {"Pricing Date", type date}, {"Delivery Date", type date}, {"Delivery status", type text}, {"Exception ATP", type any}, {"Schedule Line Number", Int64.Type}, {"Item Category", type text}, {"Material", Int64.Type}, {"Material Description", type text}, {"PCB CU TU", Int64.Type}, {"EAN CU", Int64.Type}, {"Order Quantity", Int64.Type}, {"Sales Unit", type any}, {"Confirmed Quantity", Int64.Type}, {"Order Item Quantity", Int64.Type}, {"Open Order Quantity", Int64.Type}, {"Cumul.confirmed qty", Int64.Type}, {"Reason for rejection", type text}, {"PD quantity", type number}, {"Order Item Net Weight", type number}, {"Created On", type date}, {"Created By", type text}, {"Hour of sales order", type datetime}, {"Order reason", type text}, {"City", type text}, {"Customer subgroup", Int64.Type}, {"Customer group name", type text}, {"Sub-class description", type text}, {"Commercial ref.", type text}, {"Description", type text}, {"Delivery", Int64.Type}, {"Created On_1", type date}, {"Time", type datetime}, {"Pland Gds Mvmnt Date", type date}, {"Act. Gds Mvmnt Date", type date}, {"Delivery quantity", Int64.Type}, {"Billing Document", Int64.Type}, {"Created On_2", type date}, {"Time_3", type datetime}, {"TU billed", Int64.Type}, {"Net value", type number}, {"Order Item Gross Unit Amount", type number}, {"Order Item Gross Amount", type number}, {"Delivery Item Net Amount", type number}, {"Delivery Item Gross Amount", type number}, {"Invoice Gross Amount", type number}, {"Invoice Gross Unit Amount", type number}, {"Order Item Net Amount", type number}, {"Order Item Net QLY", type number}, {"Delivery Item Net QLY", type number}, {"Invoice Item Net QLY", type number}, {"Region", Int64.Type}, {"Customer subgroup name", type text}, {"Customer group", Int64.Type}, {"Ship To Party", Int64.Type}, {"Ship To Party Name", type text}, {"OrdRsDescription", type text}, {"Plant", type text}, {"Customer central name", type text}, {"Payer name", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([Reason for rejection] = "")),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Created On_2", "Created On_2 - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Created On_2 - Copy", "Mon_Inv"}}),
+				    #"Extracted Month" = Table.TransformColumns(#"Renamed Columns",{{"Mon_Inv", Date.Month, Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Extracted Month","E-Commerce","E-Com",Replacer.ReplaceText,{"Customer central name"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "Market", each if Text.StartsWith([Source.Name], "SA01") then "Saudi Arabia" else if Text.StartsWith([Source.Name], "KW01") then "Kuwait" else if Text.StartsWith([Source.Name], "AE01") then "Dubai" else null),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Conditional Column", each true),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Filtered Rows2", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column1", "Source.Name - Copy", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Source.Name - Copy.1", "Source.Name - Copy.2", "Source.Name - Copy.3"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter",{"Source.Name - Copy.3", "Source.Name - Copy.1"}),
+				    #"Split Column by Character Transition" = Table.SplitColumn(#"Removed Columns", "Source.Name - Copy.2", Splitter.SplitTextByCharacterTransition((c) => not List.Contains({"0".."9"}, c), {"0".."9"}), {"Source.Name - Copy.2.1", "Source.Name - Copy.2.2"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Split Column by Character Transition",{"Source.Name - Copy.2.2"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Removed Columns1", each true),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Filtered Rows1",{{"Source.Name - Copy.2.1", "Mon_File"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Mon_Inv", type text}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Changed Type1","9","Sep",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","10","Oct",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","11","Nov",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","12","Dec",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","1","Jan",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","2","Feb",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","3","Mar",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","4","Apr",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","5","May",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","6","Jun",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","7","Jul",Replacer.ReplaceText,{"Mon_Inv"}),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Replaced Value11", "Custom", each if [Mon_Inv] = [Mon_File] then "Ok" else "No")
+				in
+				    #"Added Conditional Column1"
+
+	annotation PBI_ResultType = Table
+

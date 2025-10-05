@@ -1,0 +1,42 @@
+table WH_Refresh
+	lineageTag: 4445a78a-db3f-4b64-aa7a-4d1061c74329
+
+	column DateTime
+		dataType: string
+		lineageTag: 5ca52a49-1b0b-4575-a6a6-86fff464fc3f
+		summarizeBy: none
+		sourceColumn: DateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bb7425e4-5701-4325-88c8-b5256f8f469c
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: e99e29a8-e4ff-4ee2-8587-b4ea80589c3b
+			defaultHierarchy: LocalDateTable_2de7efdf-65d3-4b10-aa1d-7f2d9056961d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition WH_Refresh = m
+		mode: import
+		source =
+				let
+				    Source = DateTime.FixedLocalNow(),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "DateTime"}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Renamed Columns", "DateTime", "DateTime - Copy"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Duplicated Column",{{"DateTime - Copy", type date}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"DateTime - Copy", "Date"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_ResultType = Table
+

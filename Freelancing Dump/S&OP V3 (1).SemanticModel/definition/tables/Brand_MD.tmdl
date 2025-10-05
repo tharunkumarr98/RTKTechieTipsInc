@@ -1,0 +1,39 @@
+table Brand_MD
+	lineageTag: edec36c4-95a6-4029-92cb-f19e58d2e8a2
+
+	column P-Brand
+		dataType: string
+		lineageTag: 20419d2c-5a88-4658-9c70-03ebd0b1fd46
+		summarizeBy: none
+		sourceColumn: P-Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: ad65a9d3-3c90-4d03-87e7-655edffd104d
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category2
+		dataType: string
+		lineageTag: 50c25815-9795-482e-829b-166904f1f5a6
+		summarizeBy: none
+		sourceColumn: Category2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Brand_MD = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\S&OP V3.0\GAC S&OP.xlsx"), null, true),
+				    Brand_MD_Table = Source{[Item="Brand_MD",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Brand_MD_Table,{{"P-Brand", type text}, {"Category", type text}, {"Category2", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

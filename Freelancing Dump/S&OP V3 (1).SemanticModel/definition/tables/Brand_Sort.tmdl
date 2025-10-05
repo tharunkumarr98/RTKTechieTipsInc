@@ -1,0 +1,51 @@
+table Brand_Sort
+	lineageTag: b2532ac0-f205-4b50-ba13-ed972052a747
+
+	column P-Brand
+		dataType: string
+		lineageTag: 6c7ce448-77f5-4a4d-8b19-3f7627a89b69
+		summarizeBy: none
+		sourceColumn: P-Brand
+		sortByColumn: Brand_Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 33ca5db3-c7c7-4554-a616-c39de122323f
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand_Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 598e6336-57b0-4530-ab27-d297f4e3cb74
+		summarizeBy: sum
+		sourceColumn: Brand_Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Other Name'
+		dataType: string
+		lineageTag: 1acc73fb-ba13-4013-9e3e-570abb7d345f
+		summarizeBy: none
+		sourceColumn: Other Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Brand_Sort = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Volume\STTMapping.xlsx"), null, true),
+				    Brand_Sort_Table = Source{[Item="Brand_Sort",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Brand_Sort_Table,{{"P-Brand", type text}, {"Category", type text}, {"Brand_Sort", Int64.Type}, {"Other Name", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,33 @@
+table STDWk
+	lineageTag: fc91e36b-5db3-4e25-9b9b-c6fb7cbea68e
+
+	column 'Bucket Year/Month'
+		dataType: string
+		lineageTag: 9a18ad2e-423c-47c1-8286-660278656715
+		summarizeBy: none
+		sourceColumn: Bucket Year/Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column '2425 Bucket Year/Week'
+		dataType: double
+		lineageTag: ccc106b7-ef75-499c-9994-d9a1479b6a5b
+		summarizeBy: sum
+		sourceColumn: 2425 Bucket Year/Week
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition STDWk = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    STDWk_Table = Source{[Item="STDWk",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(STDWk_Table,{{"Bucket Year/Month", type text}, {"2425 Bucket Year/Week", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,17 @@
+table Slicer_Table_Vol
+	lineageTag: 42c41480-2811-48f6-82ed-8407e1d1f9e8
+
+	column Value
+		lineageTag: 5ac0addc-2ebc-4a4a-95db-e6ead8ab24b3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Slicer_Table_Vol = calculated
+		mode: import
+		source = { "STT", "STD"}
+
+	annotation PBI_Id = 6075000b1b694cf1bc62da712d5a578d
+

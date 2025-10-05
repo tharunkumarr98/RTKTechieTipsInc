@@ -1,0 +1,1213 @@
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: a2c72554-f838-4335-bdc2-a0577920befd
+	queryGroup: 'Transform File from CFR\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Excel.Workbook(Parameter1, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 838560a3-917f-4ba6-9743-cfd70a2e89ef
+	queryGroup: 'Transform File from CFR'
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\CFR"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 68ca81ff-a794-4161-9b2b-54b5e11b9663
+	queryGroup: 'Transform File from CFR\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Excel.Workbook(Parameter1, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 7d5087cd-649b-4c3b-bb8e-0ad1f2bdf4ff
+	queryGroup: 'Transform File from CFR\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter2 = #"Sample File (2)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (2)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 424328d2-47ce-4dbb-9cd2-3ed086fb1ff8
+	queryGroup: 'Transform File from Reversals\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (2)' =
+		let
+		    Source = Excel.Workbook(Parameter2, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 9c6c7eb2-8c49-48fc-8229-4123c37a18bd
+	queryGroup: 'Transform File from Reversals'
+
+expression 'Sample File (2)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Reversals"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: eb1b9f9e-3349-4560-971b-bf1301ec067c
+	queryGroup: 'Transform File from Reversals\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (2)' =
+		let
+		    Source = (Parameter2 as binary) => let
+		    Source = Excel.Workbook(Parameter2, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: d280f40b-11c9-4bed-9add-d0d3b08554a0
+	queryGroup: 'Transform File from Reversals\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter3 = #"Sample File (3)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (3)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 2476d093-bd1a-4594-b8cd-64d2eb206af3
+	queryGroup: 'Transform File from VL06I - Inbound\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (3)' =
+		let
+		    Source = Excel.Workbook(Parameter3, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 339072a9-f3ee-492c-9411-c77f7a09631f
+	queryGroup: 'Transform File from VL06I - Inbound'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (3)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Dist\VL06I - Inbound"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 40117a54-27fa-48e1-87c7-ace41041777c
+	queryGroup: 'Transform File from VL06I - Inbound\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (3)' =
+		let
+		    Source = (Parameter3 as binary) => let
+		    Source = Excel.Workbook(Parameter3, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 9e848880-b0d4-4c9e-92ab-d576f07020de
+	queryGroup: 'Transform File from VL06I - Inbound\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter4 = #"Sample File (4)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (4)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 8fafb96c-0f9b-4bd4-ada5-fb7a03b0f72b
+	queryGroup: 'Transform File from VL06O - Delivery\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (4)' =
+		let
+		    Source = Excel.Workbook(Parameter4, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: e16b3c45-825a-4a2a-882f-bcd83e9cfad4
+	queryGroup: 'Transform File from VL06O - Delivery'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (4)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Dist\VL06O - Delivery"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 1fa0bb6e-46b0-47e5-9725-b2d8049b9d67
+	queryGroup: 'Transform File from VL06O - Delivery\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (4)' =
+		let
+		    Source = (Parameter4 as binary) => let
+		    Source = Excel.Workbook(Parameter4, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: f3a4cbf5-8c11-47bd-afd4-15bad1c03de7
+	queryGroup: 'Transform File from VL06O - Delivery\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter5 = #"Sample File (5)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (5)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 7d4da051-d6d9-4212-81f7-600b1f5ef96a
+	queryGroup: 'Transform File from ZSD_VL001 - POD\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (5)' =
+		let
+		    Source = Excel.Workbook(Parameter5, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: ace418b1-57d0-4552-8bdc-f12cef0ce4c6
+	queryGroup: 'Transform File from ZSD_VL001 - POD'
+
+expression 'Sample File (5)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Dist\ZSD_VL001 - POD"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 6ea04b2b-0ac6-441d-945b-7054ad826d24
+	queryGroup: 'Transform File from ZSD_VL001 - POD\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (5)' =
+		let
+		    Source = (Parameter5 as binary) => let
+		    Source = Excel.Workbook(Parameter5, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 687bd98e-7172-4034-ac07-988f92c15e9d
+	queryGroup: 'Transform File from ZSD_VL001 - POD\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter6 = #"Sample File (6)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (6)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 538559da-a634-4809-8691-d3833c15c143
+	queryGroup: 'Transform File from ZGSDMB52 - WH\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (6)' =
+		let
+		    Source = Excel.Workbook(Parameter6, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: a1c29b08-61cb-4c30-a156-0863e8768755
+	queryGroup: 'Transform File from ZGSDMB52 - WH'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (6)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC\Dist\ZGSDMB52 - WH"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 4cd0bd43-fa9a-489c-8816-03dfb5d1c389
+	queryGroup: 'Transform File from ZGSDMB52 - WH\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (6)' =
+		let
+		    Source = (Parameter6 as binary) => let
+		    Source = Excel.Workbook(Parameter6, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: de88b089-3add-4714-bb94-04840095641e
+	queryGroup: 'Transform File from ZGSDMB52 - WH\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter7 = #"Sample File (7)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (7)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 9ef31e21-8f54-4471-9ca3-3294a8f805b4
+	queryGroup: 'Transform File from VL06O - Container\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (7)' =
+		let
+		    Source = Excel.Workbook(Parameter7, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: ac1a1ade-1945-4ee5-80ec-cd7eb9e750d6
+	queryGroup: 'Transform File from VL06O - Container'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (7)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC\Dist\VL06O - Container"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 4eb17db3-d397-4d6d-b4af-b399b28dad2e
+	queryGroup: 'Transform File from VL06O - Container\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (7)' =
+		let
+		    Source = (Parameter7 as binary) => let
+		    Source = Excel.Workbook(Parameter7, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 1daaccfc-46ec-4eae-84f3-11f015ccf74d
+	queryGroup: 'Transform File from VL06O - Container\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter8 = #"Sample File (8)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (8)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 7007f5aa-4ae5-4846-9f7c-c4e85d7e25cd
+	queryGroup: 'Transform File from Gross Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (8)' =
+		let
+		    Source = Excel.Workbook(Parameter8, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 5a8d2a9b-eed3-4af3-a242-d5a20bf301a6
+	queryGroup: 'Transform File from Gross Data'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (8)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Gross Data"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 2c079b83-e548-4fea-bc2c-67ac05f8c8e9
+	queryGroup: 'Transform File from Gross Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (8)' =
+		let
+		    Source = (Parameter8 as binary) => let
+		    Source = Excel.Workbook(Parameter8, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 3cbc45b1-e6e3-4a09-86c7-5532cb710954
+	queryGroup: 'Transform File from Gross Data\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter9 = #"Sample File (9)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (9)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: ad0c3140-f1bb-4795-97f6-865966ddc9d2
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (9)' =
+		let
+		    Source = Excel.Workbook(Parameter9, null, true),
+		    Actuals_Table = Source{[Item="Actuals",Kind="Table"]}[Data]
+		in
+		    Actuals_Table
+	lineageTag: 72e8e2fc-10c6-4e92-bd85-ef3b4a7ee459
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (9)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: d4362712-5aba-40e9-b65b-3bc5a4a7d46e
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (9)' =
+		let
+		    Source = (Parameter9 as binary) => let
+		    Source = Excel.Workbook(Parameter9, null, true),
+		    Actuals_Table = Source{[Item="Actuals",Kind="Table"]}[Data]
+		in
+		    Actuals_Table
+		in
+		    Source
+	lineageTag: d5718bca-5081-4c55-8aef-122cacaa3b3c
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter10 = #"Sample File (10)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (10)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 4ab7f25b-8c8b-43e8-adce-4a8102b2ea9b
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (10)' =
+		let
+		    Source = Excel.Workbook(Parameter10, null, true),
+		    Brand_Table_Table = Source{[Item="Brand_Table",Kind="Table"]}[Data]
+		in
+		    Brand_Table_Table
+	lineageTag: d55c3f8f-d372-476f-8ec0-3d667e1fac2d
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (10)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 82d2f9b3-c479-4ca7-a177-5290b6f4a033
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (10)' =
+		let
+		    Source = (Parameter10 as binary) => let
+		    Source = Excel.Workbook(Parameter10, null, true),
+		    Brand_Table_Table = Source{[Item="Brand_Table",Kind="Table"]}[Data]
+		in
+		    Brand_Table_Table
+		in
+		    Source
+	lineageTag: 9b05862f-3d94-4924-b15e-adabd8b332ae
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter11 = #"Sample File (11)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (11)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 18f03b68-acf1-4cce-ac80-3027843ba5c2
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (3)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (11)' =
+		let
+		    Source = Excel.Workbook(Parameter11, null, true),
+		    Desc_Table_Table = Source{[Item="Desc_Table",Kind="Table"]}[Data]
+		in
+		    Desc_Table_Table
+	lineageTag: c23f3f62-0002-48f7-83da-32e626a16f39
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (3)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (11)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: c69f4492-5386-4324-8355-a5e954166c64
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (3)\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (11)' =
+		let
+		    Source = (Parameter11 as binary) => let
+		    Source = Excel.Workbook(Parameter11, null, true),
+		    Desc_Table_Table = Source{[Item="Desc_Table",Kind="Table"]}[Data]
+		in
+		    Desc_Table_Table
+		in
+		    Source
+	lineageTag: d1b41472-faca-4cde-8101-247ff7fe8b2a
+	queryGroup: 'Transform File from Stk Cvg_Weekly Files (3)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter12 = #"Sample File (12)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (12)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: d9e84ca3-af27-4a04-8bf1-a3362ddc5e46
+	queryGroup: 'Transform File from Data_Files\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (12)' =
+		let
+		    Source = Excel.Workbook(Parameter12, null, true),
+		    Brand_Level_Table = Source{[Item="Brand_Level",Kind="Table"]}[Data]
+		in
+		    Brand_Level_Table
+	lineageTag: 0634cadf-4100-4246-9302-8f34d061ca75
+	queryGroup: 'Transform File from Data_Files'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (12)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 171e987e-9195-4953-ba52-d5fae60a5501
+	queryGroup: 'Transform File from Data_Files\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (12)' =
+		let
+		    Source = (Parameter12 as binary) => let
+		    Source = Excel.Workbook(Parameter12, null, true),
+		    Brand_Level_Table = Source{[Item="Brand_Level",Kind="Table"]}[Data]
+		in
+		    Brand_Level_Table
+		in
+		    Source
+	lineageTag: ffcf50cb-9a0c-4257-a0cb-30ced2b3410d
+	queryGroup: 'Transform File from Data_Files\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter13 = #"Sample File (13)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (13)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 07f6f060-3fc3-427a-9c41-c6cf10d400d6
+	queryGroup: 'Transform File from Data_Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (13)' =
+		let
+		    Source = Excel.Workbook(Parameter13, null, true),
+		    Overall_Result_Table = Source{[Item="Overall_Result",Kind="Table"]}[Data]
+		in
+		    Overall_Result_Table
+	lineageTag: 89291583-93ed-4398-8103-83d7be2853a3
+	queryGroup: 'Transform File from Data_Files (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (13)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: a814c8bb-f7f0-4ec4-a0c3-fbdb3c4832e9
+	queryGroup: 'Transform File from Data_Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (13)' =
+		let
+		    Source = (Parameter13 as binary) => let
+		    Source = Excel.Workbook(Parameter13, null, true),
+		    Overall_Result_Table = Source{[Item="Overall_Result",Kind="Table"]}[Data]
+		in
+		    Overall_Result_Table
+		in
+		    Source
+	lineageTag: 30df65cc-3ca7-4ecf-98b1-a280ecda4950
+	queryGroup: 'Transform File from Data_Files (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter14 = #"Sample File (14)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (14)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 54a1239a-dde0-4925-8bde-eb49ed442d8f
+	queryGroup: 'Transform File from Data_Files (3)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (14)' =
+		let
+		    Source = Excel.Workbook(Parameter14, null, true),
+		    Actuals_DM_Table = Source{[Item="Actuals_DM",Kind="Table"]}[Data]
+		in
+		    Actuals_DM_Table
+	lineageTag: fe568835-1f70-43fd-8a79-c951bda939f6
+	queryGroup: 'Transform File from Data_Files (3)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (14)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 0b3c9d0f-4cf4-4b8e-bec7-8ec0ba99f02c
+	queryGroup: 'Transform File from Data_Files (3)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (14)' =
+		let
+		    Source = (Parameter14 as binary) => let
+		    Source = Excel.Workbook(Parameter14, null, true),
+		    Actuals_DM_Table = Source{[Item="Actuals_DM",Kind="Table"]}[Data]
+		in
+		    Actuals_DM_Table
+		in
+		    Source
+	lineageTag: 6158b68d-3e6c-40c1-ba4c-133ba978a570
+	queryGroup: 'Transform File from Data_Files (3)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter15 = #"Sample File (15)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (15)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: a91a8710-0b96-46f3-8737-cc243f7403d9
+	queryGroup: 'Transform File from Category_New\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (15)' =
+		let
+		    Source = Excel.Workbook(Parameter15, null, true),
+		    Category_Table = Source{[Item="Category",Kind="Table"]}[Data]
+		in
+		    Category_Table
+	lineageTag: c111ea56-e2c1-455a-8669-b6604080c408
+	queryGroup: 'Transform File from Category_New'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (15)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 76f1cc5b-2c9e-48b3-bb5b-a9565d3b4e85
+	queryGroup: 'Transform File from Category_New\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (15)' =
+		let
+		    Source = (Parameter15 as binary) => let
+		    Source = Excel.Workbook(Parameter15, null, true),
+		    Category_Table = Source{[Item="Category",Kind="Table"]}[Data]
+		in
+		    Category_Table
+		in
+		    Source
+	lineageTag: 2bc52d1b-b768-4bc1-9bf0-2cb71c8c2e59
+	queryGroup: 'Transform File from Category_New\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter16 = #"Sample File (16)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (16)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: c3ea9d68-6891-43ec-8b84-e61ae00effa3
+	queryGroup: 'Transform File from Data_Files (4)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (16)' =
+		let
+		    Source = Excel.Workbook(Parameter16, null, true),
+		    cvg_yr_Table = Source{[Item="cvg_yr",Kind="Table"]}[Data]
+		in
+		    cvg_yr_Table
+	lineageTag: bfa48803-e04a-48d4-9935-7b8fcb805fb3
+	queryGroup: 'Transform File from Data_Files (4)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (16)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 400a05cc-53ef-4c71-8a95-490e7509614e
+	queryGroup: 'Transform File from Data_Files (4)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (16)' =
+		let
+		    Source = (Parameter16 as binary) => let
+		    Source = Excel.Workbook(Parameter16, null, true),
+		    cvg_yr_Table = Source{[Item="cvg_yr",Kind="Table"]}[Data]
+		in
+		    cvg_yr_Table
+		in
+		    Source
+	lineageTag: 255b58f7-1f4f-49c1-be0d-57c1d7d23f20
+	queryGroup: 'Transform File from Data_Files (4)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter17 = #"Sample File (17)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (17)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 2396775a-8478-4a22-b2b0-9b201356067d
+	queryGroup: 'Transform File from Data_Files (5)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (17)' =
+		let
+		    Source = Excel.Workbook(Parameter17, null, true),
+		    YTD_New_Table = Source{[Item="YTD_New",Kind="Table"]}[Data]
+		in
+		    YTD_New_Table
+	lineageTag: 54ec1923-d464-4fbe-9c64-d5392a76d1b8
+	queryGroup: 'Transform File from Data_Files (5)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (17)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Data_Files"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: bb80df54-e13f-46bc-9eb1-8346c8b47c60
+	queryGroup: 'Transform File from Data_Files (5)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (17)' =
+		let
+		    Source = (Parameter17 as binary) => let
+		    Source = Excel.Workbook(Parameter17, null, true),
+		    YTD_New_Table = Source{[Item="YTD_New",Kind="Table"]}[Data]
+		in
+		    YTD_New_Table
+		in
+		    Source
+	lineageTag: f93e3580-5c6c-42d2-a5e5-aaac49c34cfc
+	queryGroup: 'Transform File from Data_Files (5)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter18 = #"Sample File (18)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (18)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: a53dde21-fd27-4969-9f40-433c33a3b03a
+	queryGroup: 'Transform File from Waste\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (18)' =
+		let
+		    Source = Excel.Workbook(Parameter18, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 5e6b3a30-71ba-4891-a18a-604f7a847fb8
+	queryGroup: 'Transform File from Waste'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (18)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Waste"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 32e94531-039d-4095-b08c-cbc5ed21e104
+	queryGroup: 'Transform File from Waste\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (18)' =
+		let
+		    Source = (Parameter18 as binary) => let
+		    Source = Excel.Workbook(Parameter18, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 9af0168e-988a-4c9b-a5ee-68d4821a0c74
+	queryGroup: 'Transform File from Waste\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter19 = #"Sample File (19)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (19)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 60412125-bd7c-456e-8aa6-5a07b900d336
+	queryGroup: 'Transform File from VL06O - Container (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (19)' =
+		let
+		    Source = Excel.Workbook(Parameter19, null, true),
+		    Last_Table = Source{[Item="Last",Kind="Table"]}[Data]
+		in
+		    Last_Table
+	lineageTag: df063223-ff91-44ad-9071-9596b120cbf7
+	queryGroup: 'Transform File from VL06O - Container (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (19)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC\Dist\VL06O - Container"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: d945188a-403a-4565-a15a-9c1a9035a44e
+	queryGroup: 'Transform File from VL06O - Container (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (19)' =
+		let
+		    Source = (Parameter19 as binary) => let
+		    Source = Excel.Workbook(Parameter19, null, true),
+		    Last_Table = Source{[Item="Last",Kind="Table"]}[Data]
+		in
+		    Last_Table
+		in
+		    Source
+	lineageTag: ee053d6c-1b43-4107-94e4-999dbe12dfcf
+	queryGroup: 'Transform File from VL06O - Container (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter20 = #"Sample File (20)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (20)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: afb27971-ce5b-4692-ba16-b1f2314ee394
+	queryGroup: 'Transform File from cvg_yr\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (20)' =
+		let
+		    Source = Excel.Workbook(Parameter20, null, true),
+		    cvg_yr_Table = Source{[Item="cvg_yr",Kind="Table"]}[Data]
+		in
+		    cvg_yr_Table
+	lineageTag: b8132ef1-5250-4f49-a0b7-3e72376d387e
+	queryGroup: 'Transform File from cvg_yr'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (20)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Mapping"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 778d482d-4ce4-4850-b1b6-5fa2e89ae320
+	queryGroup: 'Transform File from cvg_yr\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (20)' =
+		let
+		    Source = (Parameter20 as binary) => let
+		    Source = Excel.Workbook(Parameter20, null, true),
+		    cvg_yr_Table = Source{[Item="cvg_yr",Kind="Table"]}[Data]
+		in
+		    cvg_yr_Table
+		in
+		    Source
+	lineageTag: 54e49bce-8f9e-4cd4-99cd-4f63eea3d2c6
+	queryGroup: 'Transform File from cvg_yr\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter21 = #"Sample File (21)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (21)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: ffa348c7-090d-418b-ab3e-ad5b14bd3b01
+	queryGroup: 'Transform File from YTD_New\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (21)' =
+		let
+		    Source = Excel.Workbook(Parameter21, null, true),
+		    YTD_New_Table = Source{[Item="YTD_New",Kind="Table"]}[Data]
+		in
+		    YTD_New_Table
+	lineageTag: e130f575-12b2-4eb5-b4a9-a4da13e24687
+	queryGroup: 'Transform File from YTD_New'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (21)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Stock Coverage\Stk Cvg_Weekly Files\Mapping"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: b57aa39b-5fd1-4071-9ca1-919b1673b435
+	queryGroup: 'Transform File from YTD_New\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (21)' =
+		let
+		    Source = (Parameter21 as binary) => let
+		    Source = Excel.Workbook(Parameter21, null, true),
+		    YTD_New_Table = Source{[Item="YTD_New",Kind="Table"]}[Data]
+		in
+		    YTD_New_Table
+		in
+		    Source
+	lineageTag: d905326c-a168-4302-aa1e-40005d798421
+	queryGroup: 'Transform File from YTD_New\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter22 = #"Sample File (22)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (22)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: b50c1a24-fb5a-4caa-8379-6de2a46cb687
+	queryGroup: 'Transform File from SFA\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (22)' =
+		let
+		    Source = Excel.Workbook(Parameter22, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data]
+		in
+		    Sheet1_Sheet
+	lineageTag: 38b6fe27-1ded-460d-b5ad-9700a0d486c9
+	queryGroup: 'Transform File from SFA'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (22)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC\SFA"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 248e2473-68d5-4e6e-b091-23068c7f9b07
+	queryGroup: 'Transform File from SFA\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (22)' =
+		let
+		    Source = (Parameter22 as binary) => let
+		    Source = Excel.Workbook(Parameter22, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data]
+		in
+		    Sheet1_Sheet
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (22)""}" ]
+	lineageTag: 95a81735-0df4-42f8-9c5f-b1d93f9cf859
+	queryGroup: 'Transform File from SFA\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter23 = #"Sample File (23)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (23)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 41288868-e506-4ea2-8bcd-750ae7b24399
+	queryGroup: 'Transform File from OBD\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (23)' =
+		let
+		    Source = Excel.Workbook(Parameter23, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: ba93137a-30c2-41cd-8c68-f9b53e16cbde
+	queryGroup: 'Transform File from OBD'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (23)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\Dist\OBD"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: d4f575c7-2761-4dbf-8808-32bbf0d7e470
+	queryGroup: 'Transform File from OBD\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (23)' =
+		let
+		    Source = (Parameter23 as binary) => let
+		    Source = Excel.Workbook(Parameter23, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (23)""}" ]
+	lineageTag: 75441f4e-edae-4939-971f-7a837547a990
+	queryGroup: 'Transform File from OBD\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter24 = #"Sample File (24)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (24)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 33044de4-005a-4383-a393-5c4e0b92af02
+	queryGroup: 'Transform File from VL06O - Delivery (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (24)' =
+		let
+		    Source = Excel.Workbook(Parameter24, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 585bf27a-b457-4a38-8d93-7b341a3e53ad
+	queryGroup: 'Transform File from VL06O - Delivery (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (24)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Dist\VL06O - Delivery"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 73a3b182-7c4d-420c-9706-7c0e3b1e5239
+	queryGroup: 'Transform File from VL06O - Delivery (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (24)' =
+		let
+		    Source = (Parameter24 as binary) => let
+		    Source = Excel.Workbook(Parameter24, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (24)""}" ]
+	lineageTag: cd1bea71-a9bd-44ff-959d-2d5f5e42ce58
+	queryGroup: 'Transform File from VL06O - Delivery (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter25 = #"Sample File (25)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (25)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 834dcf65-19be-4cfc-ad07-ba860d96c66a
+	queryGroup: 'Transform File from CFR_BW (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (25)' =
+		let
+		    Source = Excel.Workbook(Parameter25, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 8f280f80-ea4b-42f9-bfae-85be0671c2de
+	queryGroup: 'Transform File from CFR_BW (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (25)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\CFR_BW"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 420aad98-07c1-411a-b43a-ff784843f2fb
+	queryGroup: 'Transform File from CFR_BW (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (25)' =
+		let
+		    Source = (Parameter25 as binary) => let
+		    Source = Excel.Workbook(Parameter25, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (25)""}" ]
+	lineageTag: 87bcde84-b353-4955-8570-d30ea030fc63
+	queryGroup: 'Transform File from CFR_BW (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter26 = #"Sample File (26)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (26)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: f7233942-24a1-4de7-bc37-4580ddca6f50
+	queryGroup: 'Transform File from Waste - BW\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (26)' =
+		let
+		    Source = Excel.Workbook(Parameter26, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 5244499a-5024-404f-aad8-06b8966c494e
+	queryGroup: 'Transform File from Waste - BW'
+
+expression 'Sample File (26)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Waste - BW"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 2e3bce58-c402-41fb-89f6-d89c3f11e97b
+	queryGroup: 'Transform File from Waste - BW\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (26)' =
+		let
+		    Source = (Parameter26 as binary) => let
+		    Source = Excel.Workbook(Parameter26, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (26)""}" ]
+	lineageTag: 6b29089d-416e-4e67-be60-b12c853f2b96
+	queryGroup: 'Transform File from Waste - BW\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter27 = #"Sample File (27)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (27)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 53db0505-3e48-4431-8457-e73d952bca88
+	queryGroup: 'Transform File from VL06O - Delivery - BW\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (27)' =
+		let
+		    Source = Excel.Workbook(Parameter27, null, true),
+		    Z_GLOBAL_DEL_SHE_KQLTU_Sheet = Source{[Item="Z_GLOBAL_DEL_SHE_KQLTU",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Z_GLOBAL_DEL_SHE_KQLTU_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 8bda875d-29d0-410d-b71d-0f57bcc78eaf
+	queryGroup: 'Transform File from VL06O - Delivery - BW'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (27)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Dist\VL06O - Delivery - BW"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 034aad59-1879-43c9-afa7-3c519126cb56
+	queryGroup: 'Transform File from VL06O - Delivery - BW\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (27)' =
+		let
+		    Source = (Parameter27 as binary) => let
+		    Source = Excel.Workbook(Parameter27, null, true),
+		    Z_GLOBAL_DEL_SHE_KQLTU_Sheet = Source{[Item="Z_GLOBAL_DEL_SHE_KQLTU",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Z_GLOBAL_DEL_SHE_KQLTU_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (27)""}" ]
+	lineageTag: 295e6e1a-4013-4e0e-815b-ae1eeceec6ab
+	queryGroup: 'Transform File from VL06O - Delivery - BW\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression Parameter28 = #"Sample File (28)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (28)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 085aa918-b295-488d-b37b-c6a6c5944772
+	queryGroup: 'Transform File from New SFA Extractions\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (28)' =
+		let
+		    Source = Excel.Workbook(Parameter28, null, true),
+		    SAPBW70_DOWNLOAD_Sheet = Source{[Item="SAPBW70_DOWNLOAD",Kind="Sheet"]}[Data]
+		in
+		    SAPBW70_DOWNLOAD_Sheet
+	lineageTag: 10182051-18d0-4cec-9010-1c3083e62612
+	queryGroup: 'Transform File from New SFA Extractions'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File (28)' =
+		let
+		    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\SFA\New SFA Extractions"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: e54edc18-2208-48fd-9b45-6a0051f9070e
+	queryGroup: 'Transform File from New SFA Extractions\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File (28)' =
+		let
+		    Source = (Parameter28 as binary) => let
+		    Source = Excel.Workbook(Parameter28, null, true),
+		    SAPBW70_DOWNLOAD_Sheet = Source{[Item="SAPBW70_DOWNLOAD",Kind="Sheet"]}[Data]
+		in
+		    SAPBW70_DOWNLOAD_Sheet
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (28)""}" ]
+	lineageTag: 798dbef8-4fb1-4746-b40e-c8d21037caa1
+	queryGroup: 'Transform File from New SFA Extractions\Helper Queries'
+
+	annotation PBI_ResultType = Function
+

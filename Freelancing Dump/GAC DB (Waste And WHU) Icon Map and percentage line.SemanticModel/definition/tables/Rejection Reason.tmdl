@@ -1,0 +1,50 @@
+table 'Rejection Reason'
+	lineageTag: 12dac05a-6b19-4da5-9b14-26b2a60a8346
+
+	column 'Reason of rejection'
+		dataType: string
+		lineageTag: 51ac812c-339f-4198-b3e6-9366e4951176
+		summarizeBy: none
+		sourceColumn: Reason of rejection
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 4bc0fc3b-6ff3-4ac6-8ce7-58fd3178c2e6
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ownership
+		dataType: string
+		lineageTag: bcbe082f-6689-4a07-bb26-732a0958517d
+		summarizeBy: none
+		sourceColumn: Ownership
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ownership2
+		dataType: string
+		lineageTag: 783e696e-54ab-428b-90ec-564f0f6d7de4
+		summarizeBy: none
+		sourceColumn: Ownership2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Rejection Reason' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Rejection_Reason_Table = Source{[Item="Rejection_Reason",Kind="Table"]}[Data],
+				    #"Changed Type1" = Table.TransformColumnTypes(Rejection_Reason_Table,{{"Reason of rejection", type any}, {"Description", type text}, {"Ownership", type text}, {"Ownership2", type text}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type1",{{"Reason of rejection", type any}, {"Description", type text}, {"Ownership", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

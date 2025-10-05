@@ -1,0 +1,273 @@
+table SAPBW70_DOWNLOAD
+	lineageTag: c3273d40-29e4-4fb1-8602-b49f4fc26c18
+
+	column Country
+		dataType: string
+		lineageTag: 2d1f8016-8f1d-4be9-9a2d-e70aee66c611
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Group'
+		dataType: string
+		lineageTag: 8f84671b-f4bd-4d01-b030-8eef72d52e94
+		summarizeBy: none
+		sourceColumn: Material Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref.'
+		dataType: string
+		lineageTag: f73c4cd5-3d28-457b-a080-10895bf4b099
+		summarizeBy: none
+		sourceColumn: Commercial Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column sku
+		dataType: string
+		lineageTag: cb43f40b-a773-49ba-bace-b8be8c19a5e6
+		summarizeBy: none
+		sourceColumn: sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column '03.2025 FCST'
+		dataType: double
+		lineageTag: 8759a8a2-cdc5-4f67-ba90-d5b1f50a7834
+		summarizeBy: sum
+		sourceColumn: 03.2025 FCST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '04.2025  FCST'
+		dataType: double
+		lineageTag: 36e64494-bb03-4a66-b34c-c88d04b523ce
+		summarizeBy: sum
+		sourceColumn: 04.2025  FCST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '05.2025  FCST'
+		dataType: double
+		lineageTag: 76724b9d-a288-4236-9d37-ae0fd7056dd2
+		summarizeBy: sum
+		sourceColumn: 05.2025  FCST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '06.2025  FCST'
+		dataType: double
+		lineageTag: ed144a7f-16d2-4abd-b0c2-588dc722b400
+		summarizeBy: sum
+		sourceColumn: 06.2025  FCST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '07.2025  FCST'
+		dataType: double
+		lineageTag: 9c5aa634-7a13-4199-b86f-2312bb8b5cb8
+		summarizeBy: sum
+		sourceColumn: 07.2025  FCST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'FCST TTL'
+		dataType: double
+		lineageTag: fc73d431-20e6-4e76-9c5d-e7523ae87969
+		summarizeBy: sum
+		sourceColumn: FCST TTL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '03.2025 Order'
+		dataType: double
+		lineageTag: 6bebe99f-66cc-4179-8851-551929263a37
+		summarizeBy: sum
+		sourceColumn: 03.2025 Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '04.2025 Order'
+		dataType: double
+		lineageTag: a5949513-5ed5-4347-92e9-b4665926b1da
+		summarizeBy: sum
+		sourceColumn: 04.2025 Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '05.2025 Order'
+		dataType: double
+		lineageTag: 61deb107-dd76-4367-ab57-37dbea758b9b
+		summarizeBy: sum
+		sourceColumn: 05.2025 Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '06.2025 Order'
+		dataType: double
+		lineageTag: c01bdb5d-201e-4e6a-b50c-0189322bdd1f
+		summarizeBy: sum
+		sourceColumn: 06.2025 Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '07.2025 Order'
+		dataType: double
+		lineageTag: 2ce93575-8f79-44e6-9b19-11d4f256aab3
+		summarizeBy: sum
+		sourceColumn: 07.2025 Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order TT'
+		dataType: double
+		lineageTag: 76a2856a-c4ce-4857-b8ac-d3a817b00c71
+		summarizeBy: sum
+		sourceColumn: Order TT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '03.2025 Bias'
+		dataType: double
+		lineageTag: 7e320524-4935-4963-ba8a-b05412238510
+		summarizeBy: sum
+		sourceColumn: 03.2025 Bias
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '04.2025 Bias'
+		dataType: double
+		lineageTag: 243dfeb5-eadb-483b-8e5a-b76a85378054
+		summarizeBy: sum
+		sourceColumn: 04.2025 Bias
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '05.2025 Bias'
+		dataType: double
+		lineageTag: 0885b6b0-6335-421b-9f65-a6ba2195865e
+		summarizeBy: sum
+		sourceColumn: 05.2025 Bias
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '06.2025 Bias'
+		dataType: double
+		lineageTag: 16276123-9ff2-48d1-ba8f-80be13fc4de7
+		summarizeBy: sum
+		sourceColumn: 06.2025 Bias
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '07.2025 Bias'
+		dataType: double
+		lineageTag: ba89d2ce-8ea8-40c2-891b-b538e3979023
+		summarizeBy: sum
+		sourceColumn: 07.2025 Bias
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Bias TT'
+		dataType: double
+		lineageTag: 5fa26ffc-14ed-4abe-8ca7-39e1032b31b4
+		summarizeBy: sum
+		sourceColumn: Bias TT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column #Months
+		dataType: int64
+		formatString: 0
+		lineageTag: ef5640e9-efb6-4946-859b-9095d45851db
+		summarizeBy: sum
+		sourceColumn: #Months
+
+		annotation SummarizationSetBy = Automatic
+
+	column Diff
+		dataType: double
+		lineageTag: 770b7408-a652-401e-a25c-cb552bbca042
+		summarizeBy: sum
+		sourceColumn: Diff
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column3
+		dataType: double
+		lineageTag: 04905f98-9ed4-455e-a6f9-f6a1307e3dac
+		summarizeBy: sum
+		sourceColumn: Column3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Conc
+		dataType: string
+		lineageTag: 4dd2ff29-05aa-49e0-a270-753bdb7d8aa2
+		summarizeBy: none
+		sourceColumn: Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SAPBW70_DOWNLOAD = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\S&OP V3.0\Bias.xlsb"), null, true),
+				    SAPBW70_DOWNLOAD1 = Source{[Name="SAPBW70_DOWNLOAD"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(SAPBW70_DOWNLOAD1, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Forecast - Monday", type text}, {"Forecast - Monday_1", type text}, {"Forecast - Monday_2", type text}, {"Forecast - Monday_3", type text}, {"Forecast - Monday_4", type text}, {"Forecast - Monday_5", type text}, {"Order", type text}, {"Order_6", type text}, {"Order_7", type text}, {"Order_8", type text}, {"Order_9", type text}, {"Order_10", type text}, {"BIAS% on Order", type text}, {"BIAS% on Order_11", type text}, {"BIAS% on Order_12", type text}, {"BIAS% on Order_13", type text}, {"BIAS% on Order_14", type text}, {"BIAS% on Order_15", type text}}),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers1",{{"Country", type text}, {"Material Group", type text}, {"Commercial Ref.", type text}, {"sku", type text}, {"03.2025 FCST", type number}, {"04.2025  FCST", type number}, {"05.2025  FCST", type number}, {"06.2025  FCST", type number}, {"07.2025  FCST", type number}, {"FCST TTL", type number}, {"03.2025 Order", type number}, {"04.2025 Order", type number}, {"05.2025 Order", type number}, {"06.2025 Order", type number}, {"07.2025 Order", type number}, {"Order TT", type number}, {"03.2025 Bias", type number}, {"04.2025 Bias", type number}, {"05.2025 Bias", type number}, {"06.2025 Bias", type number}, {"07.2025 Bias", type number}, {"Bias TT", type number}, {"Column3", type number}, {"Column2", type number}, {"Column1", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Column1", "#Months"}, {"Column2", "Diff"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","KSA","Saudi Arabia",Replacer.ReplaceText,{"Country"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","DUB","Dubai",Replacer.ReplaceText,{"Country"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","KWT","Kuwait",Replacer.ReplaceText,{"Country"})
+				in
+				    #"Replaced Value2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

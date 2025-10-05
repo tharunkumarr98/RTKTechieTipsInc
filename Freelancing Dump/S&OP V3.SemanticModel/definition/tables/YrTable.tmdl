@@ -1,0 +1,17 @@
+table YrTable
+	lineageTag: c4310fc8-2f06-489d-81a4-d4ddfb0f9189
+
+	column Value
+		lineageTag: 43b59c72-b96d-4342-8b9d-6ebea54470e5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition YrTable = calculated
+		mode: import
+		source = {"2223","2324","2425","2526"}
+
+	annotation PBI_Id = b307edb82c0548cc85817071165ebf90
+

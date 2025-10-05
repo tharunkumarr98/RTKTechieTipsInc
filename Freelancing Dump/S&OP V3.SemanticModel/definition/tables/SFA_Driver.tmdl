@@ -1,0 +1,158 @@
+table SFA_Driver
+	lineageTag: f4b26186-6ac6-4448-b32a-920be28a8601
+
+	column Mon
+		dataType: string
+		lineageTag: 119d3ce3-94df-4989-b73d-1256615e1177
+		summarizeBy: none
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lag Month2'
+		dataType: string
+		lineageTag: 3b284992-f0d3-4aa5-8041-669637e8a9b4
+		summarizeBy: none
+		sourceColumn: Lag Month2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'APO Location'
+		dataType: string
+		lineageTag: 7512ee86-af9d-4f80-adf6-c09d66882cc8
+		summarizeBy: none
+		sourceColumn: APO Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Group'
+		dataType: string
+		lineageTag: 4a338442-4100-4984-81d4-db20fcdf353c
+		summarizeBy: none
+		sourceColumn: Material Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref.'
+		dataType: string
+		lineageTag: dec9b51f-4686-4126-bb06-4611137dd1ed
+		summarizeBy: none
+		sourceColumn: Commercial Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: d94b7f12-27f3-40a8-b126-ba495919be18
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: 0551cb0d-5b9d-4d4a-a15f-050e41a8e6dc
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast - Monday'
+		dataType: double
+		lineageTag: 2a1461f8-8a6e-417b-94a2-3e2c98ce44f7
+		summarizeBy: sum
+		sourceColumn: Forecast - Monday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order
+		dataType: double
+		lineageTag: 28e4462e-5f65-4c8f-9b16-f9a2535f4561
+		summarizeBy: sum
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'BIAS% on Order'
+		dataType: double
+		lineageTag: 4ad695b1-5ef2-4227-8977-9e61696aa46f
+		summarizeBy: sum
+		sourceColumn: BIAS% on Order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SFA % on Order_CR'
+		dataType: double
+		lineageTag: c3091194-eb1d-47d8-bf39-133b3099d43f
+		summarizeBy: sum
+		sourceColumn: SFA % on Order_CR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Abs Delta on Order_CR'
+		dataType: double
+		lineageTag: 611a5060-edc1-4e8a-af75-5b86bd3fbaa8
+		summarizeBy: sum
+		sourceColumn: Abs Delta on Order_CR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'MAPE % on Order_CR'
+		dataType: double
+		lineageTag: 9eee0464-1761-414b-8a7e-8d50fdcf3f53
+		summarizeBy: sum
+		sourceColumn: MAPE % on Order_CR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Driver
+		dataType: string
+		lineageTag: 5a15f244-26c5-40f8-bee1-c64f9b606c7c
+		summarizeBy: none
+		sourceColumn: Driver
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: 988bb31f-df31-4872-bb99-7d4a5de2cc84
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column1
+		dataType: string
+		lineageTag: 64cf5ffd-41c3-4020-a4bd-9a87f76629ae
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SFA_Driver = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Shared Files\Monthly Slides.xlsx"), null, true),
+				    Table4_Table = Source{[Item="Table4",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table4_Table,{{"Mon", type text}, {"Lag Month2", type text}, {"APO Location", type text}, {"Material Group", type text}, {"Commercial Ref.", type text}, {"Desc", type text}, {"Channel", type text}, {"Forecast - Monday", type number}, {"Order", type number}, {"BIAS% on Order", type number}, {"SFA % on Order_CR", type number}, {"Abs Delta on Order_CR", type number}, {"MAPE % on Order_CR", type number}, {"Driver", type text}, {"Comment", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","Lower Gulf","Other Lower Gulf",Replacer.ReplaceText,{"APO Location"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,185 @@
+table SKU_Level_Cvg
+	lineageTag: 2d83f3bd-5c01-47f1-8fbf-41c026d7c2b9
+
+	measure StkCvg(Wk) =
+			
+			--IF (
+			--        SELECTEDVALUE(week_num[week_num (key)]) <> "W26_24",
+			    IF (
+			        ISINSCOPE ( Conc_Table_Cvg[Desc (Key)] ), -- Check if this is sku matrix line
+			        DIVIDE (
+			        SUMX ( 'SKU_Level_Cvg', 'SKU_Level_Cvg'[Closing Stock QL] * 'SKU_Level_Cvg'[Stock Coverage WK] ),
+			        SUM ( 'SKU_Level_Cvg'[Closing Stock QL] )
+			        ),
+			    IF (
+			        ISINSCOPE ('Brand_Table_Cvg'[Brand (Key)]), -- Check if this is brand line
+			        SELECTEDVALUE (Brand_Level_Cvg[cvg],0),
+			        --IF (
+			        --    HASONEVALUE ( Category_Table_New[Category (Key)] ),
+			        --    CALCULATE (
+			        --       SELECTEDVALUE ( Category_New[cvg],0),
+			        --       ALLSELECTED ( Category_Table_New[Category (Key)])
+			        --   ),
+			            SELECTEDVALUE ( Market_Level_Cvg[cvg],0)
+			        ))
+			   --), -- ELSE IF W26_24
+			  --  IF (
+			  --      ISINSCOPE ( Conc_Table5[Desc (Key)] ), -- Check if this is sku matrix line IN LAST FILLW
+			  --  DIVIDE (
+			  --    SUMX ( 'Stk Cvg_Weekly Files_Actuals', 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] * 'Stk Cvg_Weekly -- Files_Actuals'[Stock Coverage WK] ),
+			   -- SUM ( 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] )
+			   -- ),
+			    --IF (
+			    --ISINSCOPE ('Brand_Table (2)'[Brand (Key)]), -- Check if this is brand line
+			    --SELECTEDVALUE (Brand_Level[cvg w+1],0),
+			    --IF (
+			    --HASONEVALUE ( Category_Table_New[Category (Key)]),
+			    --CALCULATE (
+			    --SELECTEDVALUE (Category_New[cvg w+1],0),
+			    --ALLSELECTED (Category_Table_New[Category (Key)])
+			    --    ),
+			    --   SELECTEDVALUE (Grand_Total[cvg w+1],0)
+			    --)
+			    --)
+			    --)
+			    --)
+		lineageTag: 5b5e3d37-5c7c-455b-b68d-ee688cf7a947
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure StkCvgGraph_New = ```
+			
+			--IF( SELECTEDVALUE(week_num[week_num (key)]) <> "W27_24",
+			    --IF (
+			    --ISINSCOPE ( Product_Table[Desc] ),
+			    --DIVIDE (
+			    --    SUMX ( 'Stk Cvg_Weekly Files_Actuals', 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] * 'Stk Cvg_Weekly --Files_Actuals'[Stock Coverage WK] ),
+			    --    SUM ( 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] )
+			    --),
+			    IF (
+			        ISINSCOPE( 'Brand_Table_Cvg'[Short Name]),
+			        SELECTEDVALUE( Brand_Level_Cvg[cvg],0), SELECTEDVALUE ( Market_Level_Cvg[cvg],0 )
+			    )
+			--) --,    IF (
+			  --  ISINSCOPE ( Product_Table[Desc]),
+			  --  DIVIDE (
+			  --      SUMX ( 'Stk Cvg_Weekly Files_Actuals', 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] * 'Stk Cvg_Weekly -- Files_Actuals'[Stock Coverage WK] ),
+			  --      SUM ( 'Stk Cvg_Weekly Files_Actuals'[Closing Stock QL] )
+			  --  ),
+			  --  IF ( 
+			  --      ISINSCOPE( 'Brand_Table (2)'[Short Name]),
+			  --      SELECTEDVALUE( Brand_Level[cvg w+1],0), SELECTEDVALUE ( Grand_Total[cvg w+1],0 )   
+			     
+			    --)))
+			```
+		lineageTag: 70db74a8-1d5e-42fa-84c1-018bbd125218
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 9215236c-692f-4d3d-8b55-da84476d7504
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Num
+		dataType: string
+		lineageTag: 86724f73-f423-4125-9b1e-ea1d835e3e7e
+		summarizeBy: none
+		sourceColumn: Week_Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Brand
+		dataType: string
+		lineageTag: e956b211-756c-4911-b1cb-57aff5c98a28
+		summarizeBy: none
+		sourceColumn: P-Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G-Sales District (Ship-To)'
+		dataType: string
+		lineageTag: bb08a7b1-1d20-4e32-82b0-ce83ad951596
+		summarizeBy: none
+		sourceColumn: G-Sales District (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P-Commercial Ref.'
+		dataType: string
+		lineageTag: 04578734-21dd-47a7-953e-53432ba0ad09
+		summarizeBy: none
+		sourceColumn: P-Commercial Ref.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: a99640a3-5ab7-430e-ab36-08802efd3756
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Closing Stock QL'
+		dataType: double
+		formatString: #,0
+		lineageTag: a3786567-96a9-47e4-ae1a-af7afeb27365
+		summarizeBy: sum
+		sourceColumn: Closing Stock QL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Stock Coverage WK'
+		dataType: double
+		lineageTag: 547a5c39-481f-4106-9323-2f4acc956620
+		summarizeBy: sum
+		sourceColumn: Stock Coverage WK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Conc
+		dataType: string
+		lineageTag: bb654256-33ce-44d2-94b2-4383c41978b7
+		summarizeBy: none
+		sourceColumn: Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Target?'
+		dataType: string
+		lineageTag: a763ecce-ef3f-4041-b231-3a01eca8a749
+		summarizeBy: none
+		sourceColumn: In Target?
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SKU_Level_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Data_Files"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (9)", each #"Transform File (9)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (9)"}),
+				    #"Expanded Transform File (9)" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (9)", {"P-Brand", "G-Sales District (Ship-To)", "P-Commercial Ref.", "Desc", "Closing Stock QL", "Stock Coverage WK", "Conc", "In Target?"}, {"Transform File (9).P-Brand", "Transform File (9).G-Sales District (Ship-To)", "Transform File (9).P-Commercial Ref.", "Transform File (9).Desc", "Transform File (9).Closing Stock QL", "Transform File (9).Stock Coverage WK", "Transform File (9).Conc", "Transform File (9).In Target?"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded Transform File (9)",{{"Transform File (9).P-Brand", "P-Brand"}, {"Transform File (9).G-Sales District (Ship-To)", "G-Sales District (Ship-To)"}, {"Transform File (9).P-Commercial Ref.", "P-Commercial Ref."}, {"Transform File (9).Desc", "Desc"}, {"Transform File (9).Closing Stock QL", "Closing Stock QL"}, {"Transform File (9).Stock Coverage WK", "Stock Coverage WK"}, {"Transform File (9).Conc", "Conc"}, {"Transform File (9).In Target?", "In Target?"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Source.Name", type text}, {"P-Brand", type text}, {"G-Sales District (Ship-To)", type text}, {"P-Commercial Ref.", type text}, {"Desc", type text}, {"Closing Stock QL", type number}, {"Stock Coverage WK", type number}, {"Conc", type text}, {"In Target?", type text}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Position" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByRepeatedLengths(6), {"Source.Name - Copy.1", "Source.Name - Copy.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Position",{{"Source.Name - Copy.1", type text}, {"Source.Name - Copy.2", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Source.Name - Copy.2"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "Week_Num"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

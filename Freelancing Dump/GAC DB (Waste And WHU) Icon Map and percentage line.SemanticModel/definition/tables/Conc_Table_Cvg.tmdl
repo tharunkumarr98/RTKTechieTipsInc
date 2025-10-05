@@ -1,0 +1,95 @@
+table Conc_Table_Cvg
+	lineageTag: 2686959e-6d99-441e-8f67-be76bf5e8ede
+
+	column Category
+		dataType: string
+		lineageTag: 2608e77f-58ce-49dd-b4ef-a06e0d171751
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand (Subcall Desc)'
+		dataType: string
+		lineageTag: 50150ae5-b67a-46af-a4e5-16c30d4d2a34
+		summarizeBy: none
+		sourceColumn: Brand (Subcall Desc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desc (Key)'
+		dataType: string
+		lineageTag: a4e546bd-c5f3-4111-aea9-06ef023e0de9
+		summarizeBy: none
+		sourceColumn: Desc (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_KSA
+		dataType: string
+		lineageTag: b4b344d7-be7f-4397-a53d-e157fd23b992
+		summarizeBy: none
+		sourceColumn: CR_KSA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_KW
+		dataType: string
+		lineageTag: d277f973-c570-4154-9d64-cecebfb77154
+		summarizeBy: none
+		sourceColumn: CR_KW
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_AE
+		dataType: string
+		lineageTag: e799f1db-9467-4383-800f-a7a239ebf8d4
+		summarizeBy: none
+		sourceColumn: CR_AE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_LG
+		dataType: string
+		lineageTag: ca95a2f4-7c16-48cc-956b-91114cbb0010
+		summarizeBy: none
+		sourceColumn: CR_LG
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Conc (Key)'
+		dataType: string
+		lineageTag: a80512f3-5d40-49ce-9b71-f6c283f908d4
+		summarizeBy: none
+		sourceColumn: Conc (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Targets?'
+		dataType: string
+		lineageTag: 567c6a51-937a-4739-b4c1-34e70e18187d
+		summarizeBy: none
+		sourceColumn: In Targets?
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comment
+		dataType: string
+		lineageTag: a3e3471b-bf76-49af-8b02-9bc9babbf5c5
+		summarizeBy: none
+		sourceColumn: Comment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Conc_Table_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Conc_Table_Table = Source{[Item="Conc_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Conc_Table_Table,{{"Category", type text}, {"Brand (Subcall Desc)", type text}, {"Desc (Key)", type text}, {"CR_KSA", type text}, {"CR_KW", type text}, {"CR_AE", type text}, {"CR_LG", type text}, {"Conc (Key)", type text}, {"In Targets?", type text}, {"Comment", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

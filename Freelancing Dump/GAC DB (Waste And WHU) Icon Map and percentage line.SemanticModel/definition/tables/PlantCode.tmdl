@@ -1,0 +1,31 @@
+table PlantCode
+	lineageTag: 6ce1a5f9-8438-4ebe-8945-f185e03144c1
+
+	column From
+		dataType: string
+		lineageTag: b0ca4809-31d8-4199-95ae-641df2e632ca
+		summarizeBy: none
+		sourceColumn: From
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 75176ee7-db9c-4f5f-9df6-ad2eb7cee571
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PlantCode = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    PlantCode_Table = Source{[Item="PlantCode",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(PlantCode_Table,{{"From", type text}, {"Code", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+

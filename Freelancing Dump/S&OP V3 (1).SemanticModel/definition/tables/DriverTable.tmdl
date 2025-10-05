@@ -1,0 +1,54 @@
+table DriverTable
+	lineageTag: 9a83096e-537e-49af-a778-f46adb19a975
+
+	column Driver
+		lineageTag: 47ec2719-1d31-49b7-951b-08b2e7d398f8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Driver]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 28c71e58-dcb9-43f8-9b48-3822bb64d076
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orig_Driver
+		lineageTag: 66e60119-69b1-4aa1-89b6-cef07166a491
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Orig_Driver]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DriverTable = calculated
+		mode: import
+		source = ```
+				DATATABLE("Driver",STRING, "Sort", INTEGER,"Orig_Driver",STRING,
+				{
+				    {"Tot",1,""},
+				    {"Phasing",2,"Activity Phasing"},
+				    {"LGI",3,"LGI"},
+				    {"Altern.",4,"Alternative"},
+				    {"Base",5,"Baseline"},
+				    {"Innov.",6,"Innovation"},
+				    {"Arbit.",7,"Arbitrage"},
+				    {"Seasonal",8,"Seasonal / Activity"},
+				    {"WS/FS",9,"WS/FS"},
+				    {"Other",10,"Others"}
+				}
+				
+				)
+				
+				
+				
+				```
+
+	annotation PBI_Id = aa769ba7b72142699dc5cc16d7932979
+

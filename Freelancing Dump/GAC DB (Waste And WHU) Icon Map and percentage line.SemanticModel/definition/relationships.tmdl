@@ -1,0 +1,460 @@
+relationship c83745c5-db84-4785-9ef9-0d952a8c8dad
+	fromColumn: Targets2_GAC_main.Market
+	toColumn: Market.'Market (Key)'
+
+relationship d2d9d5d5-5ad7-4a89-9828-62f90612e364
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR.'Created On'
+	toColumn: LocalDateTable_af7a8d11-fabc-42b1-a0fe-a64ffe0207ce.Date
+
+relationship ed5649b0-34d3-407f-8795-e5345d7a263b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR.'Pland Gds Mvmnt Date'
+	toColumn: LocalDateTable_f55cc96b-bb8b-4d6e-a330-149d3bee60df.Date
+
+relationship faa51bc5-450a-4603-af23-b297c8b35c72
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR.'Act. Gds Mvmnt Date'
+	toColumn: LocalDateTable_fecf209c-fbef-49ef-a0b5-932805966e10.Date
+
+relationship 565ee6e1-3292-417f-8774-d6499b1c622c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Requested deliv.date'
+	toColumn: LocalDateTable_75bc8f6b-9094-47f7-8891-dc95f9a11cdd.Date
+
+relationship 0a280e1e-d855-44ee-9509-c3a3509e2907
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Pricing Date'
+	toColumn: LocalDateTable_ea23a5cf-07ac-49cd-8439-0608092ea16e.Date
+
+relationship f5ba00b7-2d25-4ebc-bb9f-cf35c2a7a275
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Delivery Date'
+	toColumn: LocalDateTable_c4babb5e-6776-4d7c-a6e6-e44548f4f0b9.Date
+
+relationship d26bfc2d-dbed-4c39-9508-ce0b3b6bb4d1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Created On'
+	toColumn: LocalDateTable_4613afff-ec1c-4a70-a1b8-cdc84ffdd4ef.Date
+
+relationship f2e6564c-eb43-4081-9222-0c0a1ee594bc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Hour of sales order'
+	toColumn: LocalDateTable_5fd5fdcc-e49b-4170-b059-edd4a62130a2.Date
+
+relationship 542d4cbd-a5ec-4418-a985-d4c02294f5b5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Created On_1'
+	toColumn: LocalDateTable_c250ef0b-ec48-4142-9a4d-336f6b279261.Date
+
+relationship fcef6c78-419f-450e-ac8d-bd8a93702bd6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.Time
+	toColumn: LocalDateTable_d21f482f-7ab4-492a-91fc-b275866b0ad5.Date
+
+relationship 6217ef98-5855-4fb0-b1a0-d4bd4daec2fa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Pland Gds Mvmnt Date'
+	toColumn: LocalDateTable_241f8ebe-a4d4-439b-980a-fcb55ff58762.Date
+
+relationship 57e4d49f-ad06-4177-9a06-72acfdac434d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.'Act. Gds Mvmnt Date'
+	toColumn: LocalDateTable_faa52c27-8151-49f4-bbaa-b555b1592d33.Date
+
+relationship 996f1324-b33d-4fab-b4f7-15025fad4a40
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversals.Time_3
+	toColumn: LocalDateTable_5bc0aad4-029a-4df0-984f-3444204aab02.Date
+
+relationship d4e6aab7-dfe4-490e-8f9a-74d22f7d7f71
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR.'Requested deliv.date - Copy'
+	toColumn: LocalDateTable_d8961949-e78d-4bf0-9821-b2c9709261d1.Date
+
+relationship ec792b8c-b4a9-4243-9ac4-1ca5e15028cf
+	fromColumn: Targets_GAC_Main.Market
+	toColumn: Market.'Market (Key)'
+
+relationship a98368aa-52cc-45e3-af26-0d7c2447becb
+	fromColumn: CFR.'Reason for rejection'
+	toColumn: 'Rejection Reason'.'Reason of rejection'
+
+relationship 166480d3-81eb-4283-b3aa-c34d11bc47b1
+	fromColumn: SFA_L2.'APO Location'
+	toColumn: Market.'Market (Key)'
+
+relationship c6604216-75f7-4e4c-956a-0c8c3d099f23
+	fromColumn: SFA_L2.Mon
+	toColumn: Month_Sort.Month
+
+relationship 27d9fbc5-d13c-4db7-bac5-87003c14b388
+	fromColumn: Conc_Table_Cvg.'Brand (Subcall Desc)'
+	toColumn: Brand_Table_Cvg.'Brand (Key)'
+
+relationship 5d92a02c-1ee4-4f70-9c23-27e505437dee
+	fromColumn: Brand_Level_Cvg.Week_Num
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship 5a92aa36-c3c4-4909-9308-d358fc0529e0
+	fromColumn: Targets_Cvg.Market
+	toColumn: Market.'Market (Key)'
+
+relationship e3d6079a-6cee-4c91-ab4e-891950a0c2fe
+	fromColumn: Market_Level_Cvg.Week_Num
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship e169e73d-cdfa-472b-bca9-c157c55dbf0c
+	fromColumn: Targets_Cvg.Conc
+	toColumn: Conc_Table_Cvg.'Conc (Key)'
+
+relationship 56743995-c54e-4587-9d53-9941212f9fc0
+	fromColumn: Conc_Table_Cvg.Category
+	toColumn: Category_Table_New.'Category (Key)'
+
+relationship 8cb82f6f-a607-4529-832f-0d0dbb20604f
+	fromColumn: SKU_Level_Cvg.Week_Num
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship f25901ee-5161-43bc-8387-b4b67a2a61d1
+	fromColumn: Category_Level_Cvg.Week_Num
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship 840a52da-13eb-4598-a3ab-cdd1672f036c
+	fromColumn: 'Gross Data'.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 2d7115a5-b70c-4a00-8cad-214b0ef48edc
+	fromColumn: Info_Page.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 344563f6-4cfd-4886-a076-04f3b0553626
+	fromColumn: CFR.Customer
+	toColumn: Customer_Master.'Ship_To (Key)'
+
+relationship bd9399a1-447d-4fae-a347-122625f64391
+	fromColumn: 'Gross Data'.'Sold-to pt'
+	toColumn: Customer_Master.'Ship_To (Key)'
+
+relationship 175b7370-6540-4d80-9fe9-4b686bdd186c
+	fromColumn: CFR.Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship dc07c33f-b588-4012-9964-29736f62c5c3
+	fromColumn: Reversals.Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship a021e8bd-acce-4d48-8fd5-3d79f18f12fb
+	fromColumn: 'Gross Data'.Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship a5f27c88-2585-4c40-903c-9062a9641954
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar_Table.'Date_Format (Key)'
+	toColumn: LocalDateTable_89771843-7c97-4fa7-be4f-8c46200b2d56.Date
+
+relationship bad78e32-bf7f-45fd-94af-d0f5f76a7a56
+	fromColumn: Seven_Master.'Brand (Sub-Class Desc.)'
+	toColumn: Brand_Table_Cvg.'Brand (Key)'
+
+relationship f6d63240-ff15-4f4b-a6ca-4687eae4fcf1
+	fromColumn: 'VL06O - Container'.'Direct_Distributors.Data.Mapping Freshness'
+	toColumn: Market.'Market (Key)'
+
+relationship fa5e3f82-0ec7-4c4c-b397-4784b5cd26b0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Cvg_Refresh.Date
+	toColumn: LocalDateTable_07adbe4a-d9f6-425e-bd64-38821e926f4c.Date
+
+relationship 005a6963-b5a5-4859-b80d-cf16065593af
+	fromColumn: Reversals.Market
+	toColumn: Market.'Market (Key)'
+
+relationship f6f908da-26ef-465c-a6ac-5f857720ca2f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SFA_Refresh.Date
+	toColumn: LocalDateTable_a2a94393-6509-444f-aa8b-e663156284fc.Date
+
+relationship 99006fcc-8e3d-4b6c-9e37-2576f9e8e98f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR_Refresh.Date
+	toColumn: LocalDateTable_c2e5e65e-ae1d-496a-80a4-5c7b301cedf1.Date
+
+relationship a7894789-5a68-47bf-9d68-4380fc24acf1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Reversal_Refresh.Date
+	toColumn: LocalDateTable_114c9e2a-7fc7-4e86-a33e-122d2b51b11b.Date
+
+relationship b6f4ac83-d961-406a-8839-4ee05d8f8e3f
+	fromColumn: CFR.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 716f1cf5-e8b1-492b-9eef-0f113e4181c6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar_Table.'Date (Key)'
+	toColumn: LocalDateTable_3901d73c-9ec3-4b37-83b4-33b11e8f6bd3.Date
+
+relationship d7748112-2471-4760-847e-ab11428d75a0
+	fromColumn: CFR.'Requested deliv.date'
+	toColumn: Calendar_Table.'Date_Format (Key)'
+
+relationship ca208f85-223d-4955-a18e-153e78617215
+	fromColumn: CFR.'Seven_Master.Category'
+	toColumn: Category_Table_New.'Category (Key)'
+
+relationship 1a36c08e-be11-43c2-aa73-1137a480bca0
+	fromColumn: Month_Level_Cvg.Month
+	toColumn: Month_Sort.Month
+
+relationship dbe018dc-2d06-40de-95a2-88eb2a725243
+	fromColumn: Brand_Level_Cvg.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 071c4ca7-c91f-495f-b961-f48af51ed5ce
+	fromColumn: Market_Level_Cvg.Market
+	toColumn: Market.'Market (Key)'
+
+relationship 6b13f8b7-d9bd-43fe-b95f-8fbca2bc5445
+	fromColumn: Brand_Level_Cvg.Brand
+	toColumn: Brand_Table_Cvg.'Brand (Key)'
+
+relationship 8b680fbe-4bc9-49bb-804d-3b74ff05a966
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'VL06O - Container'.'Goods Issue Date'
+	toColumn: LocalDateTable_9955695f-c9fc-48e5-8e84-657ec4f5b232.Date
+
+relationship e069f67e-6635-4ac7-8268-f9dcd4330b60
+	fromColumn: Reversals.Customer
+	toColumn: Customer_Master.'Ship_To (Key)'
+
+relationship a6a634bf-ea44-4b3e-bea2-5b377274beb0
+	fromColumn: Category_Level_Cvg.'G-Sales District (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 79b9afee-e925-4628-845a-3e98af2c8612
+	fromColumn: Month_Level_Cvg.'G-Sales District (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 60a6b6f5-4b65-4325-a582-f54bffd84919
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Year_Level_Cvg.'G-Sales District (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 9728e1de-a301-4f52-b8c4-ce30a2a89958
+	fromColumn: SKU_Level_Cvg.'G-Sales District (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 448c546e-aab3-448e-9294-d7c9bfc7e2f6
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: YTD_Table.'G-Sales District (Ship-To)'
+	toColumn: Market.'Market (Key)'
+
+relationship 05ad2c20-77c2-4d9d-9d25-5260e2c02d87
+	fromColumn: SKU_Level_Cvg.Conc
+	toColumn: Conc_Table_Cvg.'Conc (Key)'
+
+relationship 4ad4458c-3db2-477a-87ff-da610f97dbfd
+	fromColumn: 'VL06O - Container'.'Act. Gds Mvmnt Date'
+	toColumn: Calendar_Table.'Date (Key)'
+
+relationship 902578d2-6264-432e-ae05-3cf9df2c1dd6
+	fromColumn: 'VL06O - Container'.Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship 23b063f9-929c-4c80-85cf-790120f546ad
+	fromColumn: ZREAL.Product
+	toColumn: Seven_Master.SKU_No_77
+
+relationship 03f81e89-fae5-4e96-880a-d685a8418817
+	fromColumn: DeCom_New.'T-Actual GI Date'
+	toColumn: Calendar_Table.'Date (Key)'
+
+relationship dc7d9a73-e1b0-4412-a8c8-fb10ab8cb76c
+	fromColumn: DeCom_New.'O-Sales Organization'
+	toColumn: Market.'Market (Key)'
+
+relationship 2c2bea83-69ef-43e0-9278-ad9899cbcae0
+	fromColumn: 'Gross Data'.'Billing Date'
+	toColumn: Calendar_Table.'Date (Key)'
+
+relationship cd0865f7-f0b0-4456-80b4-3f182c7b9d99
+	fromColumn: CFR.Market
+	toColumn: Exchange3.Market
+
+relationship 4ab52fd7-24c0-4be6-ae18-b903bbd6525a
+	fromColumn: Reversals.Market
+	toColumn: Exchange3.Market
+
+relationship a6094a6f-ac7c-43fa-980b-e4120eab17b4
+	fromColumn: 'Gross Data'.Market
+	toColumn: Exchange3.Market
+
+relationship b423cbf1-a1e8-4efb-a96f-fd16d8d6adb0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR_BW_Folder.'T-Requested Delivery Date'
+	toColumn: LocalDateTable_289f2344-2e81-4165-aee0-870c9ea0dd81.Date
+
+relationship c7b4345e-b64a-4c77-9cc6-c5df5678f88d
+	fromColumn: CFR_BW_Folder.Market
+	toColumn: Exchange3.Market
+
+relationship 3b0c338f-a554-4512-80af-855947e21f01
+	fromColumn: CFR_BW_Folder.Market
+	toColumn: Market.'Market (Key)'
+
+relationship e50b2368-05ff-4561-b0d1-cc1c39de32d6
+	fromColumn: CFR_BW_Folder.P-Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship f4e2dd0f-a534-4799-ba7d-496f48223e60
+	fromColumn: CFR_BW_Folder.C-Ship-To
+	toColumn: Customer_Master.'Ship_To (Key)'
+
+relationship df9bd607-9db8-4b46-8c96-ff5d70cab808
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CFR_BW_Folder.'T-Requested Delivery Date - Copy'
+	toColumn: LocalDateTable_74077d21-1b48-410f-8b5f-89454361a281.Date
+
+relationship 2bf6a744-ce3a-44b6-8827-24d54e59bc08
+	fromColumn: CFR_BW_Folder.Month
+	toColumn: Month_Sort.Month_Number
+
+relationship 08f47db9-a78d-44cd-ae2e-c39d2abd0232
+	fromColumn: DeCom_New.'C-Ship-To Party'
+	toColumn: Customer_Master.'Ship_To (Key)'
+
+relationship e287bb65-f5a1-4a01-9fe2-69c96128c2c9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Main_Refresh.Date
+	toColumn: LocalDateTable_b34a2556-8dbc-4c6f-8482-e45f21e23407.Date
+
+relationship 7026032d-c78d-4757-a4d5-36404cc4ace8
+	fromColumn: Pallet_Capa.Mon
+	toColumn: Month_Sort.Month
+
+relationship 235f2269-4e68-4767-8621-41e7dd3fabed
+	fromColumn: Cont_Capa.Week
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship db419a42-4e57-4a38-9f99-232c3cb02051
+	fromColumn: Calendar_Table.Wk_Cal
+	toColumn: Week_Num.'Week_Num (Key)'
+
+relationship e99e29a8-e4ff-4ee2-8587-b4ea80589c3b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: WH_Refresh.Date
+	toColumn: LocalDateTable_2de7efdf-65d3-4b10-aa1d-7f2d9056961d.Date
+
+relationship 9649843f-5623-4241-8f4c-93a328193b95
+	fromColumn: Cont_Capa.Plant
+	toColumn: Plant.'Plant (Key)'
+
+relationship ed53da05-1394-4e17-86b4-d3beaba09982
+	fromColumn: Pallet_Capa.Plant
+	toColumn: Plant.'Plant (Key)'
+
+relationship 63ddcffe-fbcb-4a67-ab99-16ebc8da24cb
+	fromColumn: Pallet_Capa.Mon
+	toColumn: Mon_Sort_2.Mon/Yr
+
+relationship b762858d-3432-4a2a-b4ec-94173bb8ada0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Container_Refresh.Date
+	toColumn: LocalDateTable_e78dffc5-cd2a-40da-bb00-db8a1246878a.Date
+
+relationship c6546ca9-93f7-40ca-878a-ee817412402f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gross Data'.'Billing Date - Copy'
+	toColumn: LocalDateTable_5c68ecfe-8fba-452b-a76c-fb3a9a14fea1.Date
+
+relationship 0941cba1-6e75-483b-9c1d-f62796dfd4f5
+	fromColumn: Reversals.'Created On_2'
+	toColumn: Calendar_Table.'Date (Key)'
+
+relationship a72f4872-d0c4-4f0f-8e44-7f0ba0073c7b
+	fromColumn: Calendar_Table.Cal_Mon
+	toColumn: Month_Sort.Month
+
+relationship 7fe869e1-b56c-42cf-abb2-c4145d9545dd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Waste - BW'.'Disposal Creation Date (A)'
+	toColumn: LocalDateTable_53b2b9e5-769b-49ac-a09c-0b19660315c3.Date
+
+relationship 5a1b16ff-9474-439e-8ca8-34774a30c1e9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Waste - BW'.'Final Movement Posting Date'
+	toColumn: LocalDateTable_62b1b9b7-6e6d-4478-a7fd-ca527332d1e8.Date
+
+relationship 24ad86d6-d7a1-47f7-b6ea-107ab97eb2ff
+	fromColumn: 'Waste - BW'.Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship bebf3425-2c4b-41ca-b006-bbd63a12fa32
+	fromColumn: 'Waste - BW'.Market2
+	toColumn: Market.'Market (Key)'
+
+relationship 5bf5e309-69c9-4978-998b-b51dc1ea1f10
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Waste - BW'.'Disposal Creation Date (A) - Copy'
+	toColumn: LocalDateTable_c0f8d402-3574-4ae4-808a-5b6366fd7b80.Date
+
+relationship e3cfd842-8637-4c62-a3ec-27ffe20650a0
+	fromColumn: 'Waste - BW'.Month_Created
+	toColumn: Month_Sort.Month_Number
+
+relationship 67f58522-2dde-4d00-8fc9-1bcbb2257277
+	fromColumn: 'VL06O - Delivery - BW'.G-Plant
+	toColumn: Plant.'Plant (Key)'
+
+relationship 804c6d9e-e445-4e00-9630-c5ed66e14414
+	fromColumn: 'VL06O - Delivery - BW'.P-Material
+	toColumn: Seven_Master.SKU_No_77
+
+relationship 26dcd39a-c58c-412e-8eaa-99ab16303905
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'VL06O - Delivery - BW'.'T-Actual GI Date'
+	toColumn: LocalDateTable_9eefc2ff-cd78-4271-b0e0-a20adda29d7e.Date
+
+relationship 71883d67-fc11-4139-b45e-a23e7fcbc183
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'VL06O - Delivery - BW'.'T-Date of Manufacture'
+	toColumn: LocalDateTable_ccdd99ae-064b-43c7-be52-843c2fcae188.Date
+
+relationship e22b6bba-a85f-4736-9933-5ad5396eebdb
+	fromColumn: Plant.Market2
+	toColumn: Market.'Market (Key)'
+
+relationship cb5649f1-0901-41e9-8d07-7715771a2452
+	fromColumn: 'SFA Folder'.'APO Location'
+	toColumn: Market.'Market (Key)'
+
+relationship 00207114-b3ca-4a22-a284-ada91bb21874
+	fromColumn: 'SFA Folder'.Mon
+	toColumn: Month_Sort.Month
+
+relationship 5e86d3da-3fbb-460b-aaf7-eda4a6029f01
+	fromColumn: 'SFA Folder'.'Material Group'
+	toColumn: Brand_Table_Cvg.'Material Group (Key)'
+
+relationship ac580dca-15c1-41cc-80bd-d18d4e0d9a37
+	fromColumn: 'SFA Folder'.'Commercial Ref.'
+	toColumn: Com_Table.'Com (Key)'
+
+relationship 7a6c43ae-e38b-45dd-b0ed-544ca623a71d
+	fromColumn: NewExchange_Rates.Market
+	toColumn: Plant.Market
+
+relationship 582a1432-4bbd-43db-a7ed-dd9b65ff20f5
+	fromColumn: NewExchange_Rates.Market
+	toColumn: Exchange3.Market
+
+relationship 07582bdc-0486-42b3-bf7c-5930723e7106
+	fromColumn: NewExchange_Rates.Month
+	toColumn: Month_Sort.Month
+
+relationship 7dc746fd-d0d0-c979-d26b-533c5daf2ed8
+	fromColumn: SaudiUAEAndKuwai.Country
+	toColumn: Market.'Market (Key)'
+

@@ -1,0 +1,193 @@
+table CMD
+	lineageTag: 150f5c23-2a3e-4899-aa56-c7f764c5a4e8
+
+	column 'Ship_To (Key)'
+		dataType: int64
+		formatString: 0
+		lineageTag: d60c1405-9cee-4232-93e2-9b47ac16fb91
+		summarizeBy: sum
+		sourceColumn: Ship_To (Key)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Full_Name (Name 1)'
+		dataType: string
+		lineageTag: 44c03662-de22-4835-88c0-848a365f15e8
+		summarizeBy: none
+		sourceColumn: Full_Name (Name 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 559997c6-2ffa-4b79-9936-1d2701ad8046
+		summarizeBy: none
+		sourceColumn: City
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SR
+		dataType: string
+		lineageTag: 8f2724ee-54fa-4a64-8457-01aa0839e36d
+		summarizeBy: none
+		sourceColumn: SR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FM
+		dataType: string
+		lineageTag: 7e443159-883e-47a6-8026-54afe9f01749
+		summarizeBy: none
+		sourceColumn: FM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Serving_Plant
+		dataType: string
+		lineageTag: e555dbbd-c7c0-4d05-b61a-ef9031bc53c5
+		summarizeBy: none
+		sourceColumn: Serving_Plant
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 9b73be51-e93e-4fc0-9ff4-400ddfe7cb4f
+		summarizeBy: none
+		sourceColumn: Market
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sold_To
+		dataType: string
+		lineageTag: 1d02466f-370c-4180-999f-e09241877eb6
+		summarizeBy: none
+		sourceColumn: Sold_To
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Active/Not Active'
+		dataType: string
+		lineageTag: f725e6d0-b08e-443f-9339-5854dff4ba63
+		summarizeBy: none
+		sourceColumn: Active/Not Active
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store/WH
+		dataType: string
+		lineageTag: e4c1b5ed-6021-41b3-8a19-5cbfcfb7592f
+		summarizeBy: none
+		sourceColumn: Store/WH
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clear Name (Subgroup Name/Payer Name/Sold To Name)'
+		dataType: string
+		lineageTag: b98df378-1e60-42a7-a547-03df6685f225
+		summarizeBy: none
+		sourceColumn: Clear Name (Subgroup Name/Payer Name/Sold To Name)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C-Market Channel(I)'
+		dataType: string
+		lineageTag: 517b6264-f315-47a0-9dbf-ac3412c1aabc
+		summarizeBy: none
+		sourceColumn: C-Market Channel(I)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Org
+		dataType: string
+		lineageTag: 9b71d9e4-0b55-402e-9da6-0db0c2f3706a
+		summarizeBy: none
+		sourceColumn: Org
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source
+		dataType: string
+		lineageTag: 690bf8cd-f8a6-4ec3-8d33-017721e619c9
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Check
+		dataType: string
+		lineageTag: 8b743b72-2da6-4b2b-b64b-3a2edc678810
+		summarizeBy: none
+		sourceColumn: Check
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short Channel'
+		dataType: string
+		lineageTag: 25cd8e61-d3ff-4bc6-9556-20911bdaccf4
+		summarizeBy: none
+		sourceColumn: Short Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CMD = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    customer_master_Table = Source{[Item="customer_master",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(customer_master_Table,{{"Ship_To (Key)", Int64.Type}, {"Clear Name (Subgroup Name/Payer Name/Sold To Name)", type text}, {"Full_Name (Name 1)", type text}, {"C-Market Channel(I)", type text}, {"City", type any}, {"SR", type any}, {"FM", type any}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","E-Commerce","E-COMMERCE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Lower Trade","LOWER TRADE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","LOWER Trade","LOWER TRADE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Lower Trade","LOWER TRADE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Lower trade","LOWER TRADE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","Key Account","KEY ACCOUNTS",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","VANS","VAN",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","Restaurants/Shops","FOOD SERVICE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","Wholesalers","WHOLESALE",Replacer.ReplaceText,{"C-Market Channel(I)"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Replaced Value8", "C-Market Channel(I)", "C-Market Channel(I) - Copy"),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Duplicated Column","WHOLESALE V","WS V",Replacer.ReplaceText,{"C-Market Channel(I) - Copy"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value9",{{"C-Market Channel(I) - Copy", "Short Channel"}}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Renamed Columns","WHOLESALE","WS",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","COOP BRANCHES","COOP B",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","COOP MAIN","COOP M",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","Not Assigned","NA",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","OTHER MT","OMT",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","REST OF OMT","OMT",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","FOOD SERVICE","FS",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value17" = Table.ReplaceValue(#"Replaced Value16","E-COMMERCE","ECOM",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value18" = Table.ReplaceValue(#"Replaced Value17","KEY ACCOUNTS","KA",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value19" = Table.ReplaceValue(#"Replaced Value18","LOWER TRADE","LT",Replacer.ReplaceText,{"Short Channel"}),
+				    #"Replaced Value20" = Table.ReplaceValue(#"Replaced Value19","Modern Trade","OMT",Replacer.ReplaceText,{"Short Channel"})
+				in
+				    #"Replaced Value20"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

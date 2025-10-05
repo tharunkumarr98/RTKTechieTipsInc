@@ -1,0 +1,41 @@
+table Market
+	lineageTag: f5647deb-b2bf-417f-8550-4061cdcef987
+
+	column 'Market (Key)'
+		dataType: string
+		lineageTag: 3da39c2e-4055-4e8b-a737-0f1b5e8efa04
+		summarizeBy: none
+		sourceColumn: Market (Key)
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cd601c2-9c3b-4cd1-9900-bf42776512d8
+		summarizeBy: sum
+		sourceColumn: Sort
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Market = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    Market_Table = Source{[Item="Market",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Market_Table,{{"Market (Key)", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,65 @@
+table Info_Page
+	lineageTag: 97b1a5a7-172e-497c-a206-45aefc0e1fec
+
+	column Criteria
+		dataType: string
+		lineageTag: 8fa1bcad-1fab-49c4-98e4-9877924638ad
+		summarizeBy: none
+		sourceColumn: Criteria
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		dataType: string
+		lineageTag: b370176c-4cdb-4f47-84d3-225b8bb5bf43
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: a5dc9c62-90c3-4ee4-b013-e4a6b49547f8
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column MTD
+		dataType: string
+		lineageTag: 85df30b8-a73f-4518-937f-426e73fde96d
+		summarizeBy: none
+		sourceColumn: MTD
+
+		annotation SummarizationSetBy = Automatic
+
+	column YTD
+		dataType: string
+		lineageTag: 1903006d-faa0-4c6c-85cf-ec5ab118214c
+		summarizeBy: none
+		sourceColumn: YTD
+
+		annotation SummarizationSetBy = Automatic
+
+	column Time
+		dataType: string
+		lineageTag: 2eb55585-0e96-4359-a55d-36a593087fe0
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Info_Page = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    Refresh_Table = Source{[Item="Refresh",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Refresh_Table,{{"Criteria", type text}, {"KPI", type text}, {"Market", type text}, {"MTD", type text}, {"YTD", type text}, {"Time", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

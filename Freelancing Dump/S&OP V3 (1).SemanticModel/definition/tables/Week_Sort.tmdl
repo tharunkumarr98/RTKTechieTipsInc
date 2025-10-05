@@ -1,0 +1,72 @@
+table Week_Sort
+	lineageTag: d40a098b-323f-4adb-87c6-6c9bd1c6266d
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 308c8f36-4036-4017-91ad-97fefe71bf5c
+		summarizeBy: sum
+		sourceColumn: Sort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Numb
+		dataType: int64
+		formatString: 0
+		lineageTag: 628cc602-921f-43ad-a35e-c5b2d441db8b
+		summarizeBy: sum
+		sourceColumn: Week_Numb
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week (Key)2'
+		dataType: string
+		lineageTag: 8d96ed5b-34c0-4d49-bd94-57a5752e68d1
+		summarizeBy: none
+		sourceColumn: Week (Key)2
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Corresp. Month 2425'
+		dataType: string
+		lineageTag: 4ead7ea8-2cdc-4c49-8236-d26bbc5efb6c
+		summarizeBy: none
+		sourceColumn: Corresp. Month 2425
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Corresp. Mon'
+		dataType: string
+		lineageTag: 784f87e3-6ff1-4017-be5b-87cb41f568bd
+		summarizeBy: none
+		sourceColumn: Corresp. Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Week_Sort = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Shared Files\Contractual Capacity.xlsx"), null, true),
+				    Week_Sort_Table = Source{[Item="Week_Sort",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Week_Sort_Table,{{"Week_Numb", Int64.Type}, {"Sort", Int64.Type}, {"Week (Key)2", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

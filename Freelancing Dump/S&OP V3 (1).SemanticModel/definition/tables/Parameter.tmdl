@@ -1,0 +1,48 @@
+table Parameter
+	lineageTag: b876c100-86ff-40a0-a6b5-4fbd8ba0b5f0
+
+	column Parameter
+		lineageTag: eb2a4481-1812-418d-b8e5-c35c399a1918
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 98b3236d-2225-4993-9f6e-b63187c92428
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 1409bf91-f6b9-490f-8cae-e9539cd1c746
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+				    ("Plant", NAMEOF('Cont_Capa'[Plant]), 0),
+				    ("Latest Forecast", NAMEOF('Cont_Capa'[Latest Forecast]), 1)
+				}
+
+	annotation PBI_Id = 100923f272384a67bfda85f354311ee8
+

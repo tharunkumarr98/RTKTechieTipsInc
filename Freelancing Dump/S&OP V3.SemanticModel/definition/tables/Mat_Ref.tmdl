@@ -1,0 +1,59 @@
+table Mat_Ref
+	lineageTag: 9b3a617c-6eb7-4d6e-bfb4-5ae55685d14c
+
+	column Material
+		dataType: string
+		lineageTag: 4d10ddc7-ca2d-45f8-acee-2c8baebfb19c
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reference
+		dataType: string
+		lineageTag: 3b4136e1-61c1-474a-bc2e-4393671feef8
+		summarizeBy: none
+		sourceColumn: Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Market unit desc.'
+		dataType: string
+		lineageTag: f25a8477-be31-4c2e-a31b-8ed1cab6970d
+		summarizeBy: none
+		sourceColumn: Market unit desc.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dummy_Reference
+		dataType: string
+		lineageTag: b5c00525-0605-4828-ba64-da1d21f34fae
+		summarizeBy: none
+		sourceColumn: Dummy_Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComCon
+		dataType: string
+		lineageTag: 097d5a63-09c6-4a43-99eb-78721bdc9281
+		summarizeBy: none
+		sourceColumn: ComCon
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Mat_Ref = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Mat_Ref_Table = Source{[Item="Mat_Ref",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Mat_Ref_Table,{{"Material", type text}, {"Reference", type text}, {"Market unit desc.", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([Dummy_Reference] <> null)),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","HUB Dubai","Hub Dubai",Replacer.ReplaceText,{"Market unit desc."})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

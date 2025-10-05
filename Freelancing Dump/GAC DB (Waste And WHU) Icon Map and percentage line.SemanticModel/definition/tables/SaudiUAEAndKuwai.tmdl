@@ -1,0 +1,52 @@
+table SaudiUAEAndKuwai
+	lineageTag: c83d826e-96d6-483d-8ada-37cc24043091
+
+	measure 'Azure maps kpi' =
+			
+			IF(MAX(SaudiUAEAndKuwai[Country]) = "Saudi Arebia", "Blue", IF(MAX(SaudiUAEAndKuwai[Country]) = "Kuwait","Black", "Red"))
+		lineageTag: b119f22d-8a61-41a5-a809-1e6e203c95ca
+
+	column Country
+		dataType: string
+		lineageTag: f9c6f4d3-6468-4b18-ae10-ce5320dfe176
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 20b6feb0-a9d0-461c-8a7e-45c6756fa163
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 79591d42-0aa7-4526-ba33-f6fa286626ea
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SaudiUAEAndKuwai = m
+		mode: import
+		source =
+				let
+				    Source = Json.Document(Web.Contents("https://raw.githubusercontent.com/tharunkumarr98/PowerBIIconMapGeoJson/refs/heads/main/SaudiArebiaKuwaitDubaiGeoJson.json")),
+				    features = Source[features],
+				    #"Converted to Table" = Table.FromList(features, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"type", "properties", "geometry", "id"}, {"type", "properties", "geometry", "id"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded Column1",{"type", "geometry", "id"}),
+				    #"Expanded properties" = Table.ExpandRecordColumn(#"Removed Columns", "properties", {"Country", "Region"}, {"Country", "Region"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded properties",{{"Country", type text}, {"Region", type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

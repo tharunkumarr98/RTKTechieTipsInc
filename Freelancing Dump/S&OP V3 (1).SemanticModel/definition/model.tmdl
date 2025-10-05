@@ -1,0 +1,591 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from CFR'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from CFR\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Reversals'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transform File from Reversals\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06I - Inbound'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Transform File from VL06I - Inbound\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery'
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'Transform File from VL06O - Delivery\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from ZSD_VL001 - POD'
+
+	annotation PBI_QueryGroupOrder = 8
+
+queryGroup 'Transform File from ZSD_VL001 - POD\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from ZGSDMB52 - WH'
+
+	annotation PBI_QueryGroupOrder = 10
+
+queryGroup 'Transform File from ZGSDMB52 - WH\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Container'
+
+	annotation PBI_QueryGroupOrder = 12
+
+queryGroup 'Transform File from VL06O - Container\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Gross Data'
+
+	annotation PBI_QueryGroupOrder = 15
+
+queryGroup 'Transform File from Gross Data\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files'
+
+	annotation PBI_QueryGroupOrder = 17
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (2)'
+
+	annotation PBI_QueryGroupOrder = 19
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (3)'
+
+	annotation PBI_QueryGroupOrder = 21
+
+queryGroup 'Transform File from Stk Cvg_Weekly Files (3)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files'
+
+	annotation PBI_QueryGroupOrder = 23
+
+queryGroup 'Transform File from Data_Files\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (2)'
+
+	annotation PBI_QueryGroupOrder = 25
+
+queryGroup 'Transform File from Data_Files (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (3)'
+
+	annotation PBI_QueryGroupOrder = 27
+
+queryGroup 'Transform File from Data_Files (3)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Category_New'
+
+	annotation PBI_QueryGroupOrder = 29
+
+queryGroup 'Transform File from Category_New\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (4)'
+
+	annotation PBI_QueryGroupOrder = 31
+
+queryGroup 'Transform File from Data_Files (4)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Data_Files (5)'
+
+	annotation PBI_QueryGroupOrder = 33
+
+queryGroup 'Transform File from Data_Files (5)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Waste'
+
+	annotation PBI_QueryGroupOrder = 35
+
+queryGroup 'Transform File from Waste\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Container (2)'
+
+	annotation PBI_QueryGroupOrder = 37
+
+queryGroup 'Transform File from VL06O - Container (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from cvg_yr'
+
+	annotation PBI_QueryGroupOrder = 38
+
+queryGroup 'Transform File from cvg_yr\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from YTD_New'
+
+	annotation PBI_QueryGroupOrder = 40
+
+queryGroup 'Transform File from YTD_New\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from SFA'
+
+	annotation PBI_QueryGroupOrder = 42
+
+queryGroup 'Transform File from SFA\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from OBD'
+
+	annotation PBI_QueryGroupOrder = 44
+
+queryGroup 'Transform File from OBD\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery (2)'
+
+	annotation PBI_QueryGroupOrder = 46
+
+queryGroup 'Transform File from VL06O - Delivery (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from CFR_BW (2)'
+
+	annotation PBI_QueryGroupOrder = 49
+
+queryGroup 'Transform File from CFR_BW (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Waste - BW'
+
+	annotation PBI_QueryGroupOrder = 50
+
+queryGroup 'Transform File from Waste - BW\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O - Delivery - BW'
+
+	annotation PBI_QueryGroupOrder = 52
+
+queryGroup 'Transform File from VL06O - Delivery - BW\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from New SFA Extractions'
+
+	annotation PBI_QueryGroupOrder = 54
+
+queryGroup 'Transform File from New SFA Extractions\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from OTIF'
+
+	annotation PBI_QueryGroupOrder = 56
+
+queryGroup 'Transform File from OTIF\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from DP (Proposed)'
+
+	annotation PBI_QueryGroupOrder = 58
+
+queryGroup 'Transform File from DP (Proposed)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Proposed Shipment'
+
+	annotation PBI_QueryGroupOrder = 60
+
+queryGroup 'Transform File from Proposed Shipment\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Gross Data (2)'
+
+	annotation PBI_QueryGroupOrder = 62
+
+queryGroup 'Transform File from Gross Data (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from VL06O'
+
+	annotation PBI_QueryGroupOrder = 64
+
+queryGroup 'Transform File from VL06O\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Est (2)'
+
+	annotation PBI_QueryGroupOrder = 66
+
+queryGroup 'Transform File from Est (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Closing Stock'
+
+	annotation PBI_QueryGroupOrder = 68
+
+queryGroup 'Transform File from Closing Stock\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Transit Stock'
+
+	annotation PBI_QueryGroupOrder = 70
+
+queryGroup 'Transform File from Transit Stock\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Future Stock'
+
+	annotation PBI_QueryGroupOrder = 72
+
+queryGroup 'Transform File from Future Stock\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Reversals BW'
+
+	annotation PBI_QueryGroupOrder = 74
+
+queryGroup 'Transform File from Reversals BW\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Returns and Refusals'
+
+	annotation PBI_QueryGroupOrder = 76
+
+queryGroup 'Transform File from Returns and Refusals\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Central Order Monitor'
+
+	annotation PBI_QueryGroupOrder = 78
+
+queryGroup 'Transform File from Central Order Monitor\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 12/7/2024 11:26:54 PM.
+queryGroup 'Query Errors - 12/7/2024 11:26:54 PM'
+
+	annotation PBI_QueryGroupOrder = 80
+
+queryGroup 'Transform File from VL06o (2)'
+
+	annotation PBI_QueryGroupOrder = 81
+
+queryGroup 'Transform File from VL06o (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STD Digitalization'
+
+	annotation PBI_QueryGroupOrder = 83
+
+queryGroup 'Transform File from STD Digitalization\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Actuals&Budget'
+
+	annotation PBI_QueryGroupOrder = 85
+
+queryGroup 'Transform File from Actuals&Budget\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from SAF'
+
+	annotation PBI_QueryGroupOrder = 87
+
+queryGroup 'Transform File from SAF\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from S&OP - Ferrero reporting'
+
+	annotation PBI_QueryGroupOrder = 89
+
+queryGroup 'Transform File from S&OP - Ferrero reporting\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from SOP'
+
+	annotation PBI_QueryGroupOrder = 91
+
+queryGroup 'Transform File from SOP\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Slide'
+
+	annotation PBI_QueryGroupOrder = 93
+
+queryGroup 'Transform File from Slide\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from LGI Open Orders'
+
+	annotation PBI_QueryGroupOrder = 95
+
+queryGroup 'Transform File from LGI Open Orders\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STT'
+
+	annotation PBI_QueryGroupOrder = 97
+
+queryGroup 'Transform File from STT\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from BDGT'
+
+	annotation PBI_QueryGroupOrder = 99
+
+queryGroup 'Transform File from BDGT\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Misalignment Report'
+
+	annotation PBI_QueryGroupOrder = 101
+
+queryGroup 'Transform File from Misalignment Report\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from RC_Code'
+
+	annotation PBI_QueryGroupOrder = 103
+
+queryGroup 'Transform File from RC_Code\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STD Digitalization (for FY,LY,S&OP)'
+
+	annotation PBI_QueryGroupOrder = 105
+
+queryGroup 'Transform File from STD Digitalization (for FY,LY,S&OP)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STD Budg'
+
+	annotation PBI_QueryGroupOrder = 107
+
+queryGroup 'Transform File from STD Budg\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STD SAF'
+
+	annotation PBI_QueryGroupOrder = 109
+
+queryGroup 'Transform File from STD SAF\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STT (2)'
+
+	annotation PBI_QueryGroupOrder = 111
+
+queryGroup 'Transform File from STT (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from BDGT (2)'
+
+	annotation PBI_QueryGroupOrder = 113
+
+queryGroup 'Transform File from BDGT (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STT SAF'
+
+	annotation PBI_QueryGroupOrder = 115
+
+queryGroup 'Transform File from STT SAF\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Daily Progress'
+
+	annotation PBI_QueryGroupOrder = 117
+
+queryGroup 'Transform File from Daily Progress\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from PPA'
+
+	annotation PBI_QueryGroupOrder = 119
+
+queryGroup 'Transform File from PPA\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Grand Arrivals'
+
+	annotation PBI_QueryGroupOrder = 121
+
+queryGroup 'Transform File from Grand Arrivals\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from PPA (2)'
+
+	annotation PBI_QueryGroupOrder = 123
+
+queryGroup 'Transform File from PPA (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STT (3)'
+
+	annotation PBI_QueryGroupOrder = 125
+
+queryGroup 'Transform File from STT (3)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from STT (4)'
+
+	annotation PBI_QueryGroupOrder = 127
+
+queryGroup 'Transform File from STT (4)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Market","Month_Sort","MMD","CMD","Parameter1","Transform Sample File","Sample File","Transform File","Parameter2","Transform Sample File (2)","Sample File (2)","Transform File (2)","Parameter3","Transform Sample File (3)","Sample File (3)","Transform File (3)","Parameter4","Transform Sample File (4)","Sample File (4)","Transform File (4)","Parameter5","Transform Sample File (5)","Sample File (5)","Transform File (5)","Parameter6","Transform Sample File (6)","Sample File (6)","Transform File (6)","Parameter7","Transform Sample File (7)","Sample File (7)","Transform File (7)","Transit_Time","Direct_Distributors","Plant_Desc","Parameter8","Transform Sample File (8)","Sample File (8)","Transform File (8)","Parameter9","Transform Sample File (9)","Sample File (9)","Transform File (9)","Parameter10","Transform Sample File (10)","Sample File (10)","Transform File (10)","Parameter11","Transform Sample File (11)","Sample File (11)","Transform File (11)","Brand_Table","Conc_Table","Parameter12","Transform Sample File (12)","Sample File (12)","Transform File (12)","Week_Num","Parameter13","Transform Sample File (13)","Sample File (13)","Transform File (13)","Parameter14","Transform Sample File (14)","Sample File (14)","Transform File (14)","Parameter15","Transform Sample File (15)","Sample File (15)","Transform File (15)","Parameter16","Transform Sample File (16)","Sample File (16)","Transform File (16)","Parameter17","Transform Sample File (17)","Sample File (17)","Transform File (17)","Parameter18","Transform Sample File (18)","Sample File (18)","Transform File (18)","Parameter19","Transform Sample File (19)","Sample File (19)","Transform File (19)","Parameter20","Transform Sample File (20)","Sample File (20)","Transform File (20)","Parameter21","Transform Sample File (21)","Sample File (21)","Transform File (21)","Driver_Table","Parameter22","Transform Sample File (22)","Sample File (22)","Transform File (22)","Parameter23","Transform Sample File (23)","Sample File (23)","Transform File (23)","Parameter24","Transform Sample File (24)","Sample File (24)","Transform File (24)","Parameter25","Transform Sample File (25)","Sample File (25)","Transform File (25)","Parameter26","Transform Sample File (26)","Sample File (26)","Transform File (26)","Parameter27","Transform Sample File (27)","Sample File (27)","Transform File (27)","SFA Folder","STD Digitalization","Parameter28","Transform Sample File (28)","Sample File (28)","Transform File (28)","NewExchange_Rates","Week_Sort","Parameter29","Transform Sample File (29)","Sample File (29)","Transform File (29)","Parameter30","Transform Sample File (30)","Sample File (30)","Transform File (30)","Parameter31","Transform Sample File (31)","Sample File (31)","Transform File (31)","Parameter32","Transform Sample File (32)","Sample File (32)","Transform File (32)","Parameter33","Transform Sample File (33)","Sample File (33)","Transform File (33)","Parameter34","Transform Sample File (34)","Sample File (34)","Transform File (34)","RC_Code","Parameter35","Transform Sample File (35)","Sample File (35)","Transform File (35)","Parameter36","Transform Sample File (36)","Sample File (36)","Transform File (36)","Parameter37","Transform Sample File (37)","Sample File (37)","Transform File (37)","Parameter38","Transform Sample File (38)","Sample File (38)","Transform File (38)","Parameter39","Transform Sample File (39)","Sample File (39)","Transform File (39)","Parameter40","Transform Sample File (40)","Sample File (40)","Transform File (40)","Parameter41","Transform Sample File (41)","Sample File (41)","Transform File (41)","Parameter42","Transform Sample File (42)","Sample File (42)","Transform File (42)","MonthWeek","YearWeek","STDWk","Parameter43","Transform Sample File (43)","Sample File (43)","Transform File (43)","Parameter44","Transform Sample File (44)","Sample File (44)","Transform File (44)","Parameter45","Transform Sample File (45)","Sample File (45)","Transform File (45)","Parameter46","Transform Sample File (46)","Sample File (46)","Transform File (46)","Parameter47","Transform Sample File (47)","Sample File (47)","Transform File (47)","Parameter48","Transform Sample File (48)","Sample File (48)","Transform File (48)","Parameter49","Transform Sample File (49)","Sample File (49)","Transform File (49)","Parameter50","Transform Sample File (50)","Sample File (50)","Transform File (50)","SFA_Driver","Parameter51","Transform Sample File (51)","Sample File (51)","Transform File (51)","Parameter52","Transform Sample File (52)","Sample File (52)","Transform File (52)","Parameter53","Transform Sample File (53)","Sample File (53)","Transform File (53)","Parameter54","Transform Sample File (54)","Sample File (54)","Transform File (54)","Parameter55","Transform Sample File (55)","Sample File (55)","Transform File (55)","SessionTable","Parameter56","Transform Sample File (56)","Sample File (56)","Transform File (56)","Parameter57","Transform Sample File (57)","Sample File (57)","Transform File (57)","Parameter58","Transform Sample File (58)","Sample File (58)","Transform File (58)","SFA_Comment","SFA_Comment_GAC","SFA_Comment_JVs","Freshness_Graph","Daily Progress","Parameter59","Transform Sample File (59)","Sample File (59)","Transform File (59)","CRMD","Brand_Sort","MaterialID","Parameter60","Transform Sample File (60)","Sample File (60)","Transform File (60)","Parameter61","Transform Sample File (61)","Sample File (61)","Transform File (61)","Container_SA","Mat_Ref","Parameter62","Transform Sample File (62)","Sample File (62)","Transform File (62)","STD S&OP LY (2425)","STD S&OP NY (2526)","STT S&OP LY (2425)","STT S&OP NY (2526)","STD BDGT","Brand_MD","Categ_Table","Categ_Table_Other","SAPBW70_DOWNLOAD","S_OP_Cal","Parameter63","Transform Sample File (63)","Sample File (63)","Transform File (63)","Parameter64","Transform Sample File (64)","Sample File (64)","Transform File (64)","STT BDGT"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.146.7760.5 (Main)+66388751dd2267dcf0f187a5e5cffc55ee51e2fe
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","WebModelingEdit"]
+
+ref table DateTableTemplate_361969dc-a50c-4e51-a468-efce6053b4ca
+ref table Market
+ref table Month_Sort
+ref table 'Slicer Table_Main'
+ref table Brand_Table
+ref table Conc_Table
+ref table Week_Num
+ref table CMD
+ref table MMD
+ref table Driver_Table
+ref table 'SFA Folder'
+ref table YrTable
+ref table Week_Sort
+ref table KeyMeasuresTable
+ref table 'STD Digitalization'
+ref table MonthWeek
+ref table YearWeek
+ref table STDWk
+ref table Parameter
+ref table SFA_Driver
+ref table Slicer_Table_Vol
+ref table Cluster_Stack_Bar_Vol
+ref table SessionTable
+ref table FiscalYearTable
+ref table VolTable
+ref table Cluster_Stack_SFA
+ref table DriverTable
+ref table SFA_Comment
+ref table Freshness_Graph
+ref table CRMD
+ref table Selection_Table_All_Option
+ref table SFA_Comment_GAC
+ref table SFA_Comment_JVs
+ref table Cluster_Stack_Bar_Inv
+ref table Brand_Sort
+ref table MaterialID
+ref table LocalDateTable_f4bd4078-62c4-413f-bfd8-e06571a7626b
+ref table Mat_Ref
+ref table 'STD S&OP LY (2425)'
+ref table AccessValues
+ref table AccessValues#2
+ref table 'STD S&OP NY (2526)'
+ref table 'STD BDGT'
+ref table Brand_MD
+ref table AccessValues#3
+ref table Categ_Table
+ref table Categ_Table_Other
+ref table SAPBW70_DOWNLOAD
+ref table AccessValues#4
+ref table AccessValues5
+ref table S_OP_Cal
+ref table 'STT S&OP LY (2425)'
+ref table 'STT S&OP NY (2526)'
+ref table 'STT BDGT'
+ref table 'Multiplication Factor'
+
+ref cultureInfo en-US
+

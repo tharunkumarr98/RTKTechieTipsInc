@@ -1,0 +1,226 @@
+table Targets_Cvg
+	lineageTag: 2b5310fe-41df-4aee-b818-764f67408cb5
+
+	measure Sign_New = ```
+			
+			VAR SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			VAR SelectedGap = [Gap_New]
+			VAR SelectedBrand = SELECTEDVALUE('Brand_Table_Cvg'[brand (key)])
+			VAR StockCoverage = [StkCvg(Wk)]
+			VAR Target = [Target_Coverage_New]
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			
+			        SelectedBrand = "Nutella" && (SelectedGap >= -70 && SelectedGap > -30) && (SelectedGap > 30 && SelectedGap <= 70),           
+			            "Yellow Dot",
+			        SelectedBrand = "Nutella" && SelectedGap >= -30 && SelectedGap <= 30, 
+			            "Green Dot",
+			        SelectedBrand = "Nutella" && SelectedGap < -70, 
+			            "Black Dot",
+			        SelectedBrand = "Nutella" && SelectedGap > 70, 
+			            "Red Dot",
+			        SelectedBrand = "Nutella" && (SelectedGap >= -70 && SelectedGap < -30 || SelectedGap > 30 && SelectedGap <= 70),           
+			            "Yellow Dot",
+			
+			
+			        StockCoverage = 0 && Target <> 0 && SelectedMarket IN {"Bahrain", "Oman", "Abu Dhabi", "Other Lower Gulf", "Dubai", "Hub Dubai"},
+			            "Black Flag",
+			        StockCoverage = 0 && Target <> 0 && SelectedMarket IN {"Saudi Arabia", "Kuwait", "GAC (Gulf)", "Qatar", "Yemen", "Direct Market"}, 
+			            "Black Dot",
+			
+			
+			        SelectedBrand = "Raffaello" && SelectedMarket = "Kuwait" && SelectedGap >= -30 && SelectedGap <= 30, 
+			            "Green Flag",
+			        SelectedBrand = "Raffaello" && SelectedMarket = "Kuwait" && SelectedGap < -70, 
+			            "Black Flag",
+			        SelectedBrand = "Raffaello" && SelectedMarket = "Kuwait" && SelectedGap > 70, 
+			            "Red Flag",
+			        SelectedBrand = "Raffaello" && SelectedMarket = "Kuwait" && (SelectedGap >= -70 && SelectedGap < -30 || SelectedGap > 30 && SelectedGap <= 70), 
+			            "Yellow Flag",
+			
+			
+			        SelectedGap >= -30 && SelectedGap <= 30 && SelectedMarket IN {"Saudi Arabia", "Kuwait", "GAC (Gulf)", "Qatar", "Yemen", "Direct Market"}, 
+			            "Green Dot",
+			        SelectedGap > 70 && SelectedMarket IN {"Saudi Arabia", "Kuwait", "GAC (Gulf)", "Qatar", "Yemen", "Direct Market"}, 
+			            "Red Dot",
+			        SelectedGap < -70 && SelectedMarket IN {"Saudi Arabia", "Kuwait", "GAC (Gulf)", "Qatar", "Yemen", "Direct Market"}, 
+			            "Black Dot",
+			        SelectedMarket IN {"Saudi Arabia", "Kuwait", "GAC (Gulf)", "Qatar", "Yemen", "Direct Market"} && (SelectedGap > 30 && SelectedGap <= 70 || SelectedGap >= -70 && SelectedGap < -30), 
+			        "Yellow Dot",
+			
+			        SelectedGap >= -30 && SelectedGap <= 30 && SelectedMarket IN {"Bahrain", "Oman", "Abu Dhabi", "Other Lower Gulf", "Dubai","Hub Dubai"}, 
+			            "Green Flag",
+			        SelectedGap < -70 && SelectedMarket IN {"Bahrain", "Oman", "Abu Dhabi", "Other Lower Gulf", "Dubai","Hub Dubai"}, 
+			            "Black Flag",
+			        SelectedGap > 70 && SelectedMarket IN {"Bahrain", "Oman", "Abu Dhabi", "Other Lower Gulf", "Dubai","Hub Dubai"}, 
+			            "Red Flag",
+			        SelectedMarket IN {"Bahrain", "Oman", "Abu Dhabi", "Other Lower Gulf", "Dubai", "Hub Dubai"} && (SelectedGap >= -70 && SelectedGap < -30 || SelectedGap > 30 && SelectedGap <= 70), 
+			            "Yellow Flag",
+			        
+			
+			        
+			
+			        "Default"  -- Default case
+			    )
+			
+			```
+		lineageTag: 3be71c89-bf90-4d4a-95a5-a1ccb66ae458
+
+	measure Target_Coverage_New = ```
+			
+			IFERROR (
+			    IF (
+			        ISINSCOPE ( Conc_Table_Cvg[Desc (Key)]), -- Check if it's an SKU line or group level line
+			            IF (
+			                ISBLANK ( SELECTEDVALUE ( Targets_Cvg[Tgt]) ) && NOT ISBLANK ( [StkCvg(Wk)] ),
+			                BLANK(), -- If tgt[tgt] is blank for the group level line, set tgtcvg to 4
+			                SELECTEDVALUE ( Targets_Cvg[Tgt] )
+			            ), 
+			            IF (
+			                ISINSCOPE ( 'Brand_Table_Cvg'[Brand (Key)] ) || ISINSCOPE ( 'Brand_Table_Cvg'[Short Name]), -- Check if this is brand line
+			                SELECTEDVALUE( Brand_Level_Cvg[Gr_Tgt], 0 ),
+			                SELECTEDVALUE(Market_Level_Cvg[All_Tgt])                
+			             
+			        )
+			),BLANK())
+			```
+		lineageTag: d8b56065-735e-4d6a-9b35-0088209363e6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure GAP_New = ```
+			
+			    DIVIDE(('SKU_Level_Cvg'[StkCvg(Wk)] - Targets_Cvg[Target_Coverage_New]), Targets_Cvg[Target_Coverage_New]) *100
+			```
+		formatString: 0.0
+		lineageTag: e0208318-5087-4b55-a9b1-aa5a2eaf676d
+
+	measure Tgt_Cvg_Days = ```
+			
+			IFERROR (
+			    IF (
+			        ISINSCOPE ( 'VL06O - Container'[Description]), -- Check if it's an SKU line or group level line
+			            SELECTEDVALUE ( VL06O - 'VL06O - Delivery'[Delta] )
+			            ), 
+			            IF (
+			                ISINSCOPE ( 'Brand_Table_Cvg'[Brand (Key)] ) || ISINSCOPE ( 'Brand_Table_Cvg'[Short Name]), -- Check if this is brand line
+			                SELECTEDVALUE( Brand_Level_Cvg[Gr_Tgt], 0 ),
+			                SELECTEDVALUE(Market_Level_Cvg[All_Tgt])                
+			             
+			        )
+			),BLANK())
+			```
+		lineageTag: d739b6bc-d1a7-4c61-ba4c-1a83e4ea4cea
+
+	column Category
+		dataType: string
+		lineageTag: 0ffab80c-5136-43c7-ae5b-550dea02ac66
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand (Subcall Desc)'
+		dataType: string
+		lineageTag: f01f262d-d617-4094-8bce-37243663cff8
+		summarizeBy: none
+		sourceColumn: Brand (Subcall Desc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: cff43ab4-df48-4250-826a-f0b2ec087e30
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_KSA
+		dataType: string
+		lineageTag: 84a6380c-e36d-4046-a1c1-d2ebf2df290b
+		summarizeBy: none
+		sourceColumn: CR_KSA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_KW
+		dataType: string
+		lineageTag: 30d2d5aa-d82c-480a-84bf-9d63892b5ba9
+		summarizeBy: none
+		sourceColumn: CR_KW
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_AE
+		dataType: string
+		lineageTag: 1fc3471d-254a-4719-b470-fe97e16f82e6
+		summarizeBy: none
+		sourceColumn: CR_AE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR_LG
+		dataType: string
+		lineageTag: af497c6c-4e36-4038-8090-31c13a8ffd0b
+		summarizeBy: none
+		sourceColumn: CR_LG
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conc
+		dataType: string
+		lineageTag: 034bca00-1061-43cd-b804-4368b682c3f0
+		summarizeBy: none
+		sourceColumn: Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 913f5682-d6b3-4775-94b2-a509dc86b17e
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conc2
+		dataType: string
+		lineageTag: c327356d-4cb0-414f-911b-be7598ac095b
+		summarizeBy: none
+		sourceColumn: Conc2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tgt
+		dataType: double
+		lineageTag: 2e45a3cb-0a25-4bbd-9aff-2335bf602216
+		summarizeBy: sum
+		sourceColumn: Tgt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'In MD?'
+		dataType: string
+		lineageTag: 5650e688-9793-429c-8aee-e9e06a139258
+		summarizeBy: none
+		sourceColumn: In MD?
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Targets_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Targets_Table = Source{[Item="Targets",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Targets_Table,{{"Category", type text}, {"Brand (Subcall Desc)", type text}, {"Desc", type text}, {"CR_KSA", type text}, {"CR_KW", type text}, {"CR_AE", type text}, {"CR_LG", type text}, {"Conc", type text}, {"Market", type text}, {"Conc2", type text}, {"Tgt", type number}, {"In MD?", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

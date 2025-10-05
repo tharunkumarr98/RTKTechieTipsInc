@@ -1,0 +1,31 @@
+table Com_Table
+	lineageTag: 6f923fe2-16b3-48db-8967-656eebe27c71
+
+	column 'Com (Key)'
+		dataType: string
+		lineageTag: 03cf0343-b490-4ba3-b51f-a3e6ff7a81cb
+		summarizeBy: none
+		sourceColumn: Com (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: effc247f-73b2-4bec-96d6-377badc2d172
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Com_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Com_Table_Table = Source{[Item="Com_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Com_Table_Table,{{"Com (Key)", type text}, {"Desc", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,366 @@
+table CFR_BW_Folder
+	lineageTag: 9c503af8-8088-4221-a75d-8788fb27bfea
+
+	measure CFR_BW_23/24 =
+			IF( SELECTEDVALUE(MONTH_SORT[Month]) <> "YTD" && SELECTEDVALUE(MONTH_SORT[Month]) <> "LY",
+			    --MIN('CFR'[Requested deliv.date]) > DATE(2023, 8, 31) || MAX('CFR'[Requested deliv.date]) < DATE(2022, 9, 1),
+			    --BLANK(),
+			    DIVIDE(
+			        CALCULATE(
+			            SUM('CFR_BW_Folder'[    SHIPPEDAMOUNT (EUR)]),
+			            FILTER(
+			                'CFR_BW_Folder',
+			                'CFR_BW_Folder'[T-Requested Delivery Date] >= MAX(DATE(2023, 9, 1), MIN('CFR_BW_Folder'[T-Requested Delivery Date])) &&
+			                'CFR_BW_Folder'[T-Requested Delivery Date] <= MIN(DATE(2024, 8, 31), MAX('CFR_BW_Folder'[T-Requested Delivery Date]))
+			            )
+			        ),
+			        CALCULATE(
+			            SUM('CFR_BW_Folder'[    ORDERVALUE (EUR)]),
+			            FILTER(
+			                'CFR_BW_Folder',
+			                'CFR_BW_Folder'[T-Requested Delivery Date] >= MAX(DATE(2023, 9, 1), MIN('CFR'[Requested deliv.date])) &&
+			                'CFR_BW_Folder'[T-Requested Delivery Date] <= MIN(DATE(2024, 8, 31), MAX('CFR'[Requested deliv.date]))
+			            )
+			        )
+			    ),BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 68f0791d-0d6a-4f82-bedc-e1ffb6687cc3
+
+	measure CFR_Selected_Measure_bw = ```
+			SWITCH(
+			    SELECTEDVALUE(Radio_Button_Options_CFR[Radio_Button_Option]),
+			    "Volume_QL", SUM(CFR_BW_Folder[Gap_QL]),
+			    "Value_Euro", SUM(CFR_BW_Folder[GAP_Val]),
+			    "Contrib%", [CFR_Contrb_Measure_BW],
+			    "TUs", SUM(CFR_BW_Folder[GAP_TU]),
+			  SUM(CFR_BW_Folder[GAP_Val]))  -- default to ValueMeasure if no selection is made)
+			
+			```
+		formatString: #,0.0
+		lineageTag: 9bee57fd-2183-4e84-98ae-479a1d3ae696
+
+	measure CFR_22/23_BW =
+			
+			
+			IF( SELECTEDVALUE(MONTH_SORT[Month]) <> "YTD" && SELECTEDVALUE(MONTH_SORT[Month]) <> "LY",
+			    --MIN('CFR'[Requested deliv.date]) > DATE(2023, 8, 31) || MAX('CFR'[Requested deliv.date]) < DATE(2022, 9, 1),
+			    --BLANK(),
+			    DIVIDE(
+			        CALCULATE(
+			            SUM('CFR_BW_Folder'[    SHIPPEDAMOUNT (EUR)]),
+			            FILTER(
+			                'CFR_BW_Folder',
+			                'CFR_BW_Folder'[T-Requested Delivery Date] >= MAX(DATE(2022, 9, 1), MIN('CFR_BW_Folder'[T-Requested Delivery Date])) &&
+			                'CFR_BW_Folder'[T-Requested Delivery Date] <= MIN(DATE(2023, 8, 31), MAX('CFR_BW_Folder'[T-Requested Delivery Date]))
+			            )
+			        ),
+			        CALCULATE(
+			            SUM('CFR_BW_Folder'[    ORDERVALUE (EUR)]),
+			            FILTER(
+			                'CFR_BW_Folder',
+			                'CFR_BW_Folder'[T-Requested Delivery Date] >= MAX(DATE(2022, 9, 1), MIN('CFR'[Requested deliv.date])) &&
+			                'CFR_BW_Folder'[T-Requested Delivery Date] <= MIN(DATE(2023, 8, 31), MAX('CFR'[Requested deliv.date]))
+			            )
+			        )
+			    ),BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 6cca20f3-bec0-428f-a84b-ea7a25004cef
+
+	measure CFR_Total_LY_BW = ```
+			
+			IF (
+			   SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			 
+			DIVIDE(    
+			 CALCULATE( SUM(CFR_BW_Folder[    SHIPPEDAMOUNT (EUR)]),
+			 CFR_BW_Folder[T-Requested Delivery Date] >= DATE(2022, 9, 1),
+			 CFR_BW_Folder[T-Requested Delivery Date] <= DATE(2023, 8, 31)
+			,REMOVEFILTERS(month_sort)
+			 
+			)
+			,
+			
+			 CALCULATE( SUM( CFR_BW_Folder[    ORDERVALUE (EUR)]),
+			 CFR_BW_Folder[T-Requested Delivery Date] >= DATE(2022, 9, 1),
+			 CFR_BW_Folder[T-Requested Delivery Date] <= DATE(2023, 8, 31)
+			,REMOVEFILTERS(month_sort)
+			
+			) )             
+			 ,BLANK()
+			 )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: d699c2a8-c611-45cd-a6e7-90723127d466
+
+	measure CFR_Total_YTD_BW = ```
+			
+			IF (
+			   SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			 
+			DIVIDE(    
+			 CALCULATE( SUM(CFR_BW_Folder[    SHIPPEDAMOUNT (EUR)]),
+			 CFR_BW_Folder[T-Requested Delivery Date] >= DATE(2023, 9, 1),
+			 CFR_BW_Folder[T-Requested Delivery Date] <= DATE(2024, 8, 31)
+			,REMOVEFILTERS(month_sort)
+			 
+			)
+			,
+			
+			 CALCULATE( SUM( CFR_BW_Folder[    ORDERVALUE (EUR)]),
+			 CFR_BW_Folder[T-Requested Delivery Date] >= DATE(2023, 9, 1),
+			 CFR_BW_Folder[T-Requested Delivery Date] <= DATE(2024, 8, 31)
+			,REMOVEFILTERS(month_sort)
+			
+			) )             
+			 ,BLANK()
+			 )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e9502d02-3430-4636-91ad-9f22e93c66e0
+
+	measure CFR_Contrb_Measure_BW = ```
+			
+			VAR TotalValue = SUM(CFR_BW_Folder[GAP_Val])
+			VAR TotalValueAllSelected = 
+			    CALCULATE(
+			        SUM(CFR_BW_Folder[GAP_Val]),
+			        ALLSELECTED()
+			    )
+			RETURN 
+			DIVIDE(
+			    TotalValue, 
+			    TotalValueAllSelected, 
+			    0
+			) * 100
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: a75b83d3-bfb6-4dfb-8f55-8479358f8c4a
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: a356582a-c387-4fee-9947-36197baa99bb
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'T-Requested Delivery Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 22524bd7-66b9-4aa6-9694-f7e373687de4
+		summarizeBy: none
+		sourceColumn: T-Requested Delivery Date
+
+		variation Variation
+			isDefault
+			relationship: b423cbf1-a1e8-4efb-a96f-fd16d8d6adb0
+			defaultHierarchy: LocalDateTable_289f2344-2e81-4165-aee0-870c9ea0dd81.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column C-Ship-To
+		dataType: int64
+		formatString: 0
+		lineageTag: f1500f16-8ab8-416a-b710-15e2ff1f4075
+		summarizeBy: none
+		sourceColumn: C-Ship-To
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Material
+		dataType: string
+		lineageTag: 0fafa1f2-e7d1-42d8-b9a5-c22d9a29d8be
+		summarizeBy: none
+		sourceColumn: P-Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-RC Cluster'
+		dataType: string
+		lineageTag: 3a4b5273-dd13-4a6b-953d-57f481edda8b
+		summarizeBy: none
+		sourceColumn: D-RC Cluster
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'D-Reason for Rejection (Reporting)'
+		dataType: string
+		lineageTag: cd10f032-76b7-4d94-b448-bcad04ae8086
+		summarizeBy: none
+		sourceColumn: D-Reason for Rejection (Reporting)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ORDERQTY (TU)'
+		dataType: double
+		lineageTag: 3595f65a-01eb-4fea-b118-a39191227206
+		summarizeBy: sum
+		sourceColumn: ORDERQTY (TU)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SHIPPEDQTY (TU)'
+		dataType: double
+		lineageTag: d071e0f3-985c-4a65-a1ce-d441ecaccd27
+		summarizeBy: sum
+		sourceColumn: SHIPPEDQTY (TU)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '    ORDERVALUE (EUR)'
+		dataType: double
+		lineageTag: d23c0d22-0da4-4233-a3e2-b24a1fce62f2
+		summarizeBy: sum
+		sourceColumn: "    ORDERVALUE (EUR)"
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '    SHIPPEDAMOUNT (EUR)'
+		dataType: double
+		lineageTag: 71f7a8d8-eb3d-4f04-822d-7d988ca1013b
+		summarizeBy: sum
+		sourceColumn: "    SHIPPEDAMOUNT (EUR)"
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Market
+		dataType: string
+		lineageTag: 72f3bdac-d62c-4021-8596-57a08259b1c2
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column GAP_Val
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 457854b7-848f-4ec6-b183-7cf075cde283
+		summarizeBy: sum
+		sourceColumn: GAP_Val
+
+		annotation SummarizationSetBy = Automatic
+
+	column GAP_TU
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 77fa8241-d0a4-4a4c-9b7f-fd4631b1f1bf
+		summarizeBy: sum
+		sourceColumn: GAP_TU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ORDERQTY (KG)'
+		dataType: double
+		lineageTag: d03ddc1b-707a-46ce-817c-be8d99214aa4
+		summarizeBy: sum
+		sourceColumn: ORDERQTY (KG)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SHIPPEDQTY (KG)'
+		dataType: double
+		lineageTag: f1b497d7-974c-4168-9d49-dc5103ad7ee6
+		summarizeBy: sum
+		sourceColumn: SHIPPEDQTY (KG)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'T-Requested Delivery Date - Copy'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 0e54dea8-f347-4271-9ca1-6b1ab8e62ea7
+		summarizeBy: none
+		sourceColumn: T-Requested Delivery Date - Copy
+
+		variation Variation
+			isDefault
+			relationship: df9bd607-9db8-4b46-8c96-ff5d70cab808
+			defaultHierarchy: LocalDateTable_74077d21-1b48-410f-8b5f-89454361a281.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 59fcfdab-3dfc-4a39-beee-0064a06b472d
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gap_QL
+		dataType: double
+		lineageTag: a68e468f-9817-436f-9202-610e24a728e4
+		summarizeBy: sum
+		sourceColumn: Gap_QL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer_Master.C-Market Channel(I)'
+		dataType: string
+		lineageTag: 30f38dc4-16f4-4c8e-8e4d-b621e67e8650
+		summarizeBy: none
+		sourceColumn: Customer_Master.C-Market Channel(I)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CFR_BW_Folder = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\CFR_BW"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (25)", each #"Transform File (25)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (25)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (25)", Table.ColumnNames(#"Transform File (25)"(#"Sample File (25)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"T-Requested Delivery Date", type date}, {"C-Ship-To", Int64.Type}, {"P-Material", type text}, {"D-RC Cluster", type text}, {"D-Reason for Rejection (Reporting)", type text}, {"ORDER#(lf)QTY (TU)", type number}, {"SHIPPED#(lf)QTY (TU)", type number}, {"    ORDER#(lf)VALUE (EUR)", type number}, {"    SHIPPED#(lf)AMOUNT (EUR)", type number}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Source.Name - Copy.1", "Source.Name - Copy.2", "Source.Name - Copy.3"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Source.Name - Copy.1", type text}, {"Source.Name - Copy.2", type date}, {"Source.Name - Copy.3", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Source.Name - Copy.2", "Source.Name - Copy.3"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "Market"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","SA01","Saudi Arabia",Replacer.ReplaceText,{"Market"}),
+				    #"Added Custom" = Table.AddColumn(#"Replaced Value", "GAP_Val", each [#"    ORDER#(lf)VALUE (EUR)"]-[#"    SHIPPED#(lf)AMOUNT (EUR)"]),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Custom",{{"GAP_Val", type number}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type2", "GAP_TU", each [#"ORDER#(lf)QTY (TU)"]-[#"SHIPPED#(lf)QTY (TU)"]),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom1",{{"GAP_TU", type number}}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Changed Type3", "T-Requested Delivery Date", "T-Requested Delivery Date - Copy"),
+				    #"Inserted Month" = Table.AddColumn(#"Duplicated Column1", "Month", each Date.Month([#"T-Requested Delivery Date - Copy"]), Int64.Type),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Inserted Month","AE01","Dubai",Replacer.ReplaceText,{"Market"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","KW01","Kuwait",Replacer.ReplaceText,{"Market"}),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Replaced Value2",{{"ORDER#(lf)QTY (KG)", type number}, {"SHIPPED#(lf)QTY (KG)", type number}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type4", "Gap_QL", each ([#"SHIPPED#(lf)QTY (KG)"]-[#"ORDER#(lf)QTY (KG)"])/100),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Custom2",{{"Gap_QL", type number}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type5", {"C-Ship-To"}, Customer_Master, {"Ship_To (Key)"}, "Customer_Master", JoinKind.LeftOuter),
+				    #"Expanded Customer_Master" = Table.ExpandTableColumn(#"Merged Queries", "Customer_Master", {"C-Market Channel(I)"}, {"Customer_Master.C-Market Channel(I)"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Expanded Customer_Master", each [#"C-Ship-To"] <> null and [#"C-Ship-To"] <> "")
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+

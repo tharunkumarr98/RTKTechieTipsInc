@@ -1,0 +1,42 @@
+table Cluster_Stack_Bar_Vol
+	lineageTag: be5be07a-1eaf-436e-9e55-b1e3a708257e
+
+	column SortOrder
+		formatString: 0
+		lineageTag: 270092c3-3738-475e-962e-73bcb022ad81
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Stack
+		lineageTag: 4b0e8bd2-62e9-47f5-b095-fa46eaab4408
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stack]
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cluster_Stack_Bar_Vol = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Stack", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Budget", 1},
+				        {"S&OP", 2},
+				        --{"LE", 3},
+				        {"Orders", 4},
+				        {"", 5}
+				    }
+				)
+				
+				
+				```
+
+	annotation PBI_Id = 62fcf059b31e4912a2bfe89164947b5c
+

@@ -1,0 +1,26 @@
+table 'Multiplication Factor'
+	lineageTag: d8f7d5d7-2d3d-4b83-aab4-8b2cb1c92f5a
+
+	measure 'Multiplication Factor Value' = SELECTEDVALUE('Multiplication Factor'[Multiplication Factor],2)
+		formatString: 0
+		lineageTag: 2fb75586-f1a2-4a8f-a8e2-75ece0318b49
+
+	column 'Multiplication Factor'
+		formatString: 0
+		lineageTag: 1bbed235-1589-4d4c-a9b4-23579de86bd2
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Multiplication Factor' = calculated
+		mode: import
+		source = GENERATESERIES(2, 8, 2)
+
+	annotation PBI_Id = d880fdca12864ecdbe216578e1ae69bb
+

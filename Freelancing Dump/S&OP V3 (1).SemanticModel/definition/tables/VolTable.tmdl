@@ -1,0 +1,41 @@
+table VolTable
+	lineageTag: c62a7b38-e5d4-4cea-bb8d-00033e2a2d64
+
+	column Metric
+		lineageTag: 278ce6b5-4ffb-4f21-af95-a3e615155572
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 9e446bc7-baaa-448b-9834-801abeaff088
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VolTable = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Metric", STRING,
+				    "Sort", INTEGER,
+				    {
+				        {"Full Year",1},
+				        {"vs SAF",2},
+				        {"vs BDGT",3},
+				        {"vs LY",4},
+				        {"vs S&OP",5}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = aeaeb3418a844e3f96bb0690a7c370ec
+

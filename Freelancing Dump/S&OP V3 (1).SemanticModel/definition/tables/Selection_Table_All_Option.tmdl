@@ -1,0 +1,17 @@
+table Selection_Table_All_Option
+	lineageTag: 8cef9217-9662-4e77-8b65-521e9dd55891
+
+	column Value
+		lineageTag: b550148f-cb2b-4ab8-b258-a5ab610137b9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Selection_Table_All_Option = calculated
+		mode: import
+		source = {"Value_Local","Value_Euro","Volume_Qils","Count_DNs", "Contribution %", "KPI Formula", "Quantity_TUs"}
+
+	annotation PBI_Id = 73ee0d039e22423081f816d3fe341f7e
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "GAC DB (Waste And WHU) Icon Map and percentage line"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2202305b-1f4e-a19f-4709-4b7e5f7f76a7"
+  }
+}

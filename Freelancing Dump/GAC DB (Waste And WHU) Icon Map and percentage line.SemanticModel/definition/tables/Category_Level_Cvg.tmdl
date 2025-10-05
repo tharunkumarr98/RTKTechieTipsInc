@@ -1,0 +1,85 @@
+table Category_Level_Cvg
+	lineageTag: 3cada796-9772-46bd-8ae5-72476047fc43
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 207bdbbb-6ef0-4a4c-92e1-7196ee5f7fb2
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Num
+		dataType: string
+		lineageTag: 0182c52a-6616-4ba9-a240-2d23d041f150
+		summarizeBy: none
+		sourceColumn: Week_Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Brand
+		dataType: string
+		lineageTag: c969a962-7549-45ed-b30d-5a987443e85a
+		summarizeBy: none
+		sourceColumn: P-Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G-Sales District (Ship-To)'
+		dataType: string
+		lineageTag: 8cc369ab-3c9a-469e-b6ea-7bafa81bbda9
+		summarizeBy: none
+		sourceColumn: G-Sales District (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Closing Stock'
+		dataType: string
+		lineageTag: 7bc2cdf6-16a3-4ff2-bbde-8bb60014bb6a
+		summarizeBy: none
+		sourceColumn: Closing Stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column cvg
+		dataType: double
+		lineageTag: 9df810db-7862-4d1d-b97b-1662cb7389a5
+		summarizeBy: sum
+		sourceColumn: cvg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'cvg w+1'
+		dataType: double
+		lineageTag: 3aec3990-7dec-49e7-9404-88fb75f269b9
+		summarizeBy: sum
+		sourceColumn: cvg w+1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Category_Level_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Data_Files"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (15)", each #"Transform File (15)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (15)"}),
+				    #"Expanded Transform File (15)" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (15)", {"P-Brand", "G-Sales District (Ship-To)", "Closing Stock", "cvg", "cvg w+1"}, {"Transform File (15).P-Brand", "Transform File (15).G-Sales District (Ship-To)", "Transform File (15).Closing Stock", "Transform File (15).cvg", "Transform File (15).cvg w+1"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded Transform File (15)",{{"Transform File (15).P-Brand", "P-Brand"}, {"Transform File (15).G-Sales District (Ship-To)", "G-Sales District (Ship-To)"}, {"Transform File (15).Closing Stock", "Closing Stock"}, {"Transform File (15).cvg", "cvg"}, {"Transform File (15).cvg w+1", "cvg w+1"}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Renamed Columns2", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Position" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByRepeatedLengths(6), {"Source.Name - Copy.1", "Source.Name - Copy.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Position",{{"Source.Name - Copy.1", type text}, {"Source.Name - Copy.2", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Source.Name - Copy.2"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "Week_Num"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns",{{"cvg", type number}, {"cvg w+1", type number}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_ResultType = Table
+

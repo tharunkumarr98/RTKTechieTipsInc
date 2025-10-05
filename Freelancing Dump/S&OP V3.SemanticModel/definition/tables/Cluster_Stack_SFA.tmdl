@@ -1,0 +1,36 @@
+table Cluster_Stack_SFA
+	lineageTag: 26c00fe9-feaf-4ea4-918a-669bbcae4709
+
+	column Categ
+		lineageTag: f5e8b8b0-52fe-40b1-8394-bf4122349f05
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Categ]
+		sortByColumn: Sort_SFA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort_SFA
+		formatString: 0
+		lineageTag: c70ba9b5-7ba5-42bf-b439-e13bd6b443fd
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort_SFA]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cluster_Stack_SFA = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Categ", STRING, "Sort_SFA", INTEGER,
+				    {
+				        {"Forecast",1},
+				        {"Actuals",2},
+				        {"",3}
+				    }
+				)
+
+	annotation PBI_Id = 0ba558814c9a4ea4836c6d64c15e02aa
+

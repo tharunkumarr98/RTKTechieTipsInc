@@ -1,0 +1,50 @@
+table Year_Level_Cvg
+	lineageTag: 201c536e-c9cd-411f-9ef3-31eb6932357b
+
+	column 'G-Sales District (Ship-To)'
+		dataType: string
+		lineageTag: 381b43af-0959-4086-a25d-cd7d525baec1
+		summarizeBy: none
+		sourceColumn: G-Sales District (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 22/23
+		dataType: double
+		lineageTag: 6ce93975-00a9-41c0-ae69-3c6815a6b15b
+		summarizeBy: sum
+		sourceColumn: 22/23
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 23/24
+		dataType: double
+		lineageTag: 8211302d-6676-4c00-89ea-74a179477d2e
+		summarizeBy: sum
+		sourceColumn: 23/24
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Year_Level_Cvg = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping"),
+				    #"Filtered Hidden Files2" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function2" = Table.AddColumn(#"Filtered Hidden Files2", "Transform File (21)", each #"Transform File (21)"([Content])),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Invoke Custom Function2", {"Name", "Source.Name"}),
+				    #"Removed Other Columns2" = Table.SelectColumns(#"Renamed Columns2", {"Source.Name", "Transform File (21)"}),
+				    #"Expanded Transform File (21)" = Table.ExpandTableColumn(#"Removed Other Columns2", "Transform File (21)", {"G-Sales District (Ship-To)", "22/23", "23/24"}, {"Transform File (21).G-Sales District (Ship-To)", "Transform File (21).22/23", "Transform File (21).23/24"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Transform File (21)",{{"Transform File (21).G-Sales District (Ship-To)", "G-Sales District (Ship-To)"}, {"Transform File (21).22/23", "22/23"}, {"Transform File (21).23/24", "23/24"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Source.Name", type text}, {"G-Sales District (Ship-To)", type text}, {"22/23", type number}, {"23/24", type number}}),
+				    #"Filtered Hidden Files1" = Table.SelectRows(#"Changed Type1", each [Attributes]?[Hidden]? <> true),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Hidden Files1",{"Source.Name"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

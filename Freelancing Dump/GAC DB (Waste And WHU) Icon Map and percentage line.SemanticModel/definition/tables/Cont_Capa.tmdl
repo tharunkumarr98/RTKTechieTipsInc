@@ -1,0 +1,69 @@
+table Cont_Capa
+	lineageTag: 294cb53a-a87f-4d26-b3ad-c659a1371258
+
+	measure foremate_Container = FORMAT(AVERAGE([Forecast]),"# (d)")
+		lineageTag: 8dea862d-906c-4754-842e-7c103b73fee0
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 47005775-21ca-48ab-89a0-36715dcc1d44
+		summarizeBy: none
+		sourceColumn: Week
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: c6c61751-8fbe-47ad-9fb7-977c55b390f0
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Forecast
+		dataType: double
+		formatString: 0
+		lineageTag: a31c9c2e-f27b-4920-a4a3-8d862ef709d2
+		summarizeBy: sum
+		sourceColumn: Forecast
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Contract Container'
+		dataType: double
+		formatString: 0
+		lineageTag: 33e63963-ddde-42a4-92cd-000cee320333
+		summarizeBy: sum
+		sourceColumn: Contract Container
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Max Container'
+		dataType: double
+		formatString: 0
+		lineageTag: 58fcc17d-b8af-4314-8ba1-47cc49976c1b
+		summarizeBy: sum
+		sourceColumn: Max Container
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cont_Capa = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Contractual Capacity.xlsx"), null, true),
+				    Cont_Capa_Table = Source{[Item="Cont_Capa",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Cont_Capa_Table,{{"Week", Int64.Type}, {"Plant", type text}, {"Forecast", type any}, {"Contract Container", Int64.Type}, {"Max Container", Int64.Type}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"Forecast", type number}, {"Contract Container", type number}, {"Max Container", type number}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

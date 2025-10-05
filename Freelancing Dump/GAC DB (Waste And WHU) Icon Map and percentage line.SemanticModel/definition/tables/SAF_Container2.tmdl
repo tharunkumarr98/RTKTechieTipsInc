@@ -1,0 +1,147 @@
+table SAF_Container2
+	lineageTag: d58d2f76-56eb-46c0-a22c-511005ff6e50
+
+	column PLANT
+		dataType: string
+		lineageTag: d00764d9-bc48-4443-bcb4-06d505c5e45a
+		summarizeBy: none
+		sourceColumn: PLANT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tax Country Destination'
+		dataType: string
+		lineageTag: a3a4b522-aac4-4571-aead-23fe2ece956b
+		summarizeBy: none
+		sourceColumn: Tax Country Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tax Country Departure'
+		dataType: string
+		lineageTag: ee1b345e-2d7f-42a0-8c3e-89cfa36f19cd
+		summarizeBy: none
+		sourceColumn: Tax Country Departure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'City Departure'
+		dataType: string
+		lineageTag: 5d48cbae-f7b2-4f1b-8b59-1f6973fb1d90
+		summarizeBy: none
+		sourceColumn: City Departure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'City Destination'
+		dataType: string
+		lineageTag: 2a1a92d6-a999-44c0-a1ca-dc17fd39219d
+		summarizeBy: none
+		sourceColumn: City Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column Route
+		dataType: string
+		lineageTag: cb2e7bfd-456e-43d6-9487-3c48167194af
+		summarizeBy: none
+		sourceColumn: Route
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transportation Type'
+		dataType: string
+		lineageTag: 924c0d2b-6622-41c5-9055-0cb49a9964c5
+		summarizeBy: none
+		sourceColumn: Transportation Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column GEOLANE
+		dataType: string
+		lineageTag: b65da34b-60ec-4728-b491-b43e7c516e39
+		summarizeBy: none
+		sourceColumn: GEOLANE
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NEW TENDER JAN-24'
+		dataType: double
+		lineageTag: c8271f9e-93af-46b6-8191-a7e82343e463
+		summarizeBy: sum
+		sourceColumn: NEW TENDER JAN-24
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SAF Pre Carriage rates'
+		dataType: double
+		lineageTag: 3447b10e-6786-4d90-a632-9991e76403f6
+		summarizeBy: sum
+		sourceColumn: SAF Pre Carriage rates
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Agent Fees at origin'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dde7fa8-1023-4cab-a283-655d2f9dacf8
+		summarizeBy: sum
+		sourceColumn: Agent Fees at origin
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SAF All in Rates'
+		dataType: double
+		lineageTag: 863e78a2-730e-440b-a9fd-0a52b606041f
+		summarizeBy: sum
+		sourceColumn: SAF All in Rates
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Red Sea Surge'
+		dataType: int64
+		formatString: 0
+		lineageTag: fb467ec5-d30a-4702-922a-7ef8e176f5df
+		summarizeBy: sum
+		sourceColumn: Red Sea Surge
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TOTAL POST REDSEA'
+		dataType: double
+		lineageTag: bc7fc53e-73d9-4fd5-beeb-e0522cb2d047
+		summarizeBy: sum
+		sourceColumn: TOTAL POST REDSEA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SAF Container Saturation'
+		dataType: double
+		lineageTag: 70bd897b-da3a-4800-abaa-ea3f5ab795d6
+		summarizeBy: sum
+		sourceColumn: SAF Container Saturation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition SAF_Container2 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    SAF_Container_Table = Source{[Item="SAF_Container",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(SAF_Container_Table,{{"PLANT", type any}, {"Tax Country Destination", type text}, {"Tax Country Departure", type text}, {"City Departure", type text}, {"City Destination", type text}, {"Route", type text}, {"Transportation Type", type text}, {"GEOLANE", type text}, {"NEW TENDER JAN-24", type number}, {"SAF Pre Carriage rates", type number}, {"Agent Fees at origin", Int64.Type}, {"SAF All in Rates", type number}, {"Red Sea Surge", Int64.Type}, {"TOTAL POST REDSEA", type number}, {"SAF Container Saturation", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+

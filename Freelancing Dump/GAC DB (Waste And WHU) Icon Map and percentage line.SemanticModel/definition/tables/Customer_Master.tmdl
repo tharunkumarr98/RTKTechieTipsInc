@@ -1,0 +1,114 @@
+table Customer_Master
+	lineageTag: 150f5c23-2a3e-4899-aa56-c7f764c5a4e8
+
+	column 'Ship_To (Key)'
+		dataType: int64
+		formatString: 0
+		lineageTag: d60c1405-9cee-4232-93e2-9b47ac16fb91
+		summarizeBy: none
+		sourceColumn: Ship_To (Key)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Full_Name (Name 1)'
+		dataType: string
+		lineageTag: 44c03662-de22-4835-88c0-848a365f15e8
+		summarizeBy: none
+		sourceColumn: Full_Name (Name 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 559997c6-2ffa-4b79-9936-1d2701ad8046
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column SR
+		dataType: string
+		lineageTag: 8f2724ee-54fa-4a64-8457-01aa0839e36d
+		summarizeBy: none
+		sourceColumn: SR
+
+		annotation SummarizationSetBy = Automatic
+
+	column FM
+		dataType: string
+		lineageTag: 7e443159-883e-47a6-8026-54afe9f01749
+		summarizeBy: none
+		sourceColumn: FM
+
+		annotation SummarizationSetBy = Automatic
+
+	column Serving_Plant
+		dataType: string
+		lineageTag: e555dbbd-c7c0-4d05-b61a-ef9031bc53c5
+		summarizeBy: none
+		sourceColumn: Serving_Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 9b73be51-e93e-4fc0-9ff4-400ddfe7cb4f
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sold_To
+		dataType: string
+		lineageTag: 1d02466f-370c-4180-999f-e09241877eb6
+		summarizeBy: none
+		sourceColumn: Sold_To
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Active/Not Active'
+		dataType: string
+		lineageTag: f725e6d0-b08e-443f-9339-5854dff4ba63
+		summarizeBy: none
+		sourceColumn: Active/Not Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store/WH
+		dataType: string
+		lineageTag: e4c1b5ed-6021-41b3-8a19-5cbfcfb7592f
+		summarizeBy: none
+		sourceColumn: Store/WH
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clear Name (Subgroup Name/Payer Name/Sold To Name)'
+		dataType: string
+		lineageTag: b98df378-1e60-42a7-a547-03df6685f225
+		summarizeBy: none
+		sourceColumn: Clear Name (Subgroup Name/Payer Name/Sold To Name)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C-Market Channel(I)'
+		dataType: string
+		lineageTag: 517b6264-f315-47a0-9dbf-ac3412c1aabc
+		summarizeBy: none
+		sourceColumn: C-Market Channel(I)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer_Master = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    customer_master_Table = Source{[Item="customer_master",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(customer_master_Table,{{"Ship_To (Key)", Int64.Type}, {"Clear Name (Subgroup Name/Payer Name/Sold To Name)", type text}, {"Full_Name (Name 1)", type text}, {"C-Market Channel(I)", type text}, {"City", type any}, {"SR", type any}, {"FM", type any}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each true),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","E-Commerce","E-Com",Replacer.ReplaceText,{"C-Market Channel(I)"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+

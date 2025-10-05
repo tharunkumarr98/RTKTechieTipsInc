@@ -1,0 +1,55 @@
+table Plant
+	lineageTag: be4b72ad-deb4-455a-bfb9-a901805cc17c
+
+	column 'Plant (Key)'
+		dataType: string
+		lineageTag: 0d542a86-5d35-4d46-a9cb-3ccbb69f76f0
+		summarizeBy: none
+		sourceColumn: Plant (Key)
+		sortByColumn: Market
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 92f83556-b234-4302-b969-2bfd56246f5d
+		summarizeBy: none
+		sourceColumn: Market
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: string
+		lineageTag: ad8cccb7-a4fc-4477-acb0-d8b863fed5d3
+		summarizeBy: none
+		sourceColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market2
+		dataType: string
+		lineageTag: d029a2f1-fde6-479a-b21f-b10658aae5e0
+		summarizeBy: none
+		sourceColumn: Market2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Plant = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Contractual Capacity.xlsx"), null, true),
+				    Table4_Table = Source{[Item="Table4",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table4_Table,{{"Plant (Key)", type text}, {"Market", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

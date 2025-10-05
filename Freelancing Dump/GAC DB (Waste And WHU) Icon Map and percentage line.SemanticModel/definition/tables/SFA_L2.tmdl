@@ -1,0 +1,245 @@
+table SFA_L2
+	lineageTag: 593cc52f-0d93-4a2f-b0e1-c5bf6b8189d6
+
+	measure YTD_SFA_001 = ```
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "YTD",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[CY SFA 001]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+			
+			
+			```
+		lineageTag: b191bbdf-5e67-4196-b9b4-842474bc0da8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YTD_Bias_001 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "YTD",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[CY Bias 001]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		formatString: 0.0
+		lineageTag: df7e413f-25bc-45ca-ac87-759f6159d5c1
+
+	measure LY_Bias_001 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "LY",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[Bias LY 001]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		formatString: 0.0
+		lineageTag: b51c2358-f92d-4abe-88e3-248505a63b51
+
+	measure LY_SFA_001 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "LY",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[SFA LY 001]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		formatString: 0.0
+		lineageTag: 058568b8-d5b2-4379-a2a4-cd4ab61caa39
+
+	measure SFA_Tgt_001 =
+			
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM(Targets_GAC_Main[TGT])*100,
+			    FILTER(Targets_GAC_Main, Targets_GAC_Main[Market] = SelectedRegion && Targets_GAC_Main[KPI]="1001"
+			))
+		formatString: 0
+		lineageTag: f092a63a-be1a-4d09-8aec-6363dff7d6c4
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure SFA_Tgt_004 =
+			
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM(Targets_GAC_Main[TGT])*100,
+			    FILTER(Targets_GAC_Main, Targets_GAC_Main[Market] = SelectedRegion && Targets_GAC_Main[KPI]="1004"
+			))
+		lineageTag: 9454c7a9-f6c1-4851-9df0-0822a6020deb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure LY_Bias_004 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "LY",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[Bias LY 004]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		lineageTag: 9e6fe53d-4dd7-4907-b6d1-05cddbc15990
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure LY_SFA_004 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "LY",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[SFA LY 004]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		lineageTag: 5a7d13c8-3b3b-4d83-ae88-1a483b65bf7a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YTD_Bias_004 =
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "YTD",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[CY Bias 004]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+		lineageTag: 45655141-4412-45e6-9bc1-0fae0ae283d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YTD_SFA_004 = ```
+			
+			if  (SELECTEDVALUE (Month_Sort[Month]) = "YTD",
+			VAR SelectedRegion = SELECTEDVALUE('market'[market (key)])
+			RETURN
+			CALCULATE(
+			    SUM('YTD_SFA'[CY SFA 004]),
+			    FILTER('YTD_SFA', 'YTD_SFA'[G-Sales District (Ship-To)] = SelectedRegion)
+			))
+			
+			```
+		lineageTag: aa9cbcdc-68b5-427a-90fd-06a81d26f473
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Bucket Year/Month'
+		dataType: string
+		lineageTag: d97d7f1a-cd82-4c5c-b251-06283bc4691a
+		summarizeBy: none
+		sourceColumn: Bucket Year/Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'APO Location'
+		dataType: string
+		lineageTag: 2bcdb95e-42ac-4e8c-863c-5ef8b049fe8b
+		summarizeBy: none
+		sourceColumn: APO Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'BIAS% 22/23 1001'
+		dataType: double
+		formatString: 0.0
+		lineageTag: fbe07274-fe54-4338-ae7f-033adf987159
+		summarizeBy: sum
+		sourceColumn: BIAS% 22/23 1001
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SFA % 22/23 1001'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 0e0194af-e7fd-41ac-a39e-bb08a25d48a0
+		summarizeBy: sum
+		sourceColumn: SFA % 22/23 1001
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'BIAS% 22/23 1004'
+		dataType: double
+		formatString: 0.0
+		lineageTag: e8265f81-7901-4c1d-994c-9d289a8bc4e2
+		summarizeBy: sum
+		sourceColumn: BIAS% 22/23 1004
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SFA % 22/23 1004'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 0c031dbd-6146-4954-a421-2dbb5c32f13d
+		summarizeBy: sum
+		sourceColumn: SFA % 22/23 1004
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mon
+		dataType: string
+		lineageTag: b3394f7b-dd31-4f4f-afb6-de602d5d47e7
+		summarizeBy: none
+		sourceColumn: Mon
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'BIAS% 23/24 1001'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 63e95abe-aaf1-4655-8d18-47658a037ac9
+		summarizeBy: sum
+		sourceColumn: BIAS% 23/24 1001
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SFA % 23/24 1001'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 1d439feb-7be1-472b-9dd2-bb6f603c9274
+		summarizeBy: sum
+		sourceColumn: SFA % 23/24 1001
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'BIAS% 23/24 1004'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 3273cec1-5fed-4d7d-8cbd-f2ef00a82b03
+		summarizeBy: sum
+		sourceColumn: BIAS% 23/24 1004
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SFA % 23/24 1004'
+		dataType: double
+		formatString: 0.0
+		lineageTag: b7eaf3fc-6a78-44a3-8253-32b05d6a321e
+		summarizeBy: sum
+		sourceColumn: SFA % 23/24 1004
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SFA_L2 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\GAC Dashboard.xlsx"), null, true),
+				    SFA_L2_Table = Source{[Item="SFA_L2",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(SFA_L2_Table,{{"BIAS% 23/24 1001", type number}, {"SFA % 23/24 1001", type number}, {"SFA % 22/23 1004", type number}, {"BIAS% 22/23 1004", type number}, {"SFA % 22/23 1001", type number}, {"BIAS% 22/23 1001", type number}, {"BIAS% 23/24 1004", type number}, {"SFA % 23/24 1004", type number}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","Lower Gulf","Other Lower Gulf",Replacer.ReplaceText,{"APO Location"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

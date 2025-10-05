@@ -1,0 +1,617 @@
+table 'Waste - BW'
+	lineageTag: 34afdf8a-3193-484a-b15c-c73498c858b5
+
+	measure Selection_Waste_BW = ```
+			
+			     --SWITCH(
+			     --    SELECTEDVALUE(Radio_Button_Options_Waste[Radio_Button_Option]),
+			     --    "Volume_QL", sum('Waste - BW'[Disposal quantity (Gross Weight Qls) (A)]),
+			     --    "Value_Euro", sum('Waste - BW'[Disposal - Std Value (A) EUR]),
+			     --    "Quantity_CU", sum('Waste - BW'[Disposal Quantity (A) (Base UOM)]),
+			     --    --"Contribution %", 1,
+			     --    sum('Waste - BW'[Disposal - Std Value (A) EUR])  -- default to ValueMeasure if no selection is made
+			     --)
+			
+			
+			Var PercountryResult = SWITCH(
+			SELECTEDVALUE(Radio_Button_Options_Waste[Radio_Button_Option]),
+			"Volume_QL", sum('Waste - BW'[Disposal quantity (Gross Weight Qls) (A)]),
+			"Value_Euro", sum('Waste - BW'[CY Std Val Euro]),
+			"Quantity_CU", sum('Waste - BW'[Disposal Quantity (A) (Base UOM)]),
+			sum('Waste - BW'[CY Std Val Euro])  )
+			
+			Var TotalResult = CALCULATE(  SWITCH(
+			    SELECTEDVALUE(Radio_Button_Options_Waste[Radio_Button_Option]),
+			"Volume_QL", sum('Waste - BW'[Disposal quantity (Gross Weight Qls) (A)]),
+			"Value_Euro", sum('Waste - BW'[CY Std Val Euro]),
+			"Quantity_CU", sum('Waste - BW'[Disposal Quantity (A) (Base UOM)]),
+			sum('Waste - BW'[CY Std Val Euro])  ) 
+			, REMOVEFILTERS(Market)
+			)
+			Var Result = IF(SELECTEDVALUE(Market[Market (Key)]) <> "GAC (GULF)", PercountryResult,TotalResult) 
+			return result
+			```
+		formatString: #,0
+		lineageTag: d758203a-2daa-4082-a7e9-d964b515f0be
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Delta Approved vs. Completed' = [DispStdValCurrentYear] - [DispFinMvmntStdValCurrentYear]
+		formatString: #,0
+		lineageTag: b5989ce6-4e69-472b-beaa-0e6f3aa51465
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure WasteLastYear = ```
+			
+			Var __SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var __TotalResult =  CALCULATE( Sum([LY Std Val Euro]) , REMOVEFILTERS(Market))
+			Var __PerCountryResult =  CALCULATE( Sum([LY Std Val Euro]))
+			RETURN IF(__SelectedMarket <> "GAC (GULF)",__PerCountryResult, __TotalResult)
+			
+			```
+		lineageTag: 6ada3021-f361-464b-b885-992317ef9099
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DispStdValCurrentYear =
+			
+			Var __SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var __TotalResult =  CALCULATE( Sum([CY Std Val Euro]) , REMOVEFILTERS(Market))
+			Var __PerCountryResult =  CALCULATE( Sum([CY Std Val Euro]))
+			RETURN IF(__SelectedMarket <> "GAC (GULF)",__PerCountryResult, __TotalResult)
+		formatString: #,0
+		lineageTag: b8152fdc-a610-4540-8c22-3aec248ab4f3
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Waste_LY = ```
+			
+			Var __SelectedCountry = SELECTEDVALUE(Market[Market (Key)]) 
+			Var __SelectedValueMonth = SELECTEDVALUE(Month_Sort[Month])  
+			Var __Waste_LY_PerCountry = CALCULATE(sum([LY Std Val Euro]), FILTER(Month_Sort, Month_Sort[Month_Number] <= MONTH(TODAY()-1)))
+			Var __Waste_LY_TotalResult = CALCULATE(sum([LY Std Val Euro]), FILTER(Month_Sort, Month_Sort[Month_Number] <= MONTH(TODAY()-1)), REMOVEFILTERS(Market)) 
+			Var __Waste_LY = IF(__SelectedCountry <> "GAC (GULF)", __Waste_LY_PerCountry, __Waste_LY_TotalResult)
+			Var Result = IF(__SelectedValueMonth = "LY", __Waste_LY)
+			RETURN Result
+			```
+		lineageTag: 9594ec1c-f1d6-4027-87ec-dfd2e4ab0860
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Waste_CY = ```
+			
+			Var __SelectedCountry = SELECTEDVALUE(Market[Market (Key)]) 
+			Var __SelectedValueMonth = SELECTEDVALUE(Month_Sort[Month])  
+			Var __Waste_CY_PerCountry = CALCULATE(sum([CY Std Val Euro]), REMOVEFILTERS(Month_Sort))
+			Var __Waste_CY_TotalResult = CALCULATE(sum([CY Std Val Euro]), REMOVEFILTERS(Month_Sort), REMOVEFILTERS(Market)) 
+			Var __Waste_CY = IF(__SelectedCountry <> "GAC (GULF)", __Waste_CY_PerCountry, __Waste_CY_TotalResult)
+			Var Result = IF(__SelectedValueMonth = "YTD", __Waste_CY)
+			RETURN Result
+			```
+		lineageTag: 8c51dd98-13a6-4d6a-9fe6-e3aadcf2155b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DispFinValCurrentYear =
+			
+			Var __SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var __TotalResult =  CALCULATE( Sum([CY (24/25)]) , REMOVEFILTERS(Market))
+			Var __PerCountryResult =  CALCULATE( Sum([CY (24/25)]))
+			RETURN IF(__SelectedMarket <> "GAC (GULF)",__PerCountryResult, __TotalResult)
+		lineageTag: 4cc0a6af-5768-4602-84e0-923a8083bce9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DispFinMvmntStdValCurrentYear =
+			
+			Var __SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var __TotalResult =  CALCULATE( Sum([CY Final Mvmnt Val Euro]) , REMOVEFILTERS(Market))
+			Var __PerCountryResult =  CALCULATE( Sum([CY Final Mvmnt Val Euro]))
+			RETURN IF(__SelectedMarket <> "GAC (GULF)",__PerCountryResult, __TotalResult)
+		formatString: #,0
+		lineageTag: 8f7b3131-4a91-48e3-a902-252a2290beac
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 69243e08-b919-4d4d-8892-8dd93cfc33f3
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 79adbcc5-3885-48aa-aaf9-f566b562f381
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: c9b27566-7400-40a6-bc8e-a7f4f929064d
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Disp Reason Descr'
+		dataType: string
+		lineageTag: f6a349ac-c0a3-45bf-aa5f-56d8a3a84509
+		summarizeBy: none
+		sourceColumn: Disp Reason Descr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Root Cause'
+		dataType: string
+		lineageTag: ded369a2-9fa5-4a32-8b37-1e3eb6cbdd76
+		summarizeBy: none
+		sourceColumn: Root Cause
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Movement Type'
+		dataType: string
+		lineageTag: 82d4466e-7d4b-4e4f-a995-612fc0130031
+		summarizeBy: none
+		sourceColumn: Movement Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Disposal Creation Date (A)'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 605e7039-0278-4411-bc68-2d8b9ee90230
+		summarizeBy: none
+		sourceColumn: Disposal Creation Date (A)
+
+		variation Variation
+			isDefault
+			relationship: 7fe869e1-b56c-42cf-abb2-c4145d9545dd
+			defaultHierarchy: LocalDateTable_53b2b9e5-769b-49ac-a09c-0b19660315c3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Final Movement Posting Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 500386bc-239e-40df-b630-3add57373022
+		summarizeBy: none
+		sourceColumn: Final Movement Posting Date
+
+		variation Variation
+			isDefault
+			relationship: 5a1b16ff-9474-439e-8ca8-34774a30c1e9
+			defaultHierarchy: LocalDateTable_62b1b9b7-6e6d-4478-a7fd-ca527332d1e8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Age Category'
+		dataType: string
+		lineageTag: 49f344d0-2d21-49cf-9f79-258d38ab1cf5
+		summarizeBy: none
+		sourceColumn: Age Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Remaining SL CATEGORY'
+		dataType: string
+		lineageTag: c432eb83-d936-48cf-b4ba-31c34a431f82
+		summarizeBy: none
+		sourceColumn: Remaining SL CATEGORY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand (Subclass Desc)'
+		dataType: string
+		lineageTag: 4ef302b9-9f37-4978-92e2-d99010653462
+		summarizeBy: none
+		sourceColumn: Brand (Subclass Desc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial reference (BW Conc)'
+		dataType: string
+		lineageTag: 9d14256c-89ea-41a1-ae79-40ee112a133b
+		summarizeBy: none
+		sourceColumn: Commercial reference (BW Conc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Disposal Status'
+		dataType: string
+		lineageTag: c67a6e74-c7bb-49e9-8a84-e3e8aa605953
+		summarizeBy: none
+		sourceColumn: Disposal Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Material
+		dataType: string
+		lineageTag: b5bc0fd6-2aaf-49d5-9567-eb5125237d3b
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Desc'
+		dataType: string
+		lineageTag: c898143a-ea53-4b4d-94ad-69fda229b648
+		summarizeBy: none
+		sourceColumn: Material Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stock Age'
+		dataType: double
+		lineageTag: 19a2439a-b160-4704-8929-22777da07b79
+		summarizeBy: sum
+		sourceColumn: Stock Age
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Weight (KG)'
+		dataType: double
+		lineageTag: 174ed67b-8a05-4d19-9aa0-63910fb837ca
+		summarizeBy: sum
+		sourceColumn: Net Weight (KG)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Stock Quantity Std Value'
+		dataType: double
+		lineageTag: c961460c-1077-497c-8d0c-8275de46b08f
+		summarizeBy: sum
+		sourceColumn: Stock Quantity Std Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Stock Quantity Act Value'
+		dataType: double
+		lineageTag: d572f45a-a0a5-44ff-b83b-14f2a800c908
+		summarizeBy: sum
+		sourceColumn: Stock Quantity Act Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Stock Quantity (Gross Weight Qls)'
+		dataType: double
+		lineageTag: f54cdf0c-6160-41fe-b94b-e3c2324bafb4
+		summarizeBy: sum
+		sourceColumn: Stock Quantity (Gross Weight Qls)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Available Quantity (Gross Weight Qls)'
+		dataType: double
+		lineageTag: a10675fe-91d0-4993-8dc5-0e23b71e54f5
+		summarizeBy: sum
+		sourceColumn: Available Quantity (Gross Weight Qls)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Available Std Value'
+		dataType: double
+		lineageTag: bd7ee38b-783c-4f1f-9de6-b4dc0b780610
+		summarizeBy: sum
+		sourceColumn: Available Std Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Actual Price'
+		dataType: double
+		lineageTag: 8fa79550-528b-4fba-91dd-63251327ce56
+		summarizeBy: sum
+		sourceColumn: Actual Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Standard Price'
+		dataType: double
+		lineageTag: 5bd1ef17-17ea-4a7a-97be-c3141d956762
+		summarizeBy: sum
+		sourceColumn: Standard Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal - Std Value (A)'
+		dataType: double
+		lineageTag: 0deda65b-f290-498d-ad40-a967d3378122
+		summarizeBy: sum
+		sourceColumn: Disposal - Std Value (A)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal - Std Value (A) EUR'
+		dataType: double
+		lineageTag: e4dab895-5a55-4e24-82a8-6662134b1a85
+		summarizeBy: sum
+		sourceColumn: Disposal - Std Value (A) EUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal - Act Value (A)'
+		dataType: double
+		lineageTag: f5bf3fb6-32f4-4afc-8562-8361190a8477
+		summarizeBy: sum
+		sourceColumn: Disposal - Act Value (A)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal quantity (Gross Weight Qls) (A)'
+		dataType: double
+		lineageTag: 70c9eaa4-6d67-4618-b5ad-baa749fb316f
+		summarizeBy: sum
+		sourceColumn: Disposal quantity (Gross Weight Qls) (A)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Remaining SL %'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f2d9e42-5898-4b58-a7b2-067a744d1cab
+		summarizeBy: sum
+		sourceColumn: Remaining SL %
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Remaining SL day'
+		dataType: double
+		lineageTag: 8245f51b-498f-4bf5-8850-ee31d5a2fce6
+		summarizeBy: sum
+		sourceColumn: Remaining SL day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Final Movement - Std Value'
+		dataType: double
+		lineageTag: 17610589-25c6-4023-aa58-12139ec8df4d
+		summarizeBy: sum
+		sourceColumn: Final Movement - Std Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Final Movement Quantity (Gross Weight Qls)'
+		dataType: double
+		lineageTag: 3d584e5e-706d-4291-b6e5-e82626021ffe
+		summarizeBy: sum
+		sourceColumn: Final Movement Quantity (Gross Weight Qls)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month_Posted
+		dataType: int64
+		formatString: 0
+		lineageTag: 2608eb79-1051-4f93-a5f3-cd5baf41b486
+		summarizeBy: sum
+		sourceColumn: Month_Posted
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market2
+		dataType: string
+		lineageTag: 78c31d5b-b7a8-47ac-9f8b-56e22c1130bb
+		summarizeBy: none
+		sourceColumn: Market2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LY Val (23/24)'
+		dataType: double
+		lineageTag: 1b01679a-1ab5-491e-87f8-7a40b930cd21
+		summarizeBy: sum
+		sourceColumn: LY Val (23/24)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CY (24/25)'
+		dataType: double
+		lineageTag: f4b8f7db-ffb0-488f-a7dc-502ae702959c
+		summarizeBy: sum
+		sourceColumn: CY (24/25)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal Creation Date (A) - Copy'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bc24f49d-e92c-4cfe-a1d4-b56d8dfc43e6
+		summarizeBy: none
+		sourceColumn: Disposal Creation Date (A) - Copy
+
+		variation Variation
+			isDefault
+			relationship: 5bf5e309-69c9-4978-998b-b51dc1ea1f10
+			defaultHierarchy: LocalDateTable_c0f8d402-3574-4ae4-808a-5b6366fd7b80.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Month_Created
+		dataType: int64
+		formatString: 0
+		lineageTag: 55512b9a-1e07-4bdf-b3b6-733a24af38e8
+		summarizeBy: none
+		sourceColumn: Month_Created
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LY Final Mvmnt Val'
+		dataType: double
+		lineageTag: 75c1a0ec-883e-4d06-9464-4ae6d8d17243
+		summarizeBy: sum
+		sourceColumn: LY Final Mvmnt Val
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CY Final Mvmnt Val'
+		dataType: double
+		lineageTag: 70c9dc99-4a89-422c-ae80-893a21032276
+		summarizeBy: sum
+		sourceColumn: CY Final Mvmnt Val
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CY Euro Rates'
+		dataType: double
+		lineageTag: d3902d66-6d8f-42b1-975a-6f17451f1950
+		summarizeBy: sum
+		sourceColumn: CY Euro Rates
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CY Std Val Euro'
+		dataType: double
+		lineageTag: 11f8f229-c586-45a6-b82f-fb9652a0b1bd
+		summarizeBy: sum
+		sourceColumn: CY Std Val Euro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'LY Std Val Euro'
+		dataType: double
+		lineageTag: df5832c8-172f-45d8-9104-33198021f5cb
+		summarizeBy: sum
+		sourceColumn: LY Std Val Euro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'LY Final Mvmnt Val Euro'
+		dataType: double
+		lineageTag: 19b5cb4f-2273-4847-805b-3f10f431e572
+		summarizeBy: sum
+		sourceColumn: LY Final Mvmnt Val Euro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'CY Final Mvmnt Val Euro'
+		dataType: double
+		lineageTag: ac897afa-c0a9-45bf-bb71-8aaa6cbe07fe
+		summarizeBy: sum
+		sourceColumn: CY Final Mvmnt Val Euro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Disposal Quantity (A) (Base UOM)'
+		dataType: int64
+		formatString: 0
+		lineageTag: e12c089b-1ad6-48fd-bc82-dea9e0aa203f
+		summarizeBy: sum
+		sourceColumn: Disposal Quantity (A) (Base UOM)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Waste - BW' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Waste - BW"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (26)", each #"Transform File (26)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (26)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (26)", Table.ColumnNames(#"Transform File (26)"(#"Sample File (26)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Disposed Region", type text}, {"Disposed Plant/Market", type text}, {"Disp Reason Descr", type text}, {"Root Cause", type text}, {"Usage Proposal Description (A)", type text}, {"Movement Type", type text}, {"Disposal Creation Date (A)", type date}, {"Final Movement Posting Date", type date}, {"Age Category", type text}, {"Remaining SL CATEGORY", type text}, {"Subclass", type text}, {"Subclass Desc", type text}, {"Commercial reference", type text}, {"Disposal Global Status", type text}, {"Material", Int64.Type}, {"Material Desc", type text}, {"Stock Age", type number}, {"Net Weight (KG)", type number}, {"Stock Quantity (Base UOM)", Int64.Type}, {"Stock Quantity Std Value", Int64.Type}, {"Stock Quantity Act Value", Int64.Type}, {"Stock Quantity (Gross Weight Qls)", Int64.Type}, {"Stock Quantity (Gross Weight KG)", Int64.Type}, {"Stock Quantity (Gross Weight CT)", Int64.Type}, {"Blocked Quantity (Base UOM)", Int64.Type}, {"Blocked Quantity (Gross Weight Qls)", Int64.Type}, {"Blocked Quantity (Gross Weight KG)", Int64.Type}, {"Blocked Quantity (Gross Weight CT)", Int64.Type}, {"Block Std Value", Int64.Type}, {"Available Quantity (Base UOM)", Int64.Type}, {"Available Quantity (Gross Weight Qls)", Int64.Type}, {"Available Quantity (Gross Weight KG)", Int64.Type}, {"Available Quantity (Gross Weight CT)", Int64.Type}, {"Available Std Value", Int64.Type}, {"Actual Price", type number}, {"Standard Price", type number}, {"Disposal Quantity (A) (Base UOM)", Int64.Type}, {"Disposal - Std Value (A)", type number}, {"Disposal - Std Value (A) EUR", type number}, {"Disposal - Act Value (A)", type number}, {"Disposal Quantity (Gross Weight KG) (A)", type number}, {"Disposal quantity (Gross Weight CT) (A)", type number}, {"Disposal quantity (Gross Weight Qls) (A)", type number}, {"Remaining SL %", Int64.Type}, {"Remaining SL day", type number}, {"Final Movement Quantity (Base UOM)", Int64.Type}, {"Final Movement - Act Value", type number}, {"Final Movement - Std Value", type number}, {"Final Movement Quantity (Gross Weight Qls)", type number}, {"Final Movement Quantity (Gross Weight KG)", type number}, {"Final Movement Quantity (Gross Weight CT)", type number}, {"Disposal Quantity (B)", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Disposed Region", "Market"}, {"Disposed Plant/Market", "Plant"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Subclass", "Usage Proposal Description (A)", "Stock Quantity (Base UOM)", "Stock Quantity (Gross Weight KG)", "Stock Quantity (Gross Weight CT)", "Blocked Quantity (Base UOM)", "Blocked Quantity (Gross Weight Qls)", "Blocked Quantity (Gross Weight KG)", "Blocked Quantity (Gross Weight CT)", "Block Std Value", "Available Quantity (Base UOM)", "Available Quantity (Gross Weight KG)", "Available Quantity (Gross Weight CT)", "Disposal quantity (Gross Weight CT) (A)", "Disposal Quantity (Gross Weight KG) (A)", "Final Movement Quantity (Base UOM)", "Final Movement - Act Value", "Final Movement Quantity (Gross Weight KG)", "Final Movement Quantity (Gross Weight CT)", "Disposal Quantity (B)"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"Subclass Desc", "Brand (Subclass Desc)"}, {"Commercial reference", "Commercial reference (BW Conc)"}, {"Disposal Global Status", "Disposal Status"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Material", type text}, {"Stock Quantity (Gross Weight Qls)", type number}, {"Stock Quantity Act Value", type number}, {"Stock Quantity Std Value", type number},{"Available Quantity (Gross Weight Qls)", type number},{"Available Std Value", type number}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type1", "Final Movement Posting Date", "Final Movement Posting Date - Copy"),
+				    #"Inserted Month" = Table.AddColumn(#"Duplicated Column", "Month", each Date.Month([#"Final Movement Posting Date - Copy"]), Int64.Type),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Inserted Month",{"Final Movement Posting Date - Copy"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns1",{{"Month", "Month_Posted"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns3", each true),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Filtered Rows", "Plant", "Plant - Copy"),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Duplicated Column1",{{"Plant - Copy", "Market2"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns4","KWDA","Kuwait",Replacer.ReplaceText,{"Market2"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","SADA","Saudi Arabia",Replacer.ReplaceText,{"Market2"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","SADB","Saudi Arabia",Replacer.ReplaceText,{"Market2"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","LUD0","Hub Dubai",Replacer.ReplaceText,{"Market2"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","AEDA","Dubai",Replacer.ReplaceText,{"Market2"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value4", "LY Val (23/24)", each if [#"Disposal Creation Date (A)"] < #date(2024, 9, 1) then [#"Disposal - Std Value (A)"] else null),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Conditional Column",{{"LY Val (23/24)", type number}}),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type2", "CY (24/25)", each if [#"Disposal Creation Date (A)"] >= #date(2024, 9, 1) then [#"Disposal - Std Value (A)"] else null),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Conditional Column1",{{"CY (24/25)", type number}}),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Changed Type3", "Disposal Creation Date (A)", "Disposal Creation Date (A) - Copy"),
+				    #"Inserted Month1" = Table.AddColumn(#"Duplicated Column2", "Month", each Date.Month([#"Disposal Creation Date (A) - Copy"]), Int64.Type),
+				    #"Renamed Columns5" = Table.RenameColumns(#"Inserted Month1",{{"Month", "Month_Created"}}),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Renamed Columns5", "LY Final Mvmnt Val", each if [#"Disposal Creation Date (A)"] < #date(2024, 9, 1) then [#"Final Movement - Std Value"] else null),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Added Conditional Column2",{{"LY Final Mvmnt Val", type number}}),
+				    #"Added Conditional Column3" = Table.AddColumn(#"Changed Type4", "CY Final Mvmnt Val", each if [#"Disposal Creation Date (A)"] >= #date(2024, 9, 1) then [#"Final Movement - Std Value"] else null),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Conditional Column3",{{"CY Final Mvmnt Val", type number}}),
+				    #"Added Conditional Column4" = Table.AddColumn(#"Changed Type5", "CY Euro Rates", each if [Market2] = "Kuwait" then 0.338 else if [Market2] = "Saudi Arabia" then 4.058 else if [Market2] = "Dubai" then 4.098 else if [Market2] = "Hub Dubai" then 1 else null),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Added Conditional Column4",{{"CY Euro Rates", type number}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type6", "CY Std Val Euro", each [#"CY (24/25)"]/[CY Euro Rates]),
+				    #"Changed Type7" = Table.TransformColumnTypes(#"Added Custom",{{"CY Std Val Euro", type number}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type7", "LY Std Val Euro", each [#"LY Val (23/24)"]/[CY Euro Rates]),
+				    #"Changed Type8" = Table.TransformColumnTypes(#"Added Custom1",{{"LY Std Val Euro", type number}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type8", "LY Final Mvmnt Val Euro", each [LY Final Mvmnt Val]/[CY Euro Rates]),
+				    #"Changed Type9" = Table.TransformColumnTypes(#"Added Custom2",{{"LY Final Mvmnt Val Euro", type number}}),
+				    #"Added Custom3" = Table.AddColumn(#"Changed Type9", "CY Final Mvmnt Val Euro", each [CY Final Mvmnt Val]/[CY Euro Rates]),
+				    #"Changed Type10" = Table.TransformColumnTypes(#"Added Custom3",{{"CY Final Mvmnt Val Euro", type number}})
+				in
+				    #"Changed Type10"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

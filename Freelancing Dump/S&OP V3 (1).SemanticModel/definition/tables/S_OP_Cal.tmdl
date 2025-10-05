@@ -1,0 +1,64 @@
+table S_OP_Cal
+	lineageTag: 40a81dea-5db3-4b6c-b968-adf52cdf1d1a
+
+	column 'Table Sort'
+		dataType: int64
+		formatString: 0
+		lineageTag: 316bd94f-4344-4cc7-8cf0-0919ee6aa524
+		summarizeBy: sum
+		sourceColumn: Table Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'S&OP Cycle (Wk.Yr)'
+		dataType: double
+		lineageTag: e3e13a5a-43a4-4bd6-979d-226b86d16337
+		summarizeBy: sum
+		sourceColumn: S&OP Cycle (Wk.Yr)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Corresponding Month'
+		dataType: string
+		lineageTag: 85d6b80c-841e-4ed2-bb92-73425960180d
+		summarizeBy: none
+		sourceColumn: Corresponding Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year'
+		dataType: string
+		lineageTag: 934a19b3-66b2-4476-83fc-d49d5aac9b17
+		summarizeBy: none
+		sourceColumn: Fiscal Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Session
+		dataType: string
+		lineageTag: 333a3788-87f0-4572-a9e7-1c38ee5290a4
+		summarizeBy: none
+		sourceColumn: Session
+
+		annotation SummarizationSetBy = Automatic
+
+	partition S_OP_Cal = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\S&OP V3.0\Mapping.xlsx"), null, true),
+				    S_OP_Cal_Table = Source{[Item="S_OP_Cal",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(S_OP_Cal_Table,{{"Table Sort", Int64.Type}, {"S&OP Cycle (Wk.Yr)", type number}, {"Corresponding Month", type text}, {"Fiscal Year", Int64.Type}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Session", each if [Corresponding Month] = "Sep" or [Corresponding Month] = "Oct" or [Corresponding Month] = "Nov" or [Corresponding Month] = "Dec" then "S1"
+				else if [Corresponding Month] = "Jan" or [Corresponding Month] = "Feb" or [Corresponding Month] = "Mar" or [Corresponding Month] = "Apr" then "S2"
+				else "S2"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Session", type text}, {"Fiscal Year", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

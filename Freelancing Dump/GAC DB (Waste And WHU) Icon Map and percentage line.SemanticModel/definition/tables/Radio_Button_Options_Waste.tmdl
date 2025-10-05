@@ -1,0 +1,27 @@
+table Radio_Button_Options_Waste
+	lineageTag: 081dcef8-18a1-4dc7-b6b3-4eccaf4dbad4
+
+	column Radio_Button_Option
+		lineageTag: c8d8cf50-1ee9-4431-80c2-61557b3012fb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Radio_Button_Option]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Radio_Button_Options_Waste = calculated
+		mode: import
+		source = ```
+				
+				    DATATABLE (
+				        "Radio_Button_Option", STRING,
+				        {
+				            {"Volume_QL" },
+				            {"Value_Euro" },
+				            {"Quantity_CU"}
+				        }
+				    )
+				```
+
+	annotation PBI_Id = e28e0335d8714d87914f2ce67113644c
+

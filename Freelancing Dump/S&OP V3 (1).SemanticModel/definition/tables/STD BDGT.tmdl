@@ -1,0 +1,285 @@
+table 'STD BDGT'
+	lineageTag: a8dec620-396c-4905-b932-6684df8abc08
+
+	column Market
+		dataType: string
+		lineageTag: b0af2caa-0baf-44b1-a88e-ef80cd7e80b6
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: c7e3a611-c8e9-48c4-8914-8f447f5c6a2c
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref'
+		dataType: string
+		lineageTag: 507dc452-fce3-4511-8b61-05b44e497bbb
+		summarizeBy: none
+		sourceColumn: Commercial Ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sum of VOL SEP'
+		dataType: double
+		lineageTag: 22452983-2c2f-41f8-9c72-a23a09697879
+		summarizeBy: sum
+		sourceColumn: Sum of VOL SEP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL OCT'
+		dataType: double
+		lineageTag: 3b72f973-4e0f-43f7-9653-af0f8ac51576
+		summarizeBy: sum
+		sourceColumn: Sum of VOL OCT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL NOV'
+		dataType: double
+		lineageTag: 0de45553-ebde-4bbd-a9ba-bc7f7496fa57
+		summarizeBy: sum
+		sourceColumn: Sum of VOL NOV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL DEC'
+		dataType: double
+		lineageTag: e04fdb6a-9a46-47f1-a3b0-5cbe1c2929e8
+		summarizeBy: sum
+		sourceColumn: Sum of VOL DEC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL JAN'
+		dataType: double
+		lineageTag: a7494afe-020b-44f5-9407-79f58f73ebe1
+		summarizeBy: sum
+		sourceColumn: Sum of VOL JAN
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL FEB'
+		dataType: double
+		lineageTag: 7c1765a1-742d-4877-bbb7-a6ff774c020d
+		summarizeBy: sum
+		sourceColumn: Sum of VOL FEB
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL MAR'
+		dataType: double
+		lineageTag: 45bfcdd2-d0b9-47c8-b232-0fbb9d446afb
+		summarizeBy: sum
+		sourceColumn: Sum of VOL MAR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL APR'
+		dataType: double
+		lineageTag: f553c308-c78d-4d93-bf6d-38953b8a7c11
+		summarizeBy: sum
+		sourceColumn: Sum of VOL APR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL MAY'
+		dataType: double
+		lineageTag: 388d4987-6d43-4253-ada7-7dd7ca939e5b
+		summarizeBy: sum
+		sourceColumn: Sum of VOL MAY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL JUN'
+		dataType: double
+		lineageTag: b0b10272-e3d3-41a1-bd6f-a641dab8dd1e
+		summarizeBy: sum
+		sourceColumn: Sum of VOL JUN
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL JUL'
+		dataType: double
+		lineageTag: 8d69866b-38ee-4ecf-861b-0154a2445a49
+		summarizeBy: sum
+		sourceColumn: Sum of VOL JUL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sum of VOL AUG'
+		dataType: double
+		lineageTag: 7628f4fb-8a9c-4b2e-b319-62a75aa07cca
+		summarizeBy: sum
+		sourceColumn: Sum of VOL AUG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FY
+		dataType: double
+		lineageTag: 97e13cb9-aca0-489f-8c1b-f23d5b4541f6
+		summarizeBy: sum
+		sourceColumn: FY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Conc
+		dataType: string
+		lineageTag: e6de11ca-cb80-40f6-b6c4-c25d3c30f82e
+		summarizeBy: none
+		sourceColumn: Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Market - Orig'
+		dataType: string
+		lineageTag: ff7ff38b-c12f-4e76-9c3f-e66a8d95a8c5
+		summarizeBy: none
+		sourceColumn: Market - Orig
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: a20c40a2-37bc-4f5d-97b5-18a024274363
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'S&OP Country'
+		dataType: string
+		lineageTag: dc772ead-65c7-4b25-a93a-1749db096d41
+		summarizeBy: none
+		sourceColumn: S&OP Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'S&OP Cycle'
+		dataType: string
+		lineageTag: e15bc844-f0b9-4b3f-8708-61f5e3291af0
+		summarizeBy: none
+		sourceColumn: S&OP Cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category2
+		dataType: string
+		lineageTag: 40624ed1-46bd-4f21-ad69-36284f8d6cc1
+		summarizeBy: none
+		sourceColumn: Category2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category 2'
+		dataType: string
+		lineageTag: 309a0706-8d9d-482f-9140-4e357acdc306
+		summarizeBy: none
+		sourceColumn: Category 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTD (Avg)'
+		dataType: double
+		lineageTag: b5c29736-4a2c-4334-9f42-6e791f61ff81
+		summarizeBy: sum
+		sourceColumn: YTD (Avg)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'YTG (Avg)'
+		dataType: double
+		lineageTag: 68d2aafa-79e1-4ce1-95cb-164f07ad5763
+		summarizeBy: sum
+		sourceColumn: YTG (Avg)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column YTD
+		dataType: double
+		lineageTag: 14e71af7-9bac-4e31-a140-b893574ef4dd
+		summarizeBy: sum
+		sourceColumn: YTD
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'YTG '
+		dataType: double
+		lineageTag: adc8fa09-fc3c-4334-b61b-85d6a4cc009f
+		summarizeBy: sum
+		sourceColumn: "YTG "
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'STD BDGT' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\S&OP V3.0\GAC S&OP.xlsx"), null, true),
+				    bdgt_Table = Source{[Item="bdgt",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(bdgt_Table,{{"Market", type text}, {"Category", type text}, {"Commercial Ref", type text}, {"Sum of VOL SEP", type number}, {"Sum of VOL OCT", type number}, {"Sum of VOL NOV", type number}, {"Sum of VOL DEC", type number}, {"Sum of VOL JAN", type number}, {"Sum of VOL FEB", type number}, {"Sum of VOL MAR", type number}, {"Sum of VOL APR", type number}, {"Sum of VOL MAY", type number}, {"Sum of VOL JUN", type number}, {"Sum of VOL JUL", type number}, {"Sum of VOL AUG", type number}, {"FY", type number}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","Saudi","Saudi Arabia",Replacer.ReplaceText,{"Market"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each true),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Market", "Market - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Market - Copy", "Market - Orig"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns","Oman","Other Lower Gulf",Replacer.ReplaceText,{"Market"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Bahrain","Other Lower Gulf",Replacer.ReplaceText,{"Market"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Qatar","Other Lower Gulf",Replacer.ReplaceText,{"Market"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Yemen","Other Lower Gulf",Replacer.ReplaceText,{"Market"})
+				in
+				    #"Replaced Value4"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

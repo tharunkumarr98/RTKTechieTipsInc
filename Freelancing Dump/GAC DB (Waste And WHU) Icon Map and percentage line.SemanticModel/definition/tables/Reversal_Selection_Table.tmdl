@@ -1,0 +1,17 @@
+table Reversal_Selection_Table
+	lineageTag: 7771fa20-2eaf-43db-8184-04c7d3732ff5
+
+	column Value
+		lineageTag: 59a80fc0-442c-4348-b912-59c23d494404
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Reversal_Selection_Table = calculated
+		mode: import
+		source = {"Value_Local","Volume_QL","Count_DNs", "Contribution %"}
+
+	annotation PBI_Id = 3daab8c557fa4dca99c0b6ae1ff88835
+

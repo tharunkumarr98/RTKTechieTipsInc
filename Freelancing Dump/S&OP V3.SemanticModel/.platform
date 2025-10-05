@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "S&OP V3"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a11b079b-20aa-b73d-48bc-692fea899691"
+  }
+}

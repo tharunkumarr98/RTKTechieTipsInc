@@ -1,0 +1,31 @@
+table Geolane1
+	lineageTag: 5b0826c7-052e-465f-8c9e-a4933610509f
+
+	column To
+		dataType: string
+		lineageTag: 46b92ae8-78ee-4946-b10e-8304da2ee2c6
+		summarizeBy: none
+		sourceColumn: To
+
+		annotation SummarizationSetBy = Automatic
+
+	column Geolane
+		dataType: string
+		lineageTag: 4be21fe6-46d1-4259-ba25-c519dedb0e2b
+		summarizeBy: none
+		sourceColumn: Geolane
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Geolane1 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Geolane_Table = Source{[Item="Geolane",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Geolane_Table,{{"To", type text}, {"Geolane", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

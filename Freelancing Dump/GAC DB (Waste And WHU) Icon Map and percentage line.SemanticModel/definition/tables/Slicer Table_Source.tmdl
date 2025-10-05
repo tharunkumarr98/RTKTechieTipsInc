@@ -1,0 +1,17 @@
+table 'Slicer Table_Source'
+	lineageTag: 1caf2121-ca16-44c7-a022-741ff3884bc7
+
+	column Value
+		lineageTag: 99b2e7bd-e338-4a0b-8b7d-b11bd2b6befe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Table_Source' = calculated
+		mode: import
+		source = { "SAP", "BW"}
+
+	annotation PBI_Id = cfe60a0ccd864aa9ac2692f4af424704
+

@@ -1,0 +1,132 @@
+table 'STD Digitalization'
+	lineageTag: 23c616dc-45e1-4a3b-b4b6-0d82a9bd35d1
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: c1e056d2-6295-47b1-8957-295054be471f
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G-Market (Ship-To)'
+		dataType: string
+		lineageTag: 0b0b180c-74ad-4690-b0c3-997d2280dc4e
+		summarizeBy: none
+		sourceColumn: G-Market (Ship-To)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P-Commercial Reference'
+		dataType: string
+		lineageTag: f00c794a-c9d5-47a3-9264-6c38e0961e22
+		summarizeBy: none
+		sourceColumn: P-Commercial Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column P-Brand
+		dataType: string
+		lineageTag: b686a878-a2e0-47e6-bcf9-1f227fb25a9d
+		summarizeBy: none
+		sourceColumn: P-Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net Weight (QL)'
+		dataType: double
+		lineageTag: e0baa907-20c8-4755-a135-ae11843b8566
+		summarizeBy: sum
+		sourceColumn: Net Weight (QL)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Yr
+		dataType: string
+		lineageTag: 11484805-ae67-4226-add1-10592567a1bb
+		summarizeBy: none
+		sourceColumn: Yr
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonYear
+		dataType: string
+		lineageTag: f71ec0cd-70c4-4ad3-8f73-816e71578306
+		summarizeBy: none
+		sourceColumn: MonYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: f5be8df9-e056-452a-bf6d-e08755a433cd
+		summarizeBy: none
+		sourceColumn: Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'STDWk.Bucket (Correct Mon)'
+		dataType: string
+		lineageTag: bf9a17df-68cd-4957-a5f4-6944ae09026b
+		summarizeBy: none
+		sourceColumn: STDWk.Bucket (Correct Mon)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'STD Digitalization' = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\STD Digitalization"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (42)", each #"Transform File (42)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (42)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (42)", Table.ColumnNames(#"Transform File (42)"(#"Sample File (42)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"G-Market (Ship-To)", type text}, {"P-Commercial Reference", type text},  {"P-Brand", type text}, {"T-Cal. Year/Month", type text}, {"Net Weight (QL)", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{ {"T-Cal. Year/Month", "Mon.Year"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Mon.Year] <> null and [Mon.Year] <> "Result")),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Mon.Year", "Mon.Year - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Mon.Year - Copy", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Mon.Year - Copy.1", "Mon.Year - Copy.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Mon.Year - Copy.1", Int64.Type}, {"Mon.Year - Copy.2", Int64.Type}}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Changed Type1", "Source.Name", "Source.Name - Copy"),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Duplicated Column1",{{"Source.Name - Copy", "Wk"}}),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(#"Renamed Columns3", "Wk", Splitter.SplitTextByDelimiter("_", QuoteStyle.Csv), {"Wk.1", "Wk.2"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{"Wk.1", type text}, {"Wk.2", type text}}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Changed Type2",{{"Wk.1", "Wk"}, {"Wk.2", "Yr"}}),
+				    #"Split Column by Delimiter2" = Table.SplitColumn(#"Renamed Columns4", "Yr", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Yr.1", "Yr.2"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter2",{"Yr.2"}),
+				    #"Renamed Columns5" = Table.RenameColumns(#"Removed Columns",{{"Yr.1", "Yr"}, {"Mon.Year - Copy.1", "Mon_Numb"}}),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Renamed Columns5", "Mon_Numb", "Mon_Numb - Copy"),
+				    #"Renamed Columns6" = Table.RenameColumns(#"Duplicated Column2",{{"Mon_Numb - Copy", "Mon"}}),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Renamed Columns6",{{"Mon", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type4","9","Sep",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","10","Oct",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","11","Nov",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","12","Dec",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","1","Jan",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","2","Feb",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","3","Mar",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","4","Apr",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","5","May",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","6","Jun",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","7","Jul",Replacer.ReplaceText,{"Mon"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","8","Aug",Replacer.ReplaceText,{"Mon"}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Replaced Value11",{{"Mon.Year", type number}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type3", each ([#"T-Cal. Year/Week"] <> "Result")),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Filtered Rows1",{{"T-Cal. Year/Week", type number}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type6", {"T-Cal. Year/Week"}, STDWk, {"2425 Bucket Year/Week"}, "STDWk", JoinKind.LeftOuter),
+				    #"Expanded STDWk" = Table.ExpandTableColumn(#"Merged Queries", "STDWk", {"Bucket Year/Month"}, {"STDWk.Bucket Year/Month"}),
+				    #"Renamed Columns7" = Table.RenameColumns(#"Expanded STDWk",{{"STDWk.Bucket Year/Month", "STDWk.Bucket (Correct Mon)"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns7", "MonYear", each [#"STDWk.Bucket (Correct Mon)"]&[Yr]),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Custom",{{"MonYear", type text}}),
+				    #"Grouped Rows" = Table.Group(#"Changed Type5", {"Source.Name", "G-Market (Ship-To)", "P-Commercial Reference", "Desc", "P-Brand", "MonYear", "Yr", "STDWk.Bucket (Correct Mon)"}, {{"Net Weight (QL)", each List.Sum([#"Net Weight (QL)"]), type nullable number}})
+				in
+				    #"Grouped Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

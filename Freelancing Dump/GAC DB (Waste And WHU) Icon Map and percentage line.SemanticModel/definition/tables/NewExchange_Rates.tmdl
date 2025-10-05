@@ -1,0 +1,52 @@
+table NewExchange_Rates
+	lineageTag: f0f8c39f-43aa-44ff-80f8-750084558d82
+
+	column Market
+		dataType: string
+		lineageTag: 3f6ed070-60dd-4868-9e5f-59ed61d13447
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 196e18e6-98c5-464f-8637-fe5230712ac7
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 28683328-3f64-4479-882d-1cf245f5dcdf
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EUR Exchange Rate'
+		dataType: double
+		lineageTag: e5b43f1f-f1f4-4233-b66d-ae6b556ae589
+		summarizeBy: sum
+		sourceColumn: EUR Exchange Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition NewExchange_Rates = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Onemasterdata.xlsx"), null, true),
+				    Exchange_Rates_Table = Source{[Item="Exchange_Rates",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Exchange_Rates_Table,{{"Market", type text}, {"Year", Int64.Type}, {"Month", type text}, {"EUR Exchange Rate", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

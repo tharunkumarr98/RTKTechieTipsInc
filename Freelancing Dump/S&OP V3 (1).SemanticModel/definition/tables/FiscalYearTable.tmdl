@@ -1,0 +1,27 @@
+table FiscalYearTable
+	lineageTag: 183d4501-de38-4f33-835c-21c5ae21cf50
+
+	column Year
+		lineageTag: 0b1fcb0b-3978-4238-98b1-91e65ab51539
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FiscalYearTable = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Year", STRING,
+				    {
+				        {"2024"},
+				        {"2025"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 188d44b4deb84036b983902abf75bdfa
+

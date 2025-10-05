@@ -1,0 +1,3595 @@
+table 'SFA Folder'
+	lineageTag: 7b87b89a-5e2d-4967-80fe-2d5bbeca5834
+
+	measure 'SFA 01 2324' = ```
+			
+			
+			--	SFA % on Order_CR = 100 – MAPE % on Order_CR, and MAPE % on Order_CR is:
+			--  1. If Abs delta > = Order, then put 100 
+			--	2. If Abs delta < Order , then calculation is Abs delta / Order * 100.
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			    )
+			)
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			    )
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			```
+		lineageTag: 95bf39e9-40d0-40e3-96ee-c10613ab5d9b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2324' = ```
+			
+			-- Bias = (Forecast Monday / Order)  * 100
+			
+			--if (SELECTEDVALUE('SFA Folder'[Year])="2324" || SELECTEDVALUE('SFA Folder'[Year])="2425" ,
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			--,"")
+			
+			
+			
+			
+			
+			```
+		lineageTag: b1e5e388-67c8-4111-bebc-e1b8a938ee58
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2425' = ```
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE('SFA Folder'[Selection_Forecast_01], Sum('SFA Folder'[2425 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			    DIVIDE(
+			    'SFA Folder'[Selection_Forecast_01], Sum('SFA Folder'[2425 Order 01]),0)*100
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			```
+		lineageTag: 4adadc26-d375-4860-9180-339b8ce1c329
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2425' = ```
+			
+			
+			--	SFA % on Order_CR = 100 – MAPE % on Order_CR, and MAPE % on Order_CR is:
+			--  1. If Abs delta > = Order, then put 100 
+			--	2. If Abs delta < Order , then calculation is Abs delta / Order * 100.
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _DirectMarketResult = 
+			
+			Var Result = 
+			CALCULATE(
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			        )
+			 , Market[Market (Key)] IN {"Saudi Arabia", "Kuwait","Dubai"})
+			
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _TotalResult =
+			
+			  VAR Result =
+			    CALCULATE(
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			        )
+			 , REMOVEFILTERS(Market))
+			
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			
+			    VAR Result = 
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			        )
+			    RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)" ,_TotalResult,IF(_SelectedMarket = "Direct Market",_DirectMarketResult,_PerMarketResult))
+			
+			
+			```
+		lineageTag: 9fb6df7d-6775-4727-85c4-1f8cf80fdc2a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2324 Tot' = ```
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: efb21ad5-a1ce-481b-982b-d0660508996a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2324 Tot' = ```
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			```
+		lineageTag: 5bca0a3e-3d27-4dfb-8688-8d402d93b7cf
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2425 Tot' = ```
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 4ccbd5e1-28f4-4ab4-814f-609e3eb709d7
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2425 Tot' = ```
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 01]), SUM('SFA Folder'[2425 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 01]), SUM('SFA Folder'[2425 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 13b12c19-f271-45ba-bdc1-99e95924d9c6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Forecast_01 = ```
+			
+			
+			if (SELECTEDVALUE(YrTable[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2425 Forecast 01])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2425 Forecast 01]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			--------------------------------------------------------------------------------------------------------------------------------------
+			if (SELECTEDVALUE(YrTable[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2324 Forecast 01])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 01]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			-------------------------------------------------------------------------------------------------------------------------------------
+			if (SELECTEDVALUE(YrTable[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2223 Forecast 01])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2223 Forecast 01]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)))))
+			
+			```
+		formatString: #,0
+		lineageTag: 482d28f4-ae89-43a3-95f4-24e0a1d9ea6e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Bias 01 2223' = ```
+			
+			-- Bias = (Forecast Monday / Order)  * 100
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			
+			
+			```
+		lineageTag: 64b9cf8e-01c9-403a-a4f5-bed8b3c3d790
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias 01 2223 Tot' = ```
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			```
+		lineageTag: b906fc94-9fc8-49c5-a717-b5062d71cdf5
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Forecast 01 Market 2324' =
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2324 Forecast 01])
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+		lineageTag: 9afdb3dc-31ac-49a3-b280-ef77e0c93744
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Forecast 01 Market 2223' =
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2324 Forecast 01])
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+		lineageTag: 1f753004-653e-4169-abb7-a89983b0f2ab
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2223' = ```
+			
+			
+			--	SFA % on Order_CR = 100 – MAPE % on Order_CR, and MAPE % on Order_CR is:
+			--  1. If Abs delta > = Order, then put 100 
+			--	2. If Abs delta < Order , then calculation is Abs delta / Order * 100.
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    )
+			)
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",
+			    BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    )
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			```
+		lineageTag: bd6dd075-be0d-4adc-8386-a1a008946c8d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 01 2223 Tot' = ```
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			```
+		lineageTag: 81dcec48-ba30-484e-a576-5a38bc9d4268
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_CY_01 =
+			
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			if( SELECTEDVALUE(Month_Sort[Sort])>10, ---this is to remove from projection
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))
+			
+			, ---------------------this is for remaining months (before future month projection)
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)]) -- this is for prev months
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100, REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))),
+			
+			
+			
+			
+			
+			
+			--------------------------------- remaining years
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)))))
+			
+			/*
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			if( SELECTEDVALUE(Month_Sort[Sort])>10, ---this is for projection 04
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))
+			
+			, ---------------------this is for remaining months (before future month projection)
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)]) -- this is for prev months
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100
+			
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))),
+			--------- REMAINING YEARS
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)))))*/
+		lineageTag: c4cbb8b4-72b9-4cc5-9da9-457082b313aa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_LY_01 =
+			
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)]) -- 04
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))
+			
+			
+			/*
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", --04
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))*/
+		lineageTag: ce763a1a-8650-491c-9d3b-c6382016d01d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_LY_01 = ```
+			
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100)
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100)
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			))),
+			
+			-- RESUTL IF YTD LY
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			
+			Var _PerMarketResult = 
+			    
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100), REMOVEFILTERS(Month_Sort))
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			
+			Var _PerMarketResult = 
+			    
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), REMOVEFILTERS(Month_Sort))
+			
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))
+			
+			
+			
+			
+			)
+			```
+		lineageTag: 142c4de2-2735-4e6a-80bf-468dab4ec0aa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_CY_01 = ```
+			
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			--04
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result=
+			CALCULATE( 
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY", BLANK(),
+			    
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			    ), REMOVEFILTERS(Market)) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			
+			Var Result = 
+			--IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100)--)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			    ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			----------------------------------------------------------------------------------------------------------------------------
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			    ),REMOVEFILTERS(Market))
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100)--)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			            SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			----------------------------------------------------------------------------------------------
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    ), REMOVEFILTERS(Market))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    )--)
+			   RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			    
+			Var _JVResult =  
+			        Var Result=
+			        CALCULATE(     
+			        100 - IF (
+			                SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			                SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			            ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			        RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))))),
+			
+			        
+			    -- for ytd ly for ytd ly for ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd ly
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result=
+			CALCULATE(
+			    
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			    ), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort)) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			Var Result = 
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100)--)
+			        , REMOVEFILTERS(Month_Sort))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			            SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324", -------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			    ),REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result=
+			--IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100)--)
+			        , REMOVEFILTERS(Month_Sort))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			            SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223", -------------------------------------------------------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    ), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result=
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    )--)
+			    , REMOVEFILTERS(Month_Sort))
+			
+			   RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			    
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			            SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))        
+			        ))
+			
+			))
+			```
+		formatString: 0
+		lineageTag: 06d2228e-1291-4a0b-b40f-2e455f8fbb19
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Selection_SFA_Tot_LY_01 = ```
+			
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2223",BLANK()
+			
+			
+			)))
+			```
+		lineageTag: 32b5aa2a-424c-497c-a0a3-7d957df7e25d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_Tot_CY_01 = ```
+			
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 01]), SUM('SFA Folder'[2324 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 01]), SUM('SFA Folder'[2425 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 01]), SUM('SFA Folder'[2425 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 01]), SUM('SFA Folder'[2223 Order 01]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			)))
+			```
+		lineageTag: 355cb0fe-6a32-4560-bd78-c8fc291a3f0a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_Tot_CY_01 = ```
+			
+			 
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 01]), Sum('SFA Folder'[2425 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			 if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			)))
+			```
+		lineageTag: 2b279108-39ea-4138-880e-02918c8b5cdc
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_Tot_LY_01 = ```
+			
+			 
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 01]), Sum('SFA Folder'[2324 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 01]), Sum('SFA Folder'[2223 Order 01]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			 if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			 
+			BLANK()
+			)))
+			```
+		lineageTag: a4a27f01-c4eb-4b61-a3aa-e99fc15ae3d0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Forecast_01_2425 = ```
+			
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Forecast 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2425 Forecast 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			```
+		formatString: #,0.00
+		lineageTag: e29d0f70-e53f-45cb-83bc-52550bb6e33e
+
+		changedProperty = IsHidden
+
+	measure Selection_Delta_CY_01 =
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Abs 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult = sum('SFA Folder'[2425 Abs 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Abs 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult = sum('SFA Folder'[2324 Abs 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Abs 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult = sum('SFA Folder'[2223 Abs 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			)))
+		lineageTag: 514162cd-2f6d-4cb6-b807-2d71a9f196a7
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Delta_LY_01 =
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Abs 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult = sum('SFA Folder'[2324 Abs 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Abs 01]), REMOVEFILTERS(Market))
+			Var _PerMarketResult = sum('SFA Folder'[2223 Abs 01])
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223", ""
+			
+			
+			)))
+		lineageTag: 962eefc9-f955-4caf-af57-823702cae215
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SFA 04 2425' = ```
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _DirectMarketResult = 
+			
+			Var Result = 
+			CALCULATE(
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			        )
+			 , Market[Market (Key)] IN {"Saudi Arabia", "Kuwait","Dubai"})
+			
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _TotalResult =
+			
+			  VAR Result =
+			    CALCULATE(
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			        )
+			 , REMOVEFILTERS(Market))
+			
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			
+			    VAR Result = 
+			        100 - 
+			        IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			        )
+			    RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			    RETURN   IF(_SelectedMarket = "GAC (GULF)",_TotalResult, if(_SelectedMarket="Direct Market",_DirectMarketResult,_TotalResult))
+			
+			
+			```
+		formatString: 0
+		lineageTag: 8cd3111c-1928-4b82-9f10-0b41c3769285
+
+		changedProperty = IsHidden
+
+	measure Selection_SFA_CY_04 = ```
+			
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", ---------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			    ), REMOVEFILTERS(Market)) 
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			Var _PerMarketResult = 
+			Var Result = 
+			    100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100)
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			    ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324", ------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			    ),REMOVEFILTERS(Market))
+			 RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100)--)
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223", --------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			    ), REMOVEFILTERS(Market))
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			    )--)
+			   RETURN IF(Result = 0, BLANK(), Result)
+			        
+			    Var _JVResult =  
+			        Var Result=
+			        CALCULATE(     
+			        100 - IF (
+			                SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			                SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			            ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			        RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))))),
+			
+			    -- for ytd ly for ytd ly for ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd 
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2425", ---------------------------------
+			
+			    Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			    
+			    Var _TotalResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			        ), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    Var _PerMarketResult = 
+			    Var Result =        
+			        CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100)
+			            , REMOVEFILTERS(Month_Sort))
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			            SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2324",------------------------------
+			
+			    Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			    Var _TotalResult =  
+			
+			    Var Result = 
+			    CALCULATE( 
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			        ),REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			    Var _PerMarketResult = 
+			    Var Result=
+			        CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100)
+			            , REMOVEFILTERS(Month_Sort))
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2223", -------------------------------
+			
+			    Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			    Var _TotalResult =  
+			
+			    Var Result = 
+			    CALCULATE( 
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			        ), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			    Var _PerMarketResult = 
+			
+			    Var Result=
+			        CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			        )--)
+			        , REMOVEFILTERS(Month_Sort))
+			
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			        
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			            SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))        
+			        ))
+			
+			))
+			```
+		lineageTag: da521b7c-f5a2-487e-887e-cebfd167f34d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_LY_04 = ```
+			
+			
+			--01 04
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100)
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			    ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100)
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			    ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf") 
+			RETURN IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			))),
+			
+			-- RESUTL IF YTD LY
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			
+			Var _PerMarketResult = 
+			    
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100), REMOVEFILTERS(Month_Sort))
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100), REMOVEFILTERS(Market), REMOVEFILTERS(Month_Sort))
+			
+			Var _PerMarketResult = 
+			    
+			    CALCULATE(
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), REMOVEFILTERS(Month_Sort))
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(
+			    100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			            SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			        ), REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf", REMOVEFILTERS(Month_Sort)) 
+			    RETURN IF(Result = 0, BLANK(), Result)
+			
+			    RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))
+			
+			)
+			```
+		lineageTag: 76e8fbdb-4a56-4892-863d-bbbf3e8cbbb4
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_Tot_CY_04 = ```
+			
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 04]), SUM('SFA Folder'[2324 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 04]), SUM('SFA Folder'[2324 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 04]), SUM('SFA Folder'[2425 Order 04]), 0) * 100
+			        ),
+			        REMOVEFILTERS(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2425 Abs 04]), SUM('SFA Folder'[2425 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 04]), SUM('SFA Folder'[2223 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 04]), SUM('SFA Folder'[2223 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			
+			)))
+			
+			```
+		formatString: 0
+		lineageTag: fbfb8f2b-af00-43e3-b05a-6b9cb2c5c8bc
+
+		changedProperty = IsHidden
+
+	measure Selection_SFA_Tot_LY_04 = ```
+			
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 04]), SUM('SFA Folder'[2223 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2223 Abs 04]), SUM('SFA Folder'[2223 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE( IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 04]), SUM('SFA Folder'[2324 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			 , REMOVEFILTERS(Market))
+			Var _PerMarketResult = 
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			            100,
+			            DIVIDE(SUM('SFA Folder'[2324 Abs 04]), SUM('SFA Folder'[2324 Order 04]), 0) * 100
+			        ),
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			if(SELECTEDVALUE('YrTable'[Value])= "2223",BLANK()
+			
+			
+			)))
+			
+			```
+		lineageTag: e467bf5d-67df-4f15-aae8-fc6865baa6a6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_CY_04 =
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			if( SELECTEDVALUE(Month_Sort[Sort])>10, ---this is to remove from projection
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[STD Digitalization.Net Weight (QL)]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))
+			
+			, ---------------------this is for remaining months (before future month projection)
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)]) -- this is for prev months
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[2425 Order 04]),0)*100, REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[2425 Order 04]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[2425 Order 04]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,IF(_SelectedMarket = "Direct Market", _JVResult,_PerMarketResult))),
+			
+			
+			
+			
+			
+			
+			--------------------------------- remaining years
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100, REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100,REMOVEFILTERS(Market),'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)))))
+		lineageTag: 20b52487-d02e-403f-84e3-e48fce5af814
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_LY_04 = ```
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100, REMOVEFILTERS(Market))
+			Var _PerMarketResult = DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100
+			Var _JVResult =  CALCULATE(DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100, Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if (_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))
+			
+			```
+		lineageTag: 7c4b11c5-ae87-4aa7-a7de-cb6ea52328f7
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_Tot_CY_04 = ```
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[2425 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2425 Forecast 04]), Sum('SFA Folder'[2425 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			 if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "YTD",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    )--,""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult)
+			
+			)))
+			
+			```
+		lineageTag: 37c93009-3059-4321-b081-adb0906325ad
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Bias_Tot_LY_04 = ```
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2324 Forecast 04]), Sum('SFA Folder'[2324 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			    if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			 
+			 -- Bias = (Forecast Monday / Order)  * 100
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			
+			IF (
+			    SELECTEDVALUE(Month_Sort[Month]) = "LY",
+			    
+			    CALCULATE(
+			        DIVIDE(sum('SFA Folder'[2223 Forecast 04]), Sum('SFA Folder'[2223 Order 04]),0)*100,
+			        ALLSELECTED(Month_Sort) // This will retain the current filter context for other Month_Sort values
+			    ),""
+			)
+			
+			    RETURN IF(_SelectedMarket <> "GAC (GULF)",_PerMarketResult, _TotalResult),
+			
+			
+			 if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			 
+			BLANK()
+			)))
+			
+			```
+		lineageTag: 6ea06422-6a5d-49f3-a347-ca9599360a28
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Forecast_04 = ```
+			
+			
+			if (SELECTEDVALUE(YrTable[Value])="2425", --forecast
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Forecast 04]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2425 Forecast 04])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2425 Forecast 04]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE(YrTable[Value])="2324",---------------------------------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 04]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2324 Forecast 04])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2324 Forecast 04]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE(YrTable[Value])="2223",--------------------------------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Forecast 04]), REMOVEFILTERS(Market))
+			Var _PerMarketResult =
+			sum('SFA Folder'[2223 Forecast 04])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2223 Forecast 04]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)",_TotalResult,IF(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)))))
+			
+			```
+		formatString: #,0.00
+		lineageTag: c7210090-084f-4343-bbe1-0b278ccd9780
+
+		changedProperty = IsHidden
+
+	measure Selection_Delta_CY_04 = ```
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[2425 Abs 04]), 'SFA Folder'[RCA 04]<>"No Plan")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2425 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[RCA 04]<>"No Plan")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[2324 Abs 04]),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2324 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[RCA 04]<>"No Plan")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[2223 Abs 04]), 'SFA Folder'[RCA 04]<>"No Plan")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2223 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[RCA 04]<>"No Plan")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult))
+			
+			
+			)))
+			
+			```
+		lineageTag: a4abbcdf-6753-4c34-bee6-eadc1c74bbd0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Formate SFA 01' = "LY YTD: " & FORMAT([Selection_SFA_LY_01],"#.#")
+		lineageTag: 92c96271-3845-4b53-aa30-f2f0b0df5976
+
+		changedProperty = IsHidden
+
+	measure 'Formate SFA 04' = "LY YTD: " & FORMAT([Selection_SFA_LY_04],"#.#")
+		lineageTag: 53e876d5-e45a-4d68-b037-471dcc1f56b8
+
+		changedProperty = IsHidden
+
+	measure Selection_SFA_CY_01_Graph = ```
+			--01
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result=
+			CALCULATE( 
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY", BLANK(),
+			    
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			    ), REMOVEFILTERS(Market)) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result = 
+			--IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100)--)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 01]) >= SUM('SFA Folder'[2425 Order 01]),100,
+			        SUM('SFA Folder'[2425 Abs 01]) / SUM('SFA Folder'[2425 Order 01]) * 100
+			    ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			    ),REMOVEFILTERS(Market))
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result=
+			--IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100)--)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			            SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100
+			        ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)))),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    ), REMOVEFILTERS(Market))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result=
+			    --IF (SELECTEDVALUE('Month_Sort'[Month]) = "YTD" || SELECTEDVALUE('Month_Sort'[Month]) = "LY",BLANK(),
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			    )--)
+			   RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			    
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			            SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100
+			        ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))))    
+			    -- for ytd ly for ytd ly for ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd ly
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			```
+		lineageTag: b75259a2-87c1-4710-bcc2-2884f64ad49b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_LY_01_Graph = ```
+			
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100)
+			
+			Var _JVResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 01]) >= SUM('SFA Folder'[2324 Order 01]),100,
+			        SUM('SFA Folder'[2324 Abs 01]) / SUM('SFA Folder'[2324 Order 01]) * 100), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100)
+			
+			Var _JVResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2223 Abs 01]) >= SUM('SFA Folder'[2223 Order 01]),100,
+			        SUM('SFA Folder'[2223 Abs 01]) / SUM('SFA Folder'[2223 Order 01]) * 100), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			))),
+			
+			-- RESUTL IF YTD LY
+			
+			BLANK())
+			```
+		lineageTag: 59bf5038-b6b2-4df8-8b53-d85b0559cde2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_CY_04_Graph = ```
+			
+			--01
+			
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", -----------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			    ), REMOVEFILTERS(Market)) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result = 
+			    100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			Var _JVResult =  
+			Var Result=
+			CALCULATE(     
+			100 - IF (
+			        SUM('SFA Folder'[2425 Abs 04]) >= SUM('SFA Folder'[2425 Order 04]),100,
+			        SUM('SFA Folder'[2425 Abs 04]) / SUM('SFA Folder'[2425 Order 04]) * 100
+			    ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324", --------------------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			    ),REMOVEFILTERS(Market))
+			 RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100)--)
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			            SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100
+			        ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult)))),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223", -------------------------------------------------------------------------
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  
+			
+			Var Result = 
+			CALCULATE( 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			    ), REMOVEFILTERS(Market))
+			RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			Var _PerMarketResult = 
+			
+			Var Result=
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),
+			        100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			    )--)
+			   RETURN 
+			        IF(Result = 0, BLANK(), Result)
+			
+			
+			
+			    Var _JVResult =  
+			    Var Result=
+			    CALCULATE(     
+			    100 - IF (
+			            SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			            SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100
+			        ), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"}) 
+			    RETURN 
+			            IF(Result = 0, BLANK(), Result)
+			
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult, _PerMarketResult))))
+			        
+			    -- for ytd ly for ytd ly for ytd lyfor ytd lyfor ytd lyfor ytd lyfor ytd 
+			
+			 
+			
+			```
+		lineageTag: 07a422da-c358-4187-b310-a65574307b15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_SFA_LY_04_Graph = ```
+			
+			
+			--01 04
+			If(SELECTEDVALUE(Month_Sort[Month])<> "YTD" && SELECTEDVALUE(Month_Sort[Month])<>"LY",
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425", 
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			
+			Var _TotalResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100)
+			
+			Var _JVResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2324 Abs 04]) >= SUM('SFA Folder'[2324 Order 04]),100,
+			        SUM('SFA Folder'[2324 Abs 04]) / SUM('SFA Folder'[2324 Order 04]) * 100), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100), REMOVEFILTERS(Market))
+			
+			Var _PerMarketResult = 
+			    100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100)
+			
+			Var _JVResult =  CALCULATE(     100 - IF (
+			        SUM('SFA Folder'[2223 Abs 04]) >= SUM('SFA Folder'[2223 Order 04]),100,
+			        SUM('SFA Folder'[2223 Abs 04]) / SUM('SFA Folder'[2223 Order 04]) * 100), Market[Market (Key)] in {"Saudi Arabia","Kuwait","Dubai"})
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult, if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			))),
+			
+			-- RESUTL IF YTD LY
+			
+			BLANK())
+			```
+		lineageTag: 99fde379-044f-4bc2-91bd-897dcf94f6c8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_Order_04 = ```
+			
+			
+			if (SELECTEDVALUE(YrTable[Value])="2425", --
+			
+			IF(SELECTEDVALUE(Market[Market (Key)])="Direct Market", 
+			CALCULATE(sum('SFA Folder'[2425 Order 04]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf"),
+			if(SELECTEDVALUE(Market[Market (Key)])= "GAC (Gulf)",
+			CALCULATE(sum('SFA Folder'[2425 Order 04]), REMOVEFILTERS(Market)),
+			--else
+			sum('SFA Folder'[2425 Order 04]))))
+			
+			```
+		formatString: #,0.00
+		lineageTag: 5c0baa65-ec9c-43ef-bf02-18a2e8dd02a0
+
+	measure Selection_Delta_04 =
+			
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[Gap Difference 04]), REMOVEFILTERS(Market),'SFA Folder'[Year]="2425")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[Gap Difference 04]),'SFA Folder'[Year]="2425")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[Gap Difference 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[Year]="2425")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult))
+			
+			
+			/*
+			if (SELECTEDVALUE(YrTable[Value])="2425",
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2425 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[Year]="2425")
+			Var _PerMarketResult = sum('SFA Folder'[2425 Abs 04])
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2425 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult))
+			)*/
+		lineageTag: 97aa7791-2497-4117-ae85-ca9a3deb6066
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Selection_abs04_Comm =
+			
+			
+			if (SELECTEDVALUE(Market[Market (Key)])="GAC (Gulf)",
+			
+			
+			
+			
+			)
+		lineageTag: 624fe063-2dfb-4117-8825-d10b52e65d41
+
+	measure Selection_Order_01 = ```
+			
+			
+			if (SELECTEDVALUE(YrTable[Value])="2425", --
+			
+			IF(SELECTEDVALUE(Market[Market (Key)])="Direct Market", 
+			CALCULATE(sum('SFA Folder'[2425 Order 01]), REMOVEFILTERS(Market), 'SFA Folder'[APO Location] <> "Other Lower Gulf"),
+			if(SELECTEDVALUE(Market[Market (Key)])= "GAC (Gulf)",
+			CALCULATE(sum('SFA Folder'[2425 Order 01]), REMOVEFILTERS(Market)),
+			--else
+			sum('SFA Folder'[2425 Order 01]))))
+			```
+		formatString: #,0.00
+		lineageTag: 436fa115-5a32-4bab-93a4-887c49b26eaa
+
+	measure Selection_Delta_LY_04 = ```
+			
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2425",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2324 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[2324 Abs 04]),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2324 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[RCA 04]<>"No Plan")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2324",
+			
+			Var _SelectedMarket = SELECTEDVALUE(Market[Market (Key)])
+			Var _TotalResult =  CALCULATE(sum('SFA Folder'[2223 Abs 04]), REMOVEFILTERS(Market),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _PerMarketResult = CALCULATE(sum('SFA Folder'[2223 Abs 04]),'SFA Folder'[RCA 04]<>"No Plan")
+			Var _JVResult =  CALCULATE(sum('SFA Folder'[2223 Abs 04]), Market[Market (Key)] <> "Other Lower Gulf",'SFA Folder'[RCA 04]<>"No Plan")
+			
+			RETURN IF(_SelectedMarket = "GAC (GULF)", _TotalResult,if(_SelectedMarket = "Direct Market",_JVResult,_PerMarketResult)),
+			
+			if (SELECTEDVALUE('YrTable'[Value])="2223",
+			
+			BLANK()
+			
+			)))
+			
+			```
+		lineageTag: 7a0c90de-6158-4146-a7ae-c1d59489f562
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bias F4 and O4' = ```
+			
+			Var __Forecast = [Forecast 4 2425]
+			Var __Order = [Order 4 2425]
+			return IF( NOT(ISBLANK(__Order)) ,
+			 __Forecast - __Order  )  
+			```
+		lineageTag: ef6e7fd5-776b-4ba0-9922-54a812b5bd24
+
+	measure 'Total Consecutive months (Current Month)' = ```
+			
+			Var _CurrnetMonth = FORMAT( EOMONTH( TODAY(),-1) , "MMM") 
+			Var Result = 
+			MAXX(
+			FILTER(
+			SUMMARIZECOLUMNS(
+			        'SFA Folder'[Commercial Ref.],
+			        'SFA Folder'[SKU],
+			        'SFA Folder'[Month_Sort.Sort],
+			        'SFA Folder'[Mon],
+			        "Consecutive Months", 
+			       [Consecutive months (>100)]
+			       ), 'SFA Folder'[Mon] = _CurrnetMonth),
+			       [Consecutive Months]
+			) 
+			return Result   
+			```
+		formatString: 0
+		lineageTag: 109bbc88-0090-4fdf-8005-72a35a401bb1
+
+	measure 'Consecutive months (>100)' = ```
+			
+			 Var __CurrentMonth = MAX('SFA Folder'[Month_Sort.Sort]) 
+			        Var __Bias = ABS( [Bias F4 and O4])
+			        Var __lastprevoccurance = CALCULATE(MAX('SFA Folder'[Month_Sort.Sort]), FILTER(ALL('SFA Folder'), 'SFA Folder'[Month_Sort.Sort] <= __CurrentMonth && ABS( [Bias F4 and O4])  < 100 && 'SFA Folder'[Year] = "2425"), VALUES('SFA Folder'[SKU])) 
+			        RETURN IF(__Bias >= 100, __CurrentMonth - __lastprevoccurance,0)  
+			```
+		formatString: 0
+		lineageTag: 28bcf51c-64b6-43ed-ad02-16499b16a679
+
+	measure 'Total Consecutive months' = ```
+			
+			MAXX(
+			SUMMARIZECOLUMNS(
+			        'SFA Folder'[Commercial Ref.],
+			        'SFA Folder'[SKU],
+			        'SFA Folder'[Month_Sort.Sort],
+			        "Consecutive Months", 
+			       [Consecutive months (>100)]
+			       ),
+			       [Consecutive Months]
+			) 
+			```
+		formatString: 0
+		lineageTag: cd449ebc-9df0-4d6a-80bc-00eafe5c3bc3
+
+	measure 'Total Consecutive months V2 (Sum)' = ```
+			
+			SUMX(
+			SUMMARIZECOLUMNS(
+			        'SFA Folder'[Commercial Ref.],
+			        'SFA Folder'[SKU],
+			        'SFA Folder'[Month_Sort.Sort],
+			        "Consecutive Months", 
+			      IF( [Consecutive months (>100)] > 0, 1)
+			       ),
+			       [Consecutive Months]
+			)
+			```
+		formatString: 0
+		lineageTag: 1d901274-e677-4cb1-ad2e-6cb7c01c1a16
+
+	measure 'Total Consecutive months V3 (latest max)' = ```
+			
+			MAXX(
+			TOPN(1,
+			SUMMARIZECOLUMNS(
+			        'SFA Folder'[Commercial Ref.],
+			        'SFA Folder'[SKU],
+			        'SFA Folder'[Month_Sort.Sort],
+			        "Consecutive Months", 
+			      [Consecutive months (>100)] 
+			       ),
+			       'SFA Folder'[Month_Sort.Sort], DESC, [Consecutive Months], DESC 
+			) ,
+			[Consecutive Months]) 
+			```
+		formatString: 0
+		lineageTag: 693f8639-7370-43c6-adcf-24c4a50bc8e2
+
+	measure AbsBias =
+			
+			Var __Forecast = [Forecast 4 2425]
+			Var __Order = [Order 4 2425]
+			return ABS(IF( NOT(ISBLANK(__Order)) ,
+			 __Forecast - __Order  ))
+		lineageTag: f3b1983b-68bf-4504-818d-8a0f88fae3e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'APO Location'
+		dataType: string
+		lineageTag: 0df09817-9ac2-435f-8cc0-1e1ec0ca2bf1
+		summarizeBy: none
+		sourceColumn: APO Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mon
+		dataType: string
+		lineageTag: efab7417-908a-4c76-8bd7-3f79e5579fbd
+		summarizeBy: none
+		sourceColumn: Mon
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: 177052b7-3885-408a-bd0d-e3196971f3e3
+		summarizeBy: none
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commercial Ref.'
+		dataType: string
+		lineageTag: ea6fa9de-f9f1-49b8-8090-96b28761fdea
+		summarizeBy: none
+		sourceColumn: Commercial Ref.
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Material Group'
+		dataType: string
+		lineageTag: 40bebb60-020a-4632-a309-7ef7cd35b115
+		summarizeBy: none
+		sourceColumn: Material Group
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '2324 Forecast 01'
+		dataType: double
+		lineageTag: 10bd4871-43b9-4ce9-9df6-2ff838a797f9
+		summarizeBy: sum
+		sourceColumn: 2324 Forecast 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Forecast 01'
+		dataType: double
+		lineageTag: 69d815a4-fcc2-4613-83b0-18ff3831c73a
+		summarizeBy: sum
+		sourceColumn: 2425 Forecast 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2324 Forecast 04'
+		dataType: double
+		lineageTag: c0ec6c2d-3037-4262-b385-adbb532549f0
+		summarizeBy: sum
+		sourceColumn: 2324 Forecast 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Forecast 04'
+		dataType: double
+		lineageTag: aed9ede1-c5bb-41f1-a664-218e28a6fd3b
+		summarizeBy: sum
+		sourceColumn: 2425 Forecast 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2324 Order 01'
+		dataType: double
+		lineageTag: 492e54c9-484d-4cff-acac-286b33dc9fcb
+		summarizeBy: sum
+		sourceColumn: 2324 Order 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Order 01'
+		dataType: double
+		lineageTag: c6a5e3e8-5f1d-4ae6-bc13-03d1dc06a9b7
+		summarizeBy: sum
+		sourceColumn: 2425 Order 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2324 Order 04'
+		dataType: double
+		lineageTag: 795fd3b9-9656-4211-b86c-f38ca87dc517
+		summarizeBy: sum
+		sourceColumn: 2324 Order 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Order 04'
+		dataType: double
+		lineageTag: 6e363fb4-f131-4539-b3da-5737006a2361
+		summarizeBy: sum
+		sourceColumn: 2425 Order 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2324 Abs 01'
+		dataType: double
+		lineageTag: a7981068-74b3-48cc-b512-2f34aa3734ab
+		summarizeBy: sum
+		sourceColumn: 2324 Abs 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Abs 01'
+		dataType: double
+		lineageTag: d90ccbd6-14ea-4678-a3d6-b9b468044b04
+		summarizeBy: sum
+		sourceColumn: 2425 Abs 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2324 Abs 04'
+		dataType: double
+		lineageTag: 50a779cd-3ce2-4339-b96f-607564703205
+		summarizeBy: sum
+		sourceColumn: 2324 Abs 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2425 Abs 04'
+		dataType: double
+		lineageTag: 2cf7e013-5886-49c7-a21c-54d72d33b2f1
+		summarizeBy: sum
+		sourceColumn: 2425 Abs 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Source
+		dataType: string
+		lineageTag: de820c69-fc95-4c3e-b969-095e7ff91ac8
+		summarizeBy: none
+		sourceColumn: Source
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '2223 Forecast 01'
+		dataType: double
+		lineageTag: 5bdc5837-e438-46cf-93df-065d0b499edd
+		summarizeBy: sum
+		sourceColumn: 2223 Forecast 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2223 Forecast 04'
+		dataType: double
+		lineageTag: d422cda4-ec5c-4981-894f-9197a09c0afe
+		summarizeBy: sum
+		sourceColumn: 2223 Forecast 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2223 Order 01'
+		dataType: double
+		lineageTag: 9df51bef-1ff3-4222-b5fb-6b80e39bd606
+		summarizeBy: sum
+		sourceColumn: 2223 Order 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2223 Order 04'
+		dataType: double
+		lineageTag: a6acdede-2fa0-4f48-9520-4fd25dc025dd
+		summarizeBy: sum
+		sourceColumn: 2223 Order 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2223 Abs 01'
+		dataType: double
+		lineageTag: 2485ef21-a4e3-4e8f-afb5-d8a1657cff57
+		summarizeBy: sum
+		sourceColumn: 2223 Abs 01
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2223 Abs 04'
+		dataType: double
+		lineageTag: 8221dbf2-fd26-411d-9de3-d30e659e96fa
+		summarizeBy: sum
+		sourceColumn: 2223 Abs 04
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Com_Table.Column1'
+		dataType: string
+		lineageTag: 188384f3-cd4b-48f0-a8e9-3ec98df81b1e
+		summarizeBy: none
+		sourceColumn: Com_Table.Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Driver
+		dataType: string
+		lineageTag: 7671a9e7-f7bc-4ace-9be0-0f6974cddabc
+		summarizeBy: none
+		sourceColumn: Driver
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand_Table_Cvg.Short Name'
+		dataType: string
+		lineageTag: a01efec6-b3cc-4409-bb43-1f1a73b0da45
+		summarizeBy: none
+		sourceColumn: Brand_Table_Cvg.Short Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'STD Digitalization.Mon.Year'
+		dataType: string
+		lineageTag: 4c79bab1-51dd-48f4-ab46-125643869c7a
+		summarizeBy: none
+		sourceColumn: STD Digitalization.Mon.Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'STD Digitalization.Net Weight (QL)'
+		dataType: double
+		lineageTag: 82cb3552-98b0-4e12-aa42-c325d557a81b
+		summarizeBy: sum
+		sourceColumn: STD Digitalization.Net Weight (QL)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Proj Abs'
+		dataType: double
+		lineageTag: 198b315b-5a3d-4bf3-ae04-f09d538d10eb
+		summarizeBy: sum
+		sourceColumn: Proj Abs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Mon_Numb
+		dataType: string
+		lineageTag: e9676f00-ee41-4b29-984e-469b5441bbd5
+		summarizeBy: none
+		sourceColumn: Mon_Numb
+
+		annotation SummarizationSetBy = Automatic
+
+	column '01 Proj Abs'
+		dataType: double
+		lineageTag: 4f6ae2db-f235-4d98-ae58-1bfa09f2756b
+		summarizeBy: sum
+		sourceColumn: 01 Proj Abs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month_Sort.Sort'
+		dataType: int64
+		formatString: 0
+		lineageTag: 063629aa-c020-4809-ae7a-13cf3fe27a03
+		summarizeBy: sum
+		sourceColumn: Month_Sort.Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gap Difference 01'
+		dataType: double
+		lineageTag: d2d0e142-70ba-4142-8215-76fc664bf605
+		summarizeBy: sum
+		sourceColumn: Gap Difference 01
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Gap Difference 04'
+		dataType: double
+		lineageTag: ee0f67da-8178-41ec-8386-f53b29af44c0
+		summarizeBy: sum
+		sourceColumn: Gap Difference 04
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Forecast - Monday 01'
+		dataType: double
+		lineageTag: c0781328-187e-47f4-8613-2c0de4daad46
+		summarizeBy: sum
+		sourceColumn: Forecast - Monday 01
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 01'
+		dataType: double
+		lineageTag: 5e635631-9744-4901-94c7-5e979040dd81
+		summarizeBy: sum
+		sourceColumn: Order 01
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Forecast - Monday 04'
+		dataType: double
+		lineageTag: 1733785a-1aca-48c3-b6f0-9ad9f7d92852
+		summarizeBy: sum
+		sourceColumn: Forecast - Monday 04
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order 04'
+		dataType: double
+		lineageTag: 75e48307-37eb-4501-84ed-47ae8fc48e2b
+		summarizeBy: sum
+		sourceColumn: Order 04
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Conc for Inventory'
+		dataType: string
+		lineageTag: cfec5434-ced9-4f3f-bb0b-b6efd29822c6
+		summarizeBy: none
+		sourceColumn: Conc for Inventory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Daily Progress.Stock as of Date (Qils)'
+		dataType: double
+		lineageTag: f3e62ceb-2bf7-4e32-802e-9d9b1b8396ee
+		summarizeBy: sum
+		sourceColumn: Daily Progress.Stock as of Date (Qils)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'RCA 04 (Part#1)'
+		dataType: string
+		lineageTag: 3d7865a5-1906-4925-add7-28ba474ee8b3
+		summarizeBy: none
+		sourceColumn: RCA 04 (Part#1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RCA 04 (Part#2)'
+		dataType: string
+		lineageTag: e18e7b69-38c6-455c-8e51-4f769c1fe51c
+		summarizeBy: none
+		sourceColumn: RCA 04 (Part#2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RCA 04'
+		dataType: string
+		lineageTag: b3f189ca-5468-4bed-a4d5-c528772bdf90
+		summarizeBy: none
+		sourceColumn: RCA 04
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RCA 04 - Summary'
+		dataType: string
+		lineageTag: 9111adee-934f-4419-94a1-09ebabc91168
+		summarizeBy: none
+		sourceColumn: RCA 04 - Summary
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU = ```
+			'SFA Folder'[APO Location] & 'SFA Folder'[Commercial Ref.] 
+			```
+		lineageTag: 2c530824-f36f-4785-8b53-26d90823d0d2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SFA Folder' = m
+		mode: import
+		source = ```
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\SFA\New SFA Extractions"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (28)", each #"Transform File (28)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (28)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (28)", Table.ColumnNames(#"Transform File (28)"(#"Sample File (28)"))),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Expanded Table Column1", [PromoteAllScalars=true]),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Promoted Headers", [PromoteAllScalars=true]),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Promoted Headers1",{ {"APO Location", type text}, {"Forecast - Monday", type number}, {"Order", type number}, {"BIAS% on Order", type number}, {"SFA % on Order_CR", type number}, {"Abs Delta on Order_CR", type number}, {"MAPE % on Order_CR", type number}, {"Forecast - Monday_1", type number}, {"Order_2", type number}, {"BIAS% on Order_3", type number}, {"SFA % on Order_CR_4", type number}, {"Abs Delta on Order_CR_5", type number}, {"MAPE % on Order_CR_6", type number}, {"Commercial Ref.", type text}}),
+				    #"Renamed Columns6" = Table.RenameColumns(#"Changed Type2",{{"Apr2324.xlsx", "Source.Name"}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Renamed Columns6", each ([#"Commercial Ref."] <> null and [#"Commercial Ref."] <> "Commercial Ref." and [#"Commercial Ref."] <> "Overall Result")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows1",{{"Forecast - Monday", "Forecast - Monday 01"}, {"Order", "Order 01"}, {"BIAS% on Order", "BIAS% on Order 01"}, {"SFA % on Order_CR", "SFA % on Order_CR 01"}, {"Abs Delta on Order_CR", "Abs Delta on Order_CR 01"}, {"MAPE % on Order_CR", "MAPE % on Order_CR 01"}, {"Forecast - Monday_1", "Forecast - Monday 04"}, {"Order_2", "Order 04"}, {"BIAS% on Order_3", "BIAS% on Order 04"}, {"SFA % on Order_CR_4", "SFA % on Order_CR 04"}, {"Abs Delta on Order_CR_5", "Abs Delta on Order_CR 04"}, {"MAPE % on Order_CR_6", "MAPE % on Order_CR 04"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns",{{"Commercial Ref.", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type3","Lower Gulf","Other Lower Gulf",Replacer.ReplaceText,{"APO Location"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each ([APO Location] <> "APO Location" and [APO Location] <> "Lag Month")),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Source.Name", "Source.Name - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Source.Name - Copy", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Source.Name - Copy.1", "Source.Name - Copy.2"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter",{"Source.Name - Copy.2"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns",{{"Source.Name - Copy.1", "MonYr"}, {"Source.Name", "Source"}}),
+				    #"Split Column by Character Transition" = Table.SplitColumn(#"Renamed Columns3", "MonYr", Splitter.SplitTextByCharacterTransition((c) => not List.Contains({"0".."9"}, c), {"0".."9"}), {"MonYr.1", "MonYr.2"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Split Column by Character Transition",{{"MonYr.1", "Mon"}, {"MonYr.2", "Year"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns4", "Forecast 01 LY", each if [Year]="2324" then [#"Forecast - Monday 01"] else ""),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Forecast 01 LY", type number}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type", "Forecast 01 CY", each if [Year]="2425" then [#"Forecast - Monday 01"] else ""),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom1",{{"Forecast 01 CY", type number}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type1", "Forecast 04 LY", each if [Year] = "2324" then [#"Forecast - Monday 04"] else ""),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Added Custom2",{{"Forecast 04 LY", type number}}),
+				    #"Added Custom3" = Table.AddColumn(#"Changed Type4", "Forecast 04 CY", each if [Year]="2425" then [#"Forecast - Monday 04"] else ""),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Custom3",{{"Forecast 04 CY", type number}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type5", "2223 Forecast 01", each if [Year] = "2223" then [#"Forecast - Monday 01"] else null),
+				    #"Changed Type15" = Table.TransformColumnTypes(#"Added Conditional Column",{{"2223 Forecast 01", type number}}),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type15", "2223 Forecast 04", each if [Year] = "2223" then [#"Forecast - Monday 04"] else null),
+				    #"Changed Type16" = Table.TransformColumnTypes(#"Added Conditional Column1",{{"2223 Forecast 04", type number}}),
+				    #"Added Custom4" = Table.AddColumn(#"Changed Type16", "Order 01 LY", each if [Year]="2324" then [Order 01] else ""),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Added Custom4",{{"Order 01 LY", type number}}),
+				    #"Added Custom5" = Table.AddColumn(#"Changed Type6", "Order 01 CY", each if [Year]="2425" then [Order 01] else ""),
+				    #"Changed Type7" = Table.TransformColumnTypes(#"Added Custom5",{{"Order 01 CY", type number}}),
+				    #"Added Custom6" = Table.AddColumn(#"Changed Type7", "Order 04 LY", each if [Year]="2324" then [Order 04] else ""),
+				    #"Changed Type8" = Table.TransformColumnTypes(#"Added Custom6",{{"Order 04 LY", type number}}),
+				    #"Added Custom7" = Table.AddColumn(#"Changed Type8", "Order 04 CY", each if [Year]="2425" then [Order 04] else ""),
+				    #"Changed Type9" = Table.TransformColumnTypes(#"Added Custom7",{{"Order 04 CY", type number}}),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Changed Type9", "2223 Order 01", each if [Year] = "2223" then [Order 01] else null),
+				    #"Changed Type17" = Table.TransformColumnTypes(#"Added Conditional Column2",{{"2223 Order 01", type number}}),
+				    #"Added Conditional Column3" = Table.AddColumn(#"Changed Type17", "2223 Order 04", each if [Year] = "2223" then [Order 04] else null),
+				    #"Changed Type18" = Table.TransformColumnTypes(#"Added Conditional Column3",{{"2223 Order 04", type number}}),
+				    #"Added Custom8" = Table.AddColumn(#"Changed Type18", "Abs 01 LY", each if [Year]="2324" then [Abs Delta on Order_CR 01] else ""),
+				    #"Changed Type10" = Table.TransformColumnTypes(#"Added Custom8",{{"Abs 01 LY", type number}}),
+				    #"Added Custom9" = Table.AddColumn(#"Changed Type10", "Abs 01 CY", each if [Year]="2425" then [Abs Delta on Order_CR 01] else ""),
+				    #"Changed Type11" = Table.TransformColumnTypes(#"Added Custom9",{{"Abs 01 CY", type number}}),
+				    #"Added Custom10" = Table.AddColumn(#"Changed Type11", "Abs 04 LY", each if [Year]="2324" then [Abs Delta on Order_CR 04] else ""),
+				    #"Changed Type12" = Table.TransformColumnTypes(#"Added Custom10",{{"Abs 04 LY", type number}}),
+				    #"Added Custom11" = Table.AddColumn(#"Changed Type12", "Abs 04 CY", each if [Year]="2425" then [Abs Delta on Order_CR 04] else ""),
+				    #"Changed Type13" = Table.TransformColumnTypes(#"Added Custom11",{{"Abs 04 CY", type number}}),
+				    #"Added Conditional Column4" = Table.AddColumn(#"Changed Type13", "2223 Abs 01", each if [Year] = "2223" then [Abs Delta on Order_CR 01] else null),
+				    #"Changed Type19" = Table.TransformColumnTypes(#"Added Conditional Column4",{{"2223 Abs 01", type number}}),
+				    #"Added Conditional Column5" = Table.AddColumn(#"Changed Type19", "2223 Abs 04", each if [Year] = "2223" then [Abs Delta on Order_CR 04] else null),
+				    #"Changed Type20" = Table.TransformColumnTypes(#"Added Conditional Column5",{{"2223 Abs 04", type number}}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Changed Type20",null,0,Replacer.ReplaceValue,{"Forecast - Monday 01"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13",null,0,Replacer.ReplaceValue,{"Order 01"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14",null,0,Replacer.ReplaceValue,{"Forecast - Monday 04"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15",null,0,Replacer.ReplaceValue,{"Order 04"}),
+				    #"Added Custom14" = Table.AddColumn(#"Replaced Value16", "Gap Difference 01", each [#"Forecast - Monday 01"]-[Order 01]),
+				    #"Added Custom15" = Table.AddColumn(#"Added Custom14", "Gap Difference 04", each [#"Forecast - Monday 04"]-[Order 04]),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Added Custom15",{  "BIAS% on Order 01", "SFA % on Order_CR 01", "Abs Delta on Order_CR 01", "MAPE % on Order_CR 01",  "BIAS% on Order 04", "SFA % on Order_CR 04", "Abs Delta on Order_CR 04", "MAPE % on Order_CR 04"}),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(#"Removed Columns1", "Source", Splitter.SplitTextByDelimiter(".", QuoteStyle.Csv), {"Source.1", "Source.2"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Split Column by Delimiter1",{"Source.2"}),
+				    #"Changed Type14" = Table.TransformColumnTypes(#"Removed Columns2",{{"Material Group", type text}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Changed Type14",{{"Forecast 01 LY", "2324 Forecast 01"}, {"Forecast 01 CY", "2425 Forecast 01"}, {"Forecast 04 LY", "2324 Forecast 04"}, {"Order 01 LY", "2324 Order 01"}, {"Order 04 LY", "2324 Order 04"}, {"Abs 01 LY", "2324 Abs 01"}, {"Abs 04 LY", "2324 Abs 04"}, {"Abs 04 CY", "2425 Abs 04"}, {"Abs 01 CY", "2425 Abs 01"}, {"Order 04 CY", "2425 Order 04"}, {"Order 01 CY", "2425 Order 01"}, {"Forecast 04 CY", "2425 Forecast 04"}, {"Source.1", "Source"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns2", {"Commercial Ref."}, Driver_Table, {"Com (Key)"}, "Com_Table", JoinKind.LeftOuter),
+				    #"Expanded Com_Table" = Table.ExpandTableColumn(#"Merged Queries", "Com_Table", {"Column1"}, {"Com_Table.Column1"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded Com_Table", {"Commercial Ref."}, Driver_Table, {"Com (Key)"}, "Com_Table", JoinKind.LeftOuter),
+				    #"Expanded Com_Table1" = Table.ExpandTableColumn(#"Merged Queries1", "Com_Table", {"Column1"}, {"Com_Table.Column1.1"}),
+				    #"Renamed Columns5" = Table.RenameColumns(#"Expanded Com_Table1",{{"Com_Table.Column1.1", "Driver"}}),
+				    #"Changed Type21" = Table.TransformColumnTypes(#"Renamed Columns5",{{"Driver", type text}}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Changed Type21", {"Material Group"}, Brand_Table, {"Material Group (Key)"}, "Brand_Table_Cvg", JoinKind.LeftOuter),
+				    #"Expanded Brand_Table_Cvg" = Table.ExpandTableColumn(#"Merged Queries2", "Brand_Table_Cvg", {"Short Name"}, {"Brand_Table_Cvg.Short Name"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Expanded Brand_Table_Cvg", {"APO Location", "Commercial Ref.", "Source"}, #"STD Digitalization", {"G-Market (Ship-To)", "P-Commercial Reference", "MonYear"}, "STD Digitalization", JoinKind.LeftOuter),
+				    #"Expanded STD Digitalization" = Table.ExpandTableColumn(#"Merged Queries3", "STD Digitalization", {"Mon.Year", "Net Weight (QL)"}, {"STD Digitalization.Mon.Year", "STD Digitalization.Net Weight (QL)"}),
+				    #"Added Custom12" = Table.AddColumn(#"Expanded STD Digitalization", "Proj Abs", each Number.Abs([2425 Forecast 04] - [#"STD Digitalization.Net Weight (QL)"])),
+				    #"Changed Type22" = Table.TransformColumnTypes(#"Added Custom12",{{"Proj Abs", type number}}),
+				    #"Added Custom13" = Table.AddColumn(#"Changed Type22", "01 Proj Abs", each Number.Abs([2425 Forecast 01] - [#"STD Digitalization.Net Weight (QL)"])),
+				    #"Changed Type23" = Table.TransformColumnTypes(#"Added Custom13",{{"01 Proj Abs", type number}}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Changed Type23", "Mon", "Mon - Copy"),
+				    #"Renamed Columns7" = Table.RenameColumns(#"Duplicated Column1",{{"Mon - Copy", "Mon_Numb"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns7","Sep","9",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Oct","10",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Nov","11",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Dec","12",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","Jan","1",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Feb","2",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","Mar","3",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","Apr","4",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","May","5",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","Jun","6",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","Jul","7",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","Aug","8",Replacer.ReplaceText,{"Mon_Numb"}),
+				    #"Merged Queries4" = Table.NestedJoin(#"Replaced Value12", {"Mon"}, Month_Sort, {"Month"}, "Month_Sort", JoinKind.LeftOuter),
+				    #"Expanded Month_Sort" = Table.ExpandTableColumn(#"Merged Queries4", "Month_Sort", {"Sort"}, {"Month_Sort.Sort"}),
+				    #"Added Custom18" = Table.AddColumn(#"Expanded Month_Sort", "Conc for Inventory", each [APO Location]&[#"Commercial Ref."]&[Mon]&[Year]),
+				    #"Merged Queries5" = Table.NestedJoin(#"Added Custom18", {"Conc for Inventory"}, #"Daily Progress", {"Conc for SFA"}, "Daily Progress", JoinKind.LeftOuter),
+				    #"Expanded Daily Progress" = Table.ExpandTableColumn(#"Merged Queries5", "Daily Progress", {"Stock as of Date (Qils)"}, {"Daily Progress.Stock as of Date (Qils)"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded Daily Progress",{"Source", "Commercial Ref.", "Material Group", "APO Location", "Forecast - Monday 01", "Order 01", "Forecast - Monday 04", "Order 04", "Mon", "Year", "2324 Forecast 01", "2425 Forecast 01", "2324 Forecast 04", "2425 Forecast 04", "2223 Forecast 01", "2223 Forecast 04", "2324 Order 01", "2425 Order 01", "2324 Order 04", "2425 Order 04", "2223 Order 01", "2223 Order 04", "2324 Abs 01", "2425 Abs 01", "2324 Abs 04", "2425 Abs 04", "2223 Abs 01", "2223 Abs 04", "Com_Table.Column1", "Driver", "Brand_Table_Cvg.Short Name", "STD Digitalization.Mon.Year", "STD Digitalization.Net Weight (QL)", "Proj Abs", "01 Proj Abs", "Mon_Numb", "Month_Sort.Sort", "Conc for Inventory", "Daily Progress.Stock as of Date (Qils)", "Gap Difference 01", "Gap Difference 04"}),
+				    #"Changed Type24" = Table.TransformColumnTypes(#"Reordered Columns",{{"Gap Difference 01", type number}, {"Gap Difference 04", type number}}),
+				    #"Replaced Value17" = Table.ReplaceValue(#"Changed Type24",null,0,Replacer.ReplaceValue,{"Daily Progress.Stock as of Date (Qils)"}),
+				    #"Added Custom16" = Table.AddColumn(#"Replaced Value17", "RCA 04 (Part#1)", each if [#"Forecast - Monday 04"] *0.8 > [Order 04] then 
+				            "Over FCST" 
+				         else if [#"Forecast - Monday 04"] * 1.2 < [Order 04] then 
+				            "Under FCST" 
+				         else if
+				            [#"Forecast - Monday 04"] = 0 and [Order 04]= 0
+				            then "No Plan"
+				            else if [#"Forecast - Monday 04"] = [Order 04] then "FCST = Ord" else "Within 20%"),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Custom16", each true),
+				    #"Changed Type25" = Table.TransformColumnTypes(#"Filtered Rows2",{{"RCA 04 (Part#1)", type text}}),
+				    #"Added Custom17" = Table.AddColumn(#"Changed Type25", "RCA 04 (Part#2)", each if [#"Daily Progress.Stock as of Date (Qils)"] > [Order 04] then "Over Stock" 
+				else if [#"Daily Progress.Stock as of Date (Qils)"] < [Order 04] then "Under Stock" else if [#"Daily Progress.Stock as of Date (Qils)"] = [Order 04] then "Stock = Ord" 
+				else null),
+				    #"Added Custom19" = Table.AddColumn(#"Added Custom17", "RCA 04", each [#"RCA 04 (Part#1)"]&", "&[#"RCA 04 (Part#2)"]),
+				    #"Changed Type26" = Table.TransformColumnTypes(#"Added Custom19",{{"RCA 04 (Part#2)", type text}, {"RCA 04", type text}}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Changed Type26", each true),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Filtered Rows3", "RCA 04", "RCA 04 - Copy"),
+				    #"Renamed Columns8" = Table.RenameColumns(#"Duplicated Column2",{{"RCA 04 - Copy", "RCA 04 - Summary"}}),
+				    #"Replaced Value18" = Table.ReplaceValue(#"Renamed Columns8","Within 20%, Under Stock","NA",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value19" = Table.ReplaceValue(#"Replaced Value18","FCST = Ord, Under Stock","Missing Inventory",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value20" = Table.ReplaceValue(#"Replaced Value19","Over FCST, Over Stock","Under Selling (Over FCST)",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value21" = Table.ReplaceValue(#"Replaced Value20","Over FCST, Stock = Ord","Under Selling (Over FCST)",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value22" = Table.ReplaceValue(#"Replaced Value21","Under FCST, Over Stock","Over Selling (Under FCST)",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value23" = Table.ReplaceValue(#"Replaced Value22","Over FCST, Under Stock","Under Selling & Missing Inventory",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value24" = Table.ReplaceValue(#"Replaced Value23","Under FCST, Under Stock","Over Selling & Missing Inventory",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value25" = Table.ReplaceValue(#"Replaced Value24","No Plan, Stock = Ord","NA",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value26" = Table.ReplaceValue(#"Replaced Value25","Within 20%, Over Stock","NA",Replacer.ReplaceText,{"RCA 04 - Summary"}),
+				    #"Replaced Value27" = Table.ReplaceValue(#"Replaced Value26","No Plan, Over Stock","NA",Replacer.ReplaceText,{"RCA 04 - Summary"})
+				in
+				    #"Replaced Value27"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

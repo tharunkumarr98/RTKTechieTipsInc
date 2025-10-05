@@ -1,0 +1,556 @@
+table 'VL06O - Container'
+	lineageTag: 57a0d52f-10a0-47db-a211-8a57e2e5eadc
+
+	measure 'Act_Indust_G.Out_Graph' =
+			
+			
+			DIVIDE(
+				SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]),
+				SUM('VL06O - Container'[QL])
+			)
+		formatString: #,0
+		lineageTag: f97f62fb-7d7c-43b7-b9fb-2d689d7c0606
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Group_Level =
+			IF (
+			        ISINSCOPE ( Brand_Table[Brand (Key)]), -- Check if this is sku matrix line
+			        DIVIDE ( VL06O - Container[Act_Indust_Gate_Out_Weighted] ,VL06O - Container[QL],BLANK()
+			    ))
+		lineageTag: e7df62df-e39d-4323-90c1-a577b9cf2ecb
+
+	measure 'Remaining SL @Arrival' = (SELECTEDVALUE('VL06O - Container'[Seven_Master.SL]) - (SELECTEDVALUE('VL06O - Container'[Gate_Out_Act_Freshness])+SELECTEDVALUE('VL06O - Container'[Data.Transit_Time])*7))/SELECTEDVALUE('VL06O - Container'[Seven_Master.SL])
+		formatString: 0%;-0%;0%
+		lineageTag: 3553d6c2-736a-4061-bcf6-7f7e7be5d761
+
+	measure Container_Sign = ```
+			
+			IF (ABS(SELECTEDVALUE('VL06O - Container'[Gate_Out_Act_Freshness]) - SELECTEDVALUE('VL06O - Container'[ZREAL.Duration in Days])) >= 10,
+			    "Bad",
+			    "Good"
+			)
+			
+			```
+		lineageTag: 3ec7e50e-c1fb-47e4-9ddf-aff39c707594
+
+	measure Container_Sign2 =
+			
+			IF (ABS(SELECTEDVALUE('VL06O - Container'[VL06O - DNs.Gate Out Freshness]) - (SELECTEDVALUE('VL06O - Container'[ZREAL.Duration in Days])+SELECTEDVALUE('VL06O - Container'[ZREAL.Defrosting_Period]))) >= 100,
+			    "Bad",
+			    "Good"
+			)
+		lineageTag: 32ff4eb0-63d9-4c3a-949a-18e5fa1190f6
+
+	measure 'G.Out_Freshness_Graph' =
+			
+			
+			DIVIDE(
+				SUM('VL06O - Container'[VL06O - DNs.Gate Out Freshness]),
+				SUM('VL06O - Container'[VL06O - DNs.QLI])
+			)
+		formatString: 0.0
+		lineageTag: c5a0bc0c-59b0-4d52-8884-f66ddac80031
+
+	measure 'Ind. G.O Prev' = ```
+			
+			VAR SelectedMonth = SELECTEDVALUE('VL06O - Container'[Act. Gds Mvmnt Date])
+			VAR PreviousMonthData =
+			    CALCULATETABLE(
+			        'VL06O - Container',
+			        PREVIOUSMONTH('VL06O - Container'[Act. Gds Mvmnt Date]),
+			        NOT(ISBLANK('VL06O - Container'[Act_Indust_Gate_Out_Weighted])) // Ensure non-blank values
+			    )
+			RETURN
+			DIVIDE(
+			    CALCULATE(SUM('VL06O - Container'[Act_Indust_Gate_Out_Weighted]), PreviousMonthData),
+			    CALCULATE(SUM('VL06O - Container'[QL]), PreviousMonthData),
+			    0 // Specify an alternate result if the denominator is zero
+			)
+			
+			
+			
+			
+			
+			
+			
+			
+			```
+		lineageTag: eccc6752-6bdb-4b06-9fe6-70e3f026a86f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Source.Name'
+		dataType: string
+		lineageTag: 23ea5a0d-b662-4bbf-bc2c-53b384924475
+		summarizeBy: none
+		sourceColumn: Source.Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d432153-69bd-4e0b-9d45-20cf9bb720df
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a65be24-4753-473c-9a94-2e295806971a
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column GSL
+		dataType: string
+		lineageTag: 6d4102a7-3275-4598-ab0d-ad60a26023e1
+		summarizeBy: none
+		sourceColumn: GSL
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 74fb16d3-5605-46bf-8d02-c5469ffa2026
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column QL
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 1f9a04d7-bed1-4866-8efd-f74ce8d26c44
+		summarizeBy: sum
+		sourceColumn: QL
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estimated ETA (Week)'
+		dataType: double
+		lineageTag: 9baf0d01-ec19-4b2f-8e78-9dcedd8d728f
+		summarizeBy: sum
+		sourceColumn: Estimated ETA (Week)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Act_Production
+		dataType: string
+		lineageTag: 37f6fd26-00f7-4b3b-b039-0e6445cf34ee
+		summarizeBy: none
+		sourceColumn: Act_Production
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gate_Out_Act_Freshness
+		dataType: double
+		formatString: 0
+		lineageTag: fec91bb5-38b2-4659-abe3-2e21d6934ac6
+		summarizeBy: sum
+		sourceColumn: Gate_Out_Act_Freshness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Act_Indust_Gate_Out_Weighted
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 90891ef7-a883-4935-b0ae-1e185da589f3
+		summarizeBy: sum
+		sourceColumn: Act_Indust_Gate_Out_Weighted
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seven_Master.Brand (Sub-Class Desc.)'
+		dataType: string
+		lineageTag: 53989300-ef09-4cc4-b756-7ad7f94a2a2c
+		summarizeBy: none
+		sourceColumn: Seven_Master.Brand (Sub-Class Desc.)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Direct_Distributors.Data.Direct / Distributors'
+		dataType: string
+		lineageTag: ac1d1f1b-a739-4dc0-a659-00154ecd1173
+		summarizeBy: none
+		sourceColumn: Direct_Distributors.Data.Direct / Distributors
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Direct_Distributors.Data.Mapping Freshness'
+		dataType: string
+		lineageTag: a5773a3e-f30c-4f11-ba6d-4a17a05c7cf8
+		summarizeBy: none
+		sourceColumn: Direct_Distributors.Data.Mapping Freshness
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seven_Master.Source_Plant'
+		dataType: string
+		lineageTag: b5c0b313-2e99-4322-ad43-c874a60f83fc
+		summarizeBy: none
+		sourceColumn: Seven_Master.Source_Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seven_Master.State'
+		dataType: string
+		lineageTag: 377c3a80-75e0-4956-bcd7-7c065fbcd863
+		summarizeBy: none
+		sourceColumn: Seven_Master.State
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plant_Desc.Description'
+		dataType: string
+		lineageTag: f451864b-7ef7-4023-9c7d-a5892f374d21
+		summarizeBy: none
+		sourceColumn: Plant_Desc.Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shipment Plant'
+		dataType: string
+		lineageTag: 7ac20989-c0e9-44d2-94c1-6ae199c4f1f7
+		summarizeBy: none
+		sourceColumn: Shipment Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Code for route (conc)'
+		dataType: string
+		lineageTag: 491c8f40-a90c-4a6f-98e8-04f9779fd69b
+		summarizeBy: none
+		sourceColumn: Code for route (conc)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TT1 (Days)'
+		dataType: double
+		formatString: 0.0
+		lineageTag: fb0bfffe-4306-4978-a2fa-af62f6529af2
+		summarizeBy: sum
+		sourceColumn: TT1 (Days)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gate In Freshness'
+		dataType: double
+		lineageTag: 42a0cd66-a06b-4d73-8878-f8b3632280c8
+		summarizeBy: sum
+		sourceColumn: Gate In Freshness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Transit_Time.Data.Country'
+		dataType: string
+		lineageTag: a55ae2a7-9210-417c-af4f-1b799736b42b
+		summarizeBy: none
+		sourceColumn: Transit_Time.Data.Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data.Transit_Time'
+		dataType: double
+		formatString: 0
+		lineageTag: 141e4fb1-1fb0-4342-b238-1db35c99839a
+		summarizeBy: sum
+		sourceColumn: Data.Transit_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery
+		dataType: int64
+		formatString: 0
+		lineageTag: 26fec86e-bfb1-401d-b689-ea517e2a5a90
+		summarizeBy: sum
+		sourceColumn: Delivery
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shipment Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fa31277-6a6c-4b89-9e47-9d8931370a66
+		summarizeBy: sum
+		sourceColumn: Shipment Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Goods Issue Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 1b513de6-97de-4a06-91b9-74f1d457572e
+		summarizeBy: none
+		sourceColumn: Goods Issue Date
+
+		variation Variation
+			isDefault
+			relationship: 8b680fbe-4bc9-49bb-804d-3b74ff05a966
+			defaultHierarchy: LocalDateTable_9955695f-c9fc-48e5-8e84-657ec4f5b232.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Ship-To Party'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0671e75a-e8bb-483c-b6fe-9d30b265be15
+		summarizeBy: sum
+		sourceColumn: Ship-To Party
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Name of the ship-to party'
+		dataType: string
+		lineageTag: 82e2eabd-c900-4071-a2a3-5004d44cc817
+		summarizeBy: none
+		sourceColumn: Name of the ship-to party
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Act. Gds Mvmnt Date'
+		dataType: dateTime
+		formatString: mm/dd/yy
+		lineageTag: 5b64bc74-f801-4e27-a105-d2d24c9f0748
+		summarizeBy: none
+		sourceColumn: Act. Gds Mvmnt Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Material
+		dataType: int64
+		formatString: 0
+		lineageTag: 71ec4db4-3bc0-4f71-91dc-0572457640b9
+		summarizeBy: none
+		sourceColumn: Material
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column SLED/BBD
+		dataType: int64
+		formatString: 0
+		lineageTag: f4b770b3-ac8c-48ad-9f4b-bde85cc69906
+		summarizeBy: sum
+		sourceColumn: SLED/BBD
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 999a87f7-5827-4e87-b9e3-6a12530a2508
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Batch
+		dataType: string
+		lineageTag: 27a7e15c-0451-4e2d-a0b2-98d56a1581b7
+		summarizeBy: none
+		sourceColumn: Batch
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Delivery quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2567b05c-84b9-4b07-8923-115b5c2f60ac
+		summarizeBy: sum
+		sourceColumn: Delivery quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: 43c51b9e-03c6-4722-a229-cd159550b54d
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net weight'
+		dataType: double
+		lineageTag: 47b3615b-c2e8-42fb-abc7-304577b77fab
+		summarizeBy: sum
+		sourceColumn: Net weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Weight Unit'
+		dataType: string
+		lineageTag: c65bf0b3-d0fe-4671-a524-a48a3f947aca
+		summarizeBy: none
+		sourceColumn: Weight Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Weight'
+		dataType: double
+		lineageTag: 84255ff2-3d40-43de-a892-bd7f8cbb1c25
+		summarizeBy: sum
+		sourceColumn: Total Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Picking status'
+		dataType: string
+		lineageTag: 6c7199a5-be84-4838-9a5c-8f797e0c5b31
+		summarizeBy: none
+		sourceColumn: Picking status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Unit'
+		dataType: string
+		lineageTag: 285834ae-68f1-4661-b461-0bf7726acd5b
+		summarizeBy: none
+		sourceColumn: Sales Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase order no.'
+		dataType: string
+		lineageTag: e66daa06-52c3-4b74-9be4-c731f4e22f3f
+		summarizeBy: none
+		sourceColumn: Purchase order no.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empty
+		dataType: string
+		lineageTag: 8f6835d4-75e2-4c6d-94fa-6ab8de7bfe41
+		summarizeBy: none
+		sourceColumn: Empty
+
+		annotation SummarizationSetBy = Automatic
+
+	column Container_Conc
+		dataType: string
+		lineageTag: f71193e4-ee1f-4ad8-9655-442c0fa2edf7
+		summarizeBy: none
+		sourceColumn: Container_Conc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seven_Master.SL_BW'
+		dataType: int64
+		formatString: 0
+		lineageTag: 707e4ed1-31cb-41c1-b157-89283c8a6da4
+		summarizeBy: sum
+		sourceColumn: Seven_Master.SL_BW
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seven_Master.#Pallets'
+		dataType: int64
+		formatString: 0
+		lineageTag: 99250599-31c9-4349-8444-a4d2d9266ff2
+		summarizeBy: sum
+		sourceColumn: Seven_Master.#Pallets
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VL06O - Container' = m
+		mode: import
+		source = ```
+				let
+				    Source = Folder.Files("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Dist\VL06O - Container"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (7)", each #"Transform File (7)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (7)"}),
+				    #"Expanded Transform File (7)" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (7)", {"Delivery", "Shipment Number", "Goods Issue Date", "Ship-To Party", "Name of the ship-to party", "Act. Gds Mvmnt Date", "Material", "SLED/BBD", "Description", "Batch", "Delivery quantity", "Plant", "Net weight", "Weight Unit", "Total Weight", "Picking status", "Sales Unit", "Purchase order no.", "Empty"}, {"Transform File (7).Delivery", "Transform File (7).Shipment Number", "Transform File (7).Goods Issue Date", "Transform File (7).Ship-To Party", "Transform File (7).Name of the ship-to party", "Transform File (7).Act. Gds Mvmnt Date", "Transform File (7).Material", "Transform File (7).SLED/BBD", "Transform File (7).Description", "Transform File (7).Batch", "Transform File (7).Delivery quantity", "Transform File (7).Plant", "Transform File (7).Net weight", "Transform File (7).Weight Unit", "Transform File (7).Total Weight", "Transform File (7).Picking status", "Transform File (7).Sales Unit", "Transform File (7).Purchase order no.", "Transform File (7).Empty"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Expanded Transform File (7)",{{"Transform File (7).Delivery", "Delivery"}, {"Transform File (7).Shipment Number", "Shipment Number"}, {"Transform File (7).Goods Issue Date", "Goods Issue Date"}, {"Transform File (7).Ship-To Party", "Ship-To Party"}, {"Transform File (7).Name of the ship-to party", "Name of the ship-to party"}, {"Transform File (7).Act. Gds Mvmnt Date", "Act. Gds Mvmnt Date"}, {"Transform File (7).Material", "Material"}, {"Transform File (7).SLED/BBD", "SLED/BBD"}, {"Transform File (7).Description", "Description"}, {"Transform File (7).Batch", "Batch"}, {"Transform File (7).Delivery quantity", "Delivery quantity"}, {"Transform File (7).Plant", "Plant"}, {"Transform File (7).Net weight", "Net weight"}, {"Transform File (7).Weight Unit", "Weight Unit"}, {"Transform File (7).Total Weight", "Total Weight"}, {"Transform File (7).Picking status", "Picking status"}, {"Transform File (7).Sales Unit", "Sales Unit"}, {"Transform File (7).Purchase order no.", "Purchase order no."}, {"Transform File (7).Empty", "Empty"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns4",{{"Source.Name", type text}, {"Delivery", Int64.Type}, {"Shipment Number", Int64.Type}, {"Goods Issue Date", Int64.Type}, {"Ship-To Party", Int64.Type}, {"Name of the ship-to party", type text}, {"Act. Gds Mvmnt Date", Int64.Type}, {"Material", type text}, {"SLED/BBD", Int64.Type}, {"Description", type text}, {"Batch", type text}, {"Delivery quantity", Int64.Type}, {"Plant", type text}, {"Net weight", type number}, {"Weight Unit", type text}, {"Total Weight", type number}, {"Picking status", type text}, {"Sales Unit", type text}, {"Purchase order no.", type text}, {"Empty", type any}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each true),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Filtered Rows",{{"Act. Gds Mvmnt Date", type date}}),
+				    #"Inserted Month" = Table.AddColumn(#"Changed Type1", "Month", each Date.Month([Act. Gds Mvmnt Date]), Int64.Type),
+				    #"Inserted Year" = Table.AddColumn(#"Inserted Month", "Year", each Date.Year([Act. Gds Mvmnt Date]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Year", "GSL", each if [Plant] = "LUD0" then "X" else "Ok"),
+				    #"Merged Queries1" = Table.NestedJoin(#"Added Custom", {"Name of the ship-to party"}, Direct_Distributors, {"Data.Ship to Party"}, "Direct_Distributors", JoinKind.LeftOuter),
+				    #"Expanded Direct_Distributors" = Table.ExpandTableColumn(#"Merged Queries1", "Direct_Distributors", {"Data.Direct / Distributors", "Data.Mapping Freshness"}, {"Direct_Distributors.Data.Direct / Distributors", "Direct_Distributors.Data.Mapping Freshness"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Expanded Direct_Distributors","LGI","Other Lower Gulf",Replacer.ReplaceText,{"Direct_Distributors.Data.Mapping Freshness"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Replaced Value", each true),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Filtered Rows1",{{"SLED/BBD", type date}, {"Goods Issue Date", type date}}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Changed Type2", "Week of Year", each Date.WeekOfYear([Act. Gds Mvmnt Date]), Int64.Type),
+				    #"Added Custom1" = Table.AddColumn(#"Inserted Week of Year", "QL", each [Net weight]/100),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom1",{{"QL", type number}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type3", {"Material"}, Seven_Master, {"SKU_No_77"}, "Seven_Master", JoinKind.LeftOuter),
+				    #"Expanded Seven_Master" = Table.ExpandTableColumn(#"Merged Queries", "Seven_Master", {"Source_Plant", "Brand (Sub-Class Desc.)", "SL_BW", "#Pallets", "State"}, {"Seven_Master.Source_Plant", "Seven_Master.Brand (Sub-Class Desc.)", "Seven_Master.SL_BW", "Seven_Master.#Pallets", "Seven_Master.State"}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Expanded Seven_Master", each true),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Filtered Rows2",{{"SLED/BBD", Int64.Type}}),
+				    #"Added Custom3" = Table.AddColumn(#"Changed Type4", "Act_Production", each [#"SLED/BBD"]-[Seven_Master.SL_BW]),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Added Custom3",{{"Act. Gds Mvmnt Date", Int64.Type}}),
+				    #"Added Custom4" = Table.AddColumn(#"Changed Type5", "Gate_Out_Act_Freshness", each if ([Act. Gds Mvmnt Date] - [Act_Production] < 0) then 
+				    4 
+				else 
+				    ([Act. Gds Mvmnt Date] - [Act_Production])),
+				    #"Changed Type9" = Table.TransformColumnTypes(#"Added Custom4",{{"Gate_Out_Act_Freshness", type number}}),
+				    #"Added Custom5" = Table.AddColumn(#"Changed Type9", "Act_Indust_Gate_Out_Weighted ", each [Gate_Out_Act_Freshness]*[Net weight]/100),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Added Custom5",{{"Act_Indust_Gate_Out_Weighted ", type number}, {"Gate_Out_Act_Freshness", type number}}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Changed Type6", {"Plant"}, Plant_Desc, {"Plant"}, "Plant_Desc", JoinKind.LeftOuter),
+				    #"Expanded Plant_Desc" = Table.ExpandTableColumn(#"Merged Queries3", "Plant_Desc", {"Description"}, {"Plant_Desc.Description"}),
+				    #"Added Custom6" = Table.AddColumn(#"Expanded Plant_Desc", "Shioment Plant", each if [Seven_Master.Source_Plant] = "Valencia" and [Plant] = "LUD0" then "Plant Hub Dubai"
+				else if [Seven_Master.Source_Plant] = "Valencia" then "Valencia - Spain"
+				else if [Seven_Master.State] = "Frozen" and ([Plant] = "LPIA" or [Plant] = "LPPA") then [Seven_Master.Source_Plant]
+				else if [Plant] = "LPIA" or [Plant] = "LPIC" or [Plant] = "LPPA" or [Plant] = "TRGB" or [Plant] = "INPB" or [Plant] = "LPDA" or [Plant] = "LPBA" or [Plant] = "CNGB" or [Plant] = "RUD1" or [Plant] = "RUE1" or [Plant] = "LUD0" or [Plant] = "LPID" then [Plant_Desc.Description]
+				else if [Plant] = "LUTB" or [Plant] = "LIKW" or [Plant] = "LIAE" or [Plant] = "LISA" then 
+				    if [#"Seven_Master.Brand (Sub-Class Desc.)"] = "Nutella" then "FERRERO TURKIYE CIKOLATA VE TA"
+				    else "Ferrero India - Baramati Plant"
+				else ""),
+				    #"Added Custom7" = Table.AddColumn(#"Added Custom6", "Code for route (conc)", each [Shioment Plant]&[#"Name of the ship-to party"]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom7",{{"Shioment Plant", "Shipment Plant"}}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Renamed Columns", {"Code for route (conc)"}, Transit_Time, {"Data.Code for Route2"}, "Transit_Time", JoinKind.LeftOuter),
+				    #"Expanded Transit_Time1" = Table.ExpandTableColumn(#"Merged Queries2", "Transit_Time", {"Data.Country", "Data.Transit_Time"}, {"Transit_Time.Data.Country", "Transit_Time.Data.Transit_Time"}),
+				    #"Added Custom2" = Table.AddColumn(#"Expanded Transit_Time1", "Estimated ETA (Week)", each if [Transit_Time.Data.Transit_Time] + [Week of Year] > 52 then 0 + ([Transit_Time.Data.Transit_Time] - (52 - [Week of Year])) else [Transit_Time.Data.Transit_Time] + [Week of Year]),
+				    #"Changed Type10" = Table.TransformColumnTypes(#"Added Custom2",{{"Estimated ETA (Week)", type number}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Changed Type10",{{"Transit_Time.Data.Transit_Time", "Data.Transit_Time"}}),
+				    #"Added Custom8" = Table.AddColumn(#"Renamed Columns2", "TT1 (Days)", each [Data.Transit_Time]*7),
+				    #"Changed Type7" = Table.TransformColumnTypes(#"Added Custom8",{{"TT1 (Days)", type number}, {"Material", type text}}),
+				    #"Added Custom10" = Table.AddColumn(#"Changed Type7", "Gate In Freshness", each [Gate_Out_Act_Freshness]+[Data.Transit_Time]*7),
+				    #"Changed Type8" = Table.TransformColumnTypes(#"Added Custom10",{{"Gate In Freshness", type number}, {"Data.Transit_Time", type number}}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Changed Type8",{{"Act_Indust_Gate_Out_Weighted ", "Act_Indust_Gate_Out_Weighted"}}),
+				    #"Added Custom9" = Table.AddColumn(#"Renamed Columns3", "Container_Conc", each [Material]&[Batch]&[Transit_Time.Data.Country]),
+				    #"Changed Type11" = Table.TransformColumnTypes(#"Added Custom9",{{"Act. Gds Mvmnt Date", type date}}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Changed Type11", each ([Delivery] <> null))
+				in
+				    #"Filtered Rows3"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

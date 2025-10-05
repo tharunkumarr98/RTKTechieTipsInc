@@ -1,0 +1,147 @@
+table Driver_Table
+	lineageTag: 6f923fe2-16b3-48db-8967-656eebe27c71
+
+	column 'Com (Key)'
+		dataType: string
+		lineageTag: 03cf0343-b490-4ba3-b51f-a3e6ff7a81cb
+		summarizeBy: none
+		sourceColumn: Com (Key)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desc
+		dataType: string
+		lineageTag: effc247f-73b2-4bec-96d6-377badc2d172
+		summarizeBy: none
+		sourceColumn: Desc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Driver
+		dataType: string
+		lineageTag: a34e7ede-034c-4da7-86cb-1f332d98d853
+		summarizeBy: none
+		sourceColumn: Driver
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 070bf427-6ed3-4508-a7fe-5807535685a1
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short Desc 1'
+		dataType: string
+		lineageTag: 5ac86f3e-f88f-4dd2-bc2b-73a4baee71da
+		summarizeBy: none
+		sourceColumn: Short Desc 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Detail
+		dataType: string
+		lineageTag: 7eddd354-2aea-4ad4-8130-e3d2de7372bf
+		summarizeBy: none
+		sourceColumn: Detail
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Short Desc'
+		dataType: string
+		lineageTag: 10283ec0-36b9-4f17-a2c2-4396e0ad254c
+		summarizeBy: none
+		sourceColumn: Short Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Driver_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Shared Files\Monthly Slides.xlsx"), null, true),
+				    Com_Table_Table = Source{[Item="Com_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Com_Table_Table,{{"Com (Key)", type text}, {"Desc", type text}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Desc", "Desc - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Desc - Copy", "Short Desc"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","NUTELLA","N",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","NUT","N",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","<(>&<)>","&",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","B-READY","B.READY",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value26" = Table.ReplaceValue(#"Replaced Value3","B-Ready","B.Ready",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value26","KINDER BUENO","BUE",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","N & GO","N&GO",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","KINDER HAPPY HIPPO","HH",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","FERRERO COLLECTION","COLL",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","RAFFAELLO ","RAF ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","F COLL","COLL ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","KINDER MAXI","MAXI ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","ROCHER ","ROC ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","KINDER COUNTRY","COUNTRY",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","KINDER CHOCOLATE","CHOCOLATE",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","KINDER JOY","JOY ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","KINDER SCHOKOBONS","SCHOKOBONS",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","KINDER MIX ADVENT CALENDAR","MIX CAL",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value17" = Table.ReplaceValue(#"Replaced Value16","BUE WHITE","BUEW",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value18" = Table.ReplaceValue(#"Replaced Value17","KINDER TRONKY","TRONKY",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value19" = Table.ReplaceValue(#"Replaced Value18"," ICE CREAM "," ICE ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value20" = Table.ReplaceValue(#"Replaced Value19","BISCUITS ","BISC ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value21" = Table.ReplaceValue(#"Replaced Value20","KINDER CREAMY","CREAMY",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value22" = Table.ReplaceValue(#"Replaced Value21","KINDER MIX","MIX ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value23" = Table.ReplaceValue(#"Replaced Value22","KINDER CARDS","CARD ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value24" = Table.ReplaceValue(#"Replaced Value23","KINDER MINI CHOCOLAT","MINI CHOCOLAT",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value24", "Short Desc", Splitter.SplitTextByDelimiter("-", QuoteStyle.Csv), {"Short Desc.1", "Short Desc.2", "Short Desc.3"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Short Desc.1", type text}, {"Short Desc.2", type text}, {"Short Desc.3", type text}}),
+				    #"Replaced Value25" = Table.ReplaceValue(#"Changed Type1","Raffaello","RAF ",Replacer.ReplaceText,{"Short Desc.1"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Replaced Value25",{"Short Desc.2", "Short Desc.3"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"Short Desc.1", "Short Desc"}}),
+				    #"Replaced Value27" = Table.ReplaceValue(#"Renamed Columns1","UAE","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value28" = Table.ReplaceValue(#"Replaced Value27","CR VA PAC LE 2"," ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value29" = Table.ReplaceValue(#"Replaced Value28","Limited Edition","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value30" = Table.ReplaceValue(#"Replaced Value29","ISR","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value31" = Table.ReplaceValue(#"Replaced Value30","  23","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value32" = Table.ReplaceValue(#"Replaced Value31"," 19","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value33" = Table.ReplaceValue(#"Replaced Value32"," 20","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value34" = Table.ReplaceValue(#"Replaced Value33"," CR VA PAC LU 2","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value35" = Table.ReplaceValue(#"Replaced Value34"," KWT 24","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value36" = Table.ReplaceValue(#"Replaced Value35","KINDER DELICE ","DELICE ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value37" = Table.ReplaceValue(#"Replaced Value36","KINDER UOVO MAXI ","KSOR",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value38" = Table.ReplaceValue(#"Replaced Value37","Nutella ","N ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value39" = Table.ReplaceValue(#"Replaced Value38","Rocher ","ROC ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value40" = Table.ReplaceValue(#"Replaced Value39","KINDER KINDERINI ","KINDERINI ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value41" = Table.ReplaceValue(#"Replaced Value40","RAM","RAM",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value42" = Table.ReplaceValue(#"Replaced Value41","CHRISTMAS/RAMADA","RAM",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value43" = Table.ReplaceValue(#"Replaced Value42","CHRISTMAS/RAMAD","RAM",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value44" = Table.ReplaceValue(#"Replaced Value43","  17","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value45" = Table.ReplaceValue(#"Replaced Value44","CHR/RAM ","RAM ",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value46" = Table.ReplaceValue(#"Replaced Value45"," KWT","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value47" = Table.ReplaceValue(#"Replaced Value46","RAMN","RAM",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value48" = Table.ReplaceValue(#"Replaced Value47"," 22","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value49" = Table.ReplaceValue(#"Replaced Value48"," 23","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value50" = Table.ReplaceValue(#"Replaced Value49","  24","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value51" = Table.ReplaceValue(#"Replaced Value50"," HL","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value52" = Table.ReplaceValue(#"Replaced Value51"," SAU","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value53" = Table.ReplaceValue(#"Replaced Value52","2 2","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value54" = Table.ReplaceValue(#"Replaced Value53"," 21","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value54", "Detail", each if Text.StartsWith([#"Com (Key)"], "XSA") then "KSA" else if Text.StartsWith([#"Com (Key)"], "XKW") then "KWT" else if Text.StartsWith([#"Com (Key)"], "XAE") then "DXB" else "LGI"),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Conditional Column",{{"Detail", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type2", "Short Desc 2", each [Short Desc]&" "&[Detail]),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Added Custom",{{"Short Desc", "Short Desc 1"}, {"Short Desc 2", "Short Desc"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Short Desc", type text}}),
+				    #"Replaced Value55" = Table.ReplaceValue(#"Changed Type3","DXB","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value56" = Table.ReplaceValue(#"Replaced Value55","KSA","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value57" = Table.ReplaceValue(#"Replaced Value56","KWT","",Replacer.ReplaceText,{"Short Desc"}),
+				    #"Replaced Value58" = Table.ReplaceValue(#"Replaced Value57","LGI","",Replacer.ReplaceText,{"Short Desc"})
+				in
+				    #"Replaced Value58"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,17 @@
+table 'Slicer Table_Cvg'
+	lineageTag: 5fb3da47-1c0f-4882-a13e-aa5f49c9eda0
+
+	column Value
+		lineageTag: 8da56a56-35ae-46cd-b241-6a5d87662199
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Table_Cvg' = calculated
+		mode: import
+		source = { "Availble", "Transit"}
+
+	annotation PBI_Id = 986cb869cb2f416bab4e1a1666a1263b
+

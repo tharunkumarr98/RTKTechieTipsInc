@@ -1,0 +1,72 @@
+table Month_Sort
+	lineageTag: de2c6e00-0c40-46a4-be0f-2e8ec7ca6a69
+
+	column Month
+		dataType: string
+		lineageTag: 5e376a25-6474-47b8-91e0-ab00e3103045
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 1cd9c70a-cdec-405f-a6a1-98446b4dcec4
+		summarizeBy: none
+		sourceColumn: Sort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column Month_Number
+		dataType: int64
+		formatString: 0
+		lineageTag: b195bae0-2639-4b48-b646-ad2fcc218c8f
+		summarizeBy: sum
+		sourceColumn: Month_Number
+		sortByColumn: Sort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Last_Wk_Num
+		dataType: string
+		lineageTag: 05d48784-ea45-4e3a-93c9-60b1537762e1
+		summarizeBy: none
+		sourceColumn: Last_Wk_Num
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Month_Sort = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\sharasara1\OneDrive - Ferrero Ecosystem\Desktop\GAC DB DATA\Stk Cvg_Weekly Files\Mapping\Stock_Coverage_Mapping.xlsx"), null, true),
+				    Month_Sort_Table = Source{[Item="Month_Sort",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Month_Sort_Table,{{"Month", type text}, {"Sort", Int64.Type}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Index", 0, 1, Int64.Type),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Index",{"Index"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Removed Columns", "Custom", each if [Month] = "Sep" then 9 else if [Month] = "Oct" then 10 else if [Month] = "Nov" then 11 else if [Month] = "Dec" then 12 else if [Month] = "Jan" then 1 else if [Month] = "Feb" then 2 else if [Month] = "Mar" then 3 else if [Month] = "Apr" then 4 else if [Month] = "May" then 5 else if [Month] = "Jun" then 6 else if [Month] = "Jul" then 7 else if [Month] = "Aug" then 8 else if [Month] = "YTD" then 13 else if [Month] = "LY" then 14 else null),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Conditional Column",{{"Custom", "Month_Number"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Month_Number", Int64.Type}})
+				in
+				    #"Changed Type1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
