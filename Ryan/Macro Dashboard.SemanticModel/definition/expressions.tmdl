@@ -1,0 +1,16 @@
+expression HostName = "lhgom4gvucfepofzm6gm4lr2mm-n4x534duc3herfvjohqdi4s43y.datawarehouse.fabric.microsoft.com" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: ac5385fe-be81-4b1e-8cf0-0d03b1f7ce37
+	queryGroup: DataSourceParamters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression DatabaseName = "stLouisFedData" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 797fb50e-5e66-474c-9bf8-0a1f43375867
+	queryGroup: DataSourceParamters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,20 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "Refresh Data",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "silver fred_macro_data": {
+      "queryId": "c07b0353-121c-42e5-80c5-a54709dd0056",
+      "queryName": "silver fred_macro_data"
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"372daa6b-e955-4fac-9f2e-a410ae3712c8\",\"DatasourceId\":\"0b1fd3e8-2531-4f65-b05a-85527b90f41d\"}"
+    }
+  ]
+}

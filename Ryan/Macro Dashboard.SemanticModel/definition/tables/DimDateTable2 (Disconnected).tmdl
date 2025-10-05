@@ -1,0 +1,27 @@
+table 'DimDateTable2 (Disconnected)'
+	lineageTag: f129244f-a646-4376-8f41-26fb0cfc1463
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f0ff01c7-2f6d-4ecf-8adc-505b6772a15f
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'DimDateTable2 (Disconnected)' = m
+		mode: import
+		queryGroup: DimTables
+		source =
+				let
+				    Source = Value.Metadata(DimDateTable)[step]
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

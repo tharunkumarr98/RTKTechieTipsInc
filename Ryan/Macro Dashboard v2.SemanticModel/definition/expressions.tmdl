@@ -1,0 +1,16 @@
+expression HostName = "fmdfqrpp7h2ufmd43v44tpgwvu-6f6tyqztjb7ehkpqjink42cf2a.datawarehouse.fabric.microsoft.com" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = "Text"]
+	lineageTag: ac5385fe-be81-4b1e-8cf0-0d03b1f7ce37
+	queryGroup: DataSourceParamters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression DatabaseName = "pgus_poc_lakehouse" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = "Text"]
+	lineageTag: 797fb50e-5e66-474c-9bf8-0a1f43375867
+	queryGroup: DataSourceParamters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

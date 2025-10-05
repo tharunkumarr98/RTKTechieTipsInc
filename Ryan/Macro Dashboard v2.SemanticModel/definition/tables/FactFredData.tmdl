@@ -1,0 +1,46 @@
+table FactFredData
+	lineageTag: 85e4bdf2-bc2e-4f12-98d7-00fc985d08b4
+
+	column seriesId
+		dataType: string
+		lineageTag: f84aaede-8eec-449d-b2a5-569b4928a8ed
+		summarizeBy: none
+		sourceColumn: seriesId
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 792031bc-0a8e-49c0-8773-b174394a9568
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column value
+		dataType: double
+		lineageTag: b808ae62-aa0c-4a45-9606-c0c8095c3dec
+		summarizeBy: sum
+		sourceColumn: value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactFredData = m
+		mode: import
+		queryGroup: FactTables
+		source =
+				let
+				    Source = Sql.Database(HostName,DatabaseName),
+				    silver_fred_macro_data = Source{[Schema="silver",Item="fred_macro_data"]}[Data]
+				in
+				    silver_fred_macro_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

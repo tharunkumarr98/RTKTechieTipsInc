@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Macro Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1928e6db-1d6d-8f98-4074-4064fe19ac4f"
+  }
+}

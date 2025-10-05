@@ -1,0 +1,227 @@
+table DimDateTable
+	lineageTag: 300bc5ff-3aaa-41c3-91ae-ed1f6356f044
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 1322613a-aac0-4151-a876-8887aff87de0
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 043aa7b4-51f8-45fc-b785-9ac05a3c7d1a
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: c03603d3-8f79-4094-a874-63cf3a9f5cfc
+		summarizeBy: none
+		sourceColumn: YearOffset
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 8545a8a8-68df-45e7-9238-ea815b2b9a76
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 18286da6-d294-4ae0-b929-620536a20d08
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: b6f3ab1d-c956-4486-b7a7-b4e4ea530554
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthOffsetNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: e4fa972c-41e8-456f-92ed-92647893772e
+		summarizeBy: none
+		sourceColumn: MonthOffsetNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: d5fc341e-2664-41ff-a722-a37ed2b94456
+		summarizeBy: none
+		sourceColumn: QuarterNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterName
+		dataType: string
+		lineageTag: 1f14aea4-8146-4d14-88d7-4c2efb72d2b4
+		summarizeBy: none
+		sourceColumn: QuarterName
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		lineageTag: f1b4d74e-76fa-4915-8eb0-e9d3a145da54
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: fb0012bb-8a40-4e2b-b8c8-d43a2cd4ae22
+		summarizeBy: none
+		sourceColumn: QuarterOffset
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 5cd4d391-89af-4605-ab0a-2761884e9eb0
+		summarizeBy: none
+		sourceColumn: WeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekName
+		dataType: string
+		lineageTag: 18cd7ee2-f212-4ed7-9971-b89f5805fa4e
+		summarizeBy: none
+		sourceColumn: WeekName
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: 577965fa-6e58-4406-ba60-c10dda00142f
+		summarizeBy: none
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartOfWeek
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 08b27806-9f26-4369-a0a6-75e140603237
+		summarizeBy: none
+		sourceColumn: StartOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column WeekOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: 924a8b09-7b7c-4eb8-9ba5-a20f4fc71cfa
+		summarizeBy: none
+		sourceColumn: WeekOffset
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: edcf0aab-018c-44cf-a102-96c923b9d224
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 1772bf39-df84-4751-b5aa-13638972d268
+		summarizeBy: none
+		sourceColumn: YearMonthSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarterSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d17166e-caf4-47d9-8bd7-58cb1c198202
+		summarizeBy: none
+		sourceColumn: YearQuarterSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeekSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 28b29b98-62ac-46ec-bd6c-e2915686dd7d
+		summarizeBy: none
+		sourceColumn: YearWeekSort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDateTable = m
+		mode: import
+		queryGroup: DimTables
+		source = ```
+				let
+				    CurrentDate = Date.From(DateTimeZone.FixedUtcNow()),
+				    //Retrieve From Source
+				    SourceTable = Sql.Database(HostName,DatabaseName,[Query="Select CONVERT(INT, CONVERT(CHAR(8), min(date), 112)) MinDate, CONVERT(INT,CONVERT(CHAR(8), max(date), 112)) MaxDate   from silver.fred_macro_data"]),
+				    StartDateKey = SourceTable[MinDate]{0},
+				    EndDateKey = SourceTable[MaxDate]{0},
+				    // StartDateKey = 20250101,
+				    // EndDateKey = 20251231,
+				    StartDate = #date(Number.Round(StartDateKey/10000,0), Number.Round(Number.Mod(StartDateKey,10000)/100,0),  Number.Mod(Number.Mod(StartDateKey,10000),100) )   , 
+				    EndDate = #date(Number.Round(EndDateKey/10000,0), Number.Round(Number.Mod(EndDateKey,10000)/100,0),  Number.Mod(Number.Mod(EndDateKey,10000),100) )  ,
+				    NumberOfDays = Duration.Days(EndDate-StartDate) + 1,
+				    Source = Table.FromList(List.Dates(StartDate,NumberOfDays,#duration(1,0,0,0)), Splitter.SplitByNothing(),{"Date"} ),
+				    ChangedDateColumnType = Table.TransformColumnTypes(Source,{{"Date", type date}}),
+				    AddedDateKey = Table.AddColumn(ChangedDateColumnType, "DateKey", each Number.From(Date.ToText([Date], [Format="yyyyMMdd"])), Int64.Type),
+				    AddedYear = Table.AddColumn(AddedDateKey, "Year", each Date.Year([Date]), Int64.Type),
+				    AddedYearOffset = Table.AddColumn(AddedYear, "YearOffset", each Date.Year([Date]) - Date.Year(CurrentDate), Int64.Type),
+				    AddedMonth = Table.AddColumn(AddedYearOffset, "MonthNumber", each Date.Month([Date]), Int64.Type),
+				    AddedMonthName = Table.AddColumn(AddedMonth, "MonthName", each Date.MonthName([Date]), type text),
+				    AddedYearMonthSort = Table.AddColumn(AddedMonthName, "YearMonthSort", each [Year] * 100 + [MonthNumber], Int64.Type),
+				    AddedYearMonth = Table.AddColumn(AddedYearMonthSort, "YearMonth", each Text.From([Year]) & "-" & Text.Range([MonthName],0,3), type text),
+				    AddedMonthOffset = Table.AddColumn(AddedYearMonth, "MonthOffsetNumber", each ((12 * Date.Year([Date])) + [MonthNumber]) - ((12 * Date.Year(CurrentDate)) + Date.Month(CurrentDate)) , Int64.Type),
+				    AddedQuarterNumber = Table.AddColumn(AddedMonthOffset, "QuarterNumber", each Date.QuarterOfYear([Date]), Int64.Type),
+				    AddedQuarterText = Table.AddColumn(AddedQuarterNumber, "QuarterName", each "Q" & Text.From([QuarterNumber]), type text),
+				    AddedYearQuarterSort = Table.AddColumn(AddedQuarterText, "YearQuarterSort", each [Year] * 100 + [QuarterNumber], Int64.Type),
+				    AddedYearQuarter = Table.AddColumn(AddedYearQuarterSort, "YearQuarter", each Text.From([Year]) & "-" & [QuarterName], type text),
+				    AddedQuarterOffset = Table.AddColumn(AddedYearQuarter, "QuarterOffset", each ((4 * Date.Year([Date])) + [QuarterNumber]) - ((4 * Date.Year(CurrentDate)) + Date.QuarterOfYear(CurrentDate)) , Int64.Type),
+				    AddedWeekNumber = Table.AddColumn(AddedQuarterOffset, "WeekNumber", each Date.WeekOfYear([Date]), Int64.Type),
+				    AddedWeekName = Table.AddColumn(AddedWeekNumber, "WeekName", each "W" & Text.From([WeekNumber]), type text),
+				    AddedYearWeekSort = Table.AddColumn(AddedWeekName, "YearWeekSort", each [Year] * 100 + [WeekNumber], Int64.Type),
+				    AddedYearweek = Table.AddColumn(AddedYearWeekSort, "YearWeek", each Text.From([Year]) & "-" & [WeekName], type text),
+				    AddedStartOfWeek = Table.AddColumn(AddedYearweek, "StartOfWeek", each Date.StartOfWeek([Date]), type date),
+				    AddedWeekOffset = Table.AddColumn(AddedStartOfWeek, "WeekOffset", each (Number.From([StartOfWeek]) - Number.From(Date.StartOfWeek(CurrentDate))) / 7, Int64.Type) meta [step=ChangedDateColumnType]
+				in
+				    AddedWeekOffset
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

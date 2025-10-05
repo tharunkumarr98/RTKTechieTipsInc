@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Macro Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2d5adda3-d116-8fd7-4cb9-00b974c35bc6"
+  }
+}

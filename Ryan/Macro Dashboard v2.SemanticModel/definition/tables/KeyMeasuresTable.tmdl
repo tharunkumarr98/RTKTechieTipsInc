@@ -1,0 +1,213 @@
+table KeyMeasuresTable
+	lineageTag: 53dd41f9-78d7-44ac-95df-50bd77c5bbaa
+
+	measure _LastRefreshDate = ```
+			"Last Refresh: " & MAX(KeyMeasuresTable[LastRefreshDate]) 
+			```
+		lineageTag: f10649b2-5e2d-4143-aa5e-c0a77c6078f0
+
+	measure ValueMeasure = ```
+			SUM(FactFredData[value]) 
+			```
+		lineageTag: 261af006-2abc-4d22-af33-4423bc5a1361
+
+		formatStringDefinition = [SelectedFormatString]
+
+	measure LatestDateDataLabel = ```
+			
+			Var __MaxDate = CALCULATE(MAX(FactFredData[Date]), REMOVEFILTERS(DimDateTable))
+			Var __CurrentDataPointDate = MAX(DimDateTable[Date])
+			Var __ValueMeasure = [ValueMeasure]
+			Var __Result = IF(__CurrentDataPointDate = __MaxDate,__ValueMeasure )
+			RETURN __Result  
+			```
+		lineageTag: 2e8a590c-1a6f-4d68-ae7c-3ac167faa58c
+
+		formatStringDefinition = [SelectedFormatString]
+
+	measure MinDateSelected = ```
+			
+			// date(2025,01,01)
+			Var __DateSelected = Min('DimDateTable2 (Disconnected)'[Date]) 
+			Var __MinDateAvailable = CALCULATE( Min(FactFredData[date]), ALLSELECTED(DimDateTable)) 
+			Var __Result = IF(__DateSelected < __MinDateAvailable, __MinDateAvailable, __DateSelected)
+			RETURN __Result 
+			```
+		formatString: General Date
+		lineageTag: 787c51ba-bca0-4e6d-9014-8ed5e70d5a2a
+
+	measure MaxDateSelected = ```
+			
+			// Date(2025,5,1)
+			
+			Var __DateSelected = MAX('DimDateTable2 (Disconnected)'[Date]) 
+			Var __MaxDateAvailable = CALCULATE( MAX(FactFredData[date]), ALLSELECTED(DimDateTable)) 
+			Var __Result = IF(__DateSelected > __MaxDateAvailable, __MaxDateAvailable, __DateSelected)
+			RETURN __Result 
+			```
+		formatString: General Date
+		lineageTag: d962bbb1-bda0-42d2-b2fe-d89621c5d2c0
+
+	measure EndValue = ```
+			
+			Var __EndDate = [MaxDateSelected] 
+			Var __StartDate = [MinDateSelected]
+			Var __SelectedDate = MAX(DimDateTable[Date]) 
+			//Selected Date Does Not Exist 
+			Var __ValueTable = TOPN(1, FILTER( ADDCOLUMNS(FILTER( ALLSELECTED(DimDateTable[Date]), DimDateTable[Date] >= __StartDate && DimDateTable[Date] <= __EndDate ), "Val", [ValueMeasure]), [Val] <> BLANK() ), DimDateTable[Date], DESC)    
+			Var __Value = SUMX(__ValueTable, [Val]) 
+			Var __Date = MAXX(__ValueTable, DimDateTable[Date])
+			Var __Result = IF(__Date = __SelectedDate, __Value)
+			RETURN __Result     
+			```
+		lineageTag: 1f261b7b-e7b3-456d-bdc2-77b17a59112b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure StartValue = ```
+			
+			Var __EndDate = [MaxDateSelected] 
+			Var __StartDate = [MinDateSelected]
+			Var __SelectedDate = MAX(DimDateTable[Date]) 
+			//Selected Date Does Not Exist 
+			Var __ValueTable = TOPN(1, FILTER( ADDCOLUMNS(FILTER( ALLSELECTED(DimDateTable[Date]), DimDateTable[Date] >= __StartDate && DimDateTable[Date] <= __EndDate ), "Val", [ValueMeasure]), [Val] <> BLANK() ), DimDateTable[Date], ASC)    
+			Var __Value = SUMX(__ValueTable, [Val]) 
+			Var __Date = MAXX(__ValueTable, DimDateTable[Date])
+			Var __Result = IF(__Date = __SelectedDate, __Value)
+			RETURN __Result    
+			```
+		lineageTag: 26522906-491e-4da3-a645-f27625645283
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Bridgeline = ```
+			
+			Var __StartDate = [MinDateSelected]
+			Var __EndDate = [MaxDateSelected]
+			Var __CurrentDate = MAX(DimDateTable[Date])
+			Var __BetweenTable =   FILTER( ADDCOLUMNS(FILTER( ALLSELECTED(DimDateTable[Date]), DimDateTable[Date] >= __StartDate && DimDateTable[Date] <= __EndDate ), "Val", [ValueMeasure]), [Val] <> BLANK() )
+			Var __MaxOfBetween = MAXX(__BetweenTable, [Val]) 
+			//Var __LiesInBetween = CALCULATE([ValueMeasure], KEEPFILTERS(__BetweenTable))
+			Var __ReturnValue = __MaxOfBetween * 1.2 
+			Var __Result = IF( __CurrentDate in SELECTCOLUMNS(__BetweenTable, DimDateTable[Date]) , __ReturnValue)
+			RETURN __Result   
+			```
+		lineageTag: 6b3ab7f3-aa92-4799-b05f-591e6a63a5f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BridgeLineDataLabelPercentMax = ```
+			
+			var __EndDate = [MaxDateSelected]
+			Var __StartDate = [MinDateSelected]
+			Var __EndValue = [EndValue]
+			Var __CurrentDate = MAX(DimDateTable[Date]) 
+			Var __ValueTable = TOPN(1, FILTER( ADDCOLUMNS(FILTER( ALLSELECTED(DimDateTable[Date]), DimDateTable[Date] >= __StartDate && DimDateTable[Date] <= __EndDate ), "Val", [ValueMeasure]), [Val] <> BLANK() ), DimDateTable[Date], ASC)    
+			Var __StartValue = SUMX(__ValueTable, [Val])
+			Var __PrecentageDiff = DIVIDE( __EndValue - __StartValue, __StartValue)
+			Var __Result =IF(not(ISBLANK(__EndValue)), __PrecentageDiff )
+			RETURN __Result   
+			
+			```
+		lineageTag: fa10cb08-2a6b-4865-9ede-74c23ee1ce40
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CF for Data Label' = ```
+			IF( NOT(ISBLANK([BridgeLineDataLabelPercentMax])), IF([BridgeLineDataLabelPercentMax] >=0 , "Green", "Red")  ) 
+			```
+		lineageTag: b01af8ce-4a85-4d28-8a70-19ae649f0adc
+
+	measure YAxisMax = MAXX(VALUES(FactFredData[date]), [ValueMeasure]) * 1.4
+		lineageTag: 3252facf-b4a3-45f1-a6c4-539424bed877
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure LatestDataDate = ```
+			
+			 Var __LatestDataDate = CALCULATE( MAX(FactFredData[date]) , REMOVEFILTERS(DimDateTable))
+			 Var __CurrentDaate = MAX(FactFredData[date])
+			Var __Result = IF(__CurrentDaate = __LatestDataDate, __LatestDataDate)
+			  RETURN __Result 
+			```
+		formatString: Short Date
+		lineageTag: a8e17dfc-2363-4aef-ac88-3c2134fc1e89
+
+	measure BridgeLineDataLabelValue = ```
+			
+			var __EndValue = [EndValue]
+			Var __StartValue = [StartValue]
+			var __EndDate = [MaxDateSelected]
+			Var __StartDate = [MinDateSelected]
+			Var __CurrentDate = MAX(DimDateTable[Date])
+			Var __Result =IF(NOT(ISBLANK(__StartValue)), __StartValue, IF(NOT(ISBLANK(__EndValue)), __EndValue ))
+			RETURN __Result   
+			```
+		lineageTag: 41da474a-c221-44fe-9fef-726953ea0876
+
+		formatStringDefinition = [SelectedFormatString]
+
+	measure BridgeLineDataLabelDate = ```
+			
+			var __EndValue = [EndValue]
+			Var __StartValue = [StartValue]
+			var __EndDate = [MaxDateSelected]
+			Var __StartDate = [MinDateSelected]
+			Var __CurrentDate = MAX(DimDateTable[Date])
+			Var __Result =IF(NOT(ISBLANK(__StartValue)), __StartDate, IF(NOT(ISBLANK(__EndValue)), __EndDate ))
+			RETURN __Result   
+			```
+		formatString: Short Date
+		lineageTag: 00450da4-a053-4dfd-aa49-f0f2519d3b62
+
+	measure BridgeLineParallelV2 = [Bridgeline] * 1.08
+		lineageTag: 7a1fe2d9-dc8e-4d12-86af-6f69d2dfc04e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SelectedFormatString = ```
+			SELECTEDVALUE(DimSeriesNames[formatString]) 
+			```
+		lineageTag: 08bae912-6cde-4164-9187-dd092a8f75d2
+
+	measure SelectedUnits = ```
+			SELECTEDVALUE(DimSeriesNames[units]) 
+			```
+		lineageTag: 2d2bc9f5-348f-4e12-b648-983b81b76480
+
+	measure SelectedSeriesTitle = ```
+			SELECTEDVALUE(DimSeriesNames[seriesDisplayName]) 
+			```
+		lineageTag: 17e93f4f-06f9-43ac-80ca-bf8096c8a678
+
+	measure SelectedSeriesId = ```
+			SELECTEDVALUE(DimSeriesNames[series_id]) & " | " & "Units: " & SELECTEDVALUE(DimSeriesNames[units]) 
+			```
+		lineageTag: 2e2d5363-7540-4c60-aeda-e85b2523e7b0
+
+	column LastRefreshDate
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: ab7993d4-be2c-418c-a8c7-b95d0cb55fc6
+		summarizeBy: none
+		sourceColumn: LastRefreshDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KeyMeasuresTable = m
+		mode: import
+		queryGroup: InDatasetTables
+		source =
+				let
+				    Source = Table.FromList({DateTime.ToText(DateTime.From(DateTime.LocalNow()))},Splitter.SplitByNothing(),{"LastRefreshDate"}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"LastRefreshDate", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

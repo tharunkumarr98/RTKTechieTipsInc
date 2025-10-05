@@ -1,0 +1,64 @@
+table DimSeriesNames
+	lineageTag: cb14c549-9e2a-47fc-99e7-7beceb03d91c
+
+	column seriesName
+		dataType: string
+		lineageTag: d4676377-c6b0-41c1-8c56-5169127e7dbb
+		summarizeBy: none
+		sourceColumn: seriesName
+
+		annotation SummarizationSetBy = Automatic
+
+	column series_id
+		dataType: string
+		lineageTag: 32f007df-84cc-42af-9a25-d8da0651107e
+		summarizeBy: none
+		sourceColumn: series_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column tableName
+		dataType: string
+		lineageTag: 00664634-26b1-4d45-a2ec-4e8854a0fddc
+		summarizeBy: none
+		sourceColumn: tableName
+
+		annotation SummarizationSetBy = Automatic
+
+	column seriesDisplayName
+		dataType: string
+		lineageTag: 7e44cf1e-9a01-47bd-aad3-68986326e73b
+		summarizeBy: none
+		sourceColumn: seriesDisplayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column formatString
+		dataType: string
+		lineageTag: 8536e328-5cc5-4e46-bad8-34fa79e60ba0
+		summarizeBy: none
+		sourceColumn: formatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: string
+		lineageTag: ab281ba6-543b-4493-9746-aad80a444d5e
+		summarizeBy: none
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSeriesNames = m
+		mode: import
+		queryGroup: DimTables
+		source =
+				let
+				    Source = Sql.Database(#"HostName",#"DatabaseName",[Query="Select * from silver.fred_seriesnames"])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
