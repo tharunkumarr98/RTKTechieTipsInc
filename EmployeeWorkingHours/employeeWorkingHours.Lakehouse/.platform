@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "employeeWorkingHours"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "aeeefdcd-e621-8426-43e7-4f8cea2bc855"
+  }
+}

@@ -1,0 +1,356 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseReadSettings",
+              "recursive": true,
+              "wildcardFolderPath": "employeeWorkingHours",
+              "wildcardFileName": "*",
+              "enablePartitionDiscovery": false
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation"
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "employeeWorkingHours",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "aeeefdcd-e621-8426-43e7-4f8cea2bc855",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "employeeworkinghours"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "employeeWorkingHours",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "aeeefdcd-e621-8426-43e7-4f8cea2bc855",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "EmployeeId",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "EmployeeId",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "EmployeeName",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "EmployeeName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date",
+                  "physicalType": "date"
+                }
+              },
+              {
+                "source": {
+                  "name": "WorkingHours",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "WorkingHours",
+                  "physicalType": "float"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "IngestIntoTable",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "SqlServerSource",
+            "sqlReaderQuery": "select EmployeeId, EmployeeName,  round(SUM(WorkingHours)/3,2) TotalWorkingHoursOfTheWeek \nfrom employeeworkinghours where Date > (select DATEADD(DAY, -7,getdate()) )\ngroup by EmployeeId, EmployeeName having SUM(WorkingHours)/3 < 35",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "SqlServerTable",
+            "typeProperties": {
+              "database": "employeeWorkingHours"
+            },
+            "schema": [],
+            "externalReferences": {
+              "connection": "e269c501-9908-42a7-9c1c-6340854bb732"
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "GetEmployees",
+        "dependsOn": [
+          {
+            "activity": "IngestIntoTable",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "batchCount": 1,
+          "items": {
+            "value": "@activity('GetEmployees').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "EmailBody",
+                "value": {
+                  "value": "@concat(\n    '<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      color: #333;\n      line-height: 1.6;\n    }\n    .container {\n      width: 600px;\n      margin: 0 auto;\n      padding: 20px;\n      border: 1px solid #e0e0e0;\n      background-color: #f9f9f9;\n    }\n    .header {\n      background-color: #0047AB;\n      color: white;\n      padding: 10px 20px;\n      text-align: center;\n    }\n    .footer {\n      margin-top: 30px;\n      font-size: 12px;\n      color: #777;\n      text-align: center;\n    }\n    .highlight {\n      color: #D32F2F;\n      font-weight: bold;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h2>Weekly Hours Notification</h2>\n    </div>\n\n    <p>Dear  <strong>', item().EmployeeName  ,  '</strong>,</p>\n\n    <p>We hope you are doing well.</p>\n\n    <p>Our records show that your total working hours for the week starting on <strong>', formatDateTime(addDays(utcNow(), -7), 'MM-dd-yyyy')\n ,'</strong> is <span class=\"highlight\">' , item().TotalWorkingHoursOfTheWeek, ' hours</span>, which is below the minimum expected threshold of 35 hours.</p>\n\n    <p>If this was unintentional, please review your timesheet and ensure all hours are logged accurately. If you foresee any challenges in the coming weeks, feel free to reach out to your reporting manager.</p>\n\n    <p>Thank you for your attention to this.</p>\n\n    <p>Best regards,<br/>\n    <strong>HR Team</strong><br/>\n    <strong>Techie Tips International</strong></p>\n\n    <div class=\"footer\">\n      This is an automated message from the attendance tracking system. Please do not reply.\n    </div>\n  </div>\n</body>\n</html>'\n\n    )",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Email Body",
+              "dependsOn": []
+            },
+            {
+              "type": "Office365Outlook",
+              "typeProperties": {
+                "inputs": {
+                  "body": {
+                    "To": "Tharun@HelloProjectsGroup.onmicrosoft.com",
+                    "Subject": "@concat('Weekly Working Hours Notification - ', formatDateTime(addDays(utcNow(), -7), 'MM-dd-yyyy'))\n",
+                    "Body": "<p>@{variables('EmailBody')}</p>",
+                    "Sensitivity": "",
+                    "Importance": "Normal"
+                  },
+                  "method": "post",
+                  "path": "/v2/Mail"
+                }
+              },
+              "name": "Send an Email",
+              "dependsOn": [
+                {
+                  "activity": "Email Body",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "For each Employee",
+        "dependsOn": [
+          {
+            "activity": "GetEmployees",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SqlServerSource",
+            "sqlReaderQuery": "select EmployeeId, EmployeeName, getdate() EmailSentOn from employeeworkinghours \nwhere Date > (select DATEADD(DAY, -7,getdate()) )\ngroup by EmployeeId, EmployeeName having SUM(WorkingHours)/3 < 35",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "SqlServerTable",
+              "typeProperties": {
+                "database": "employeeWorkingHours"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e269c501-9908-42a7-9c1c-6340854bb732"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "LoggingSentNotifications"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "employeeWorkingHours",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "aeeefdcd-e621-8426-43e7-4f8cea2bc855",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "EmployeeId",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "EmployeeId",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "EmployeeName",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "EmployeeName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "EmailSentOn",
+                  "type": "DateTime",
+                  "physicalType": "datetime"
+                },
+                "sink": {
+                  "name": "EmailSentOn",
+                  "physicalType": "timestamp"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Logging Sent Notefications",
+        "dependsOn": [
+          {
+            "activity": "For each Employee",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "EmailBody": {
+        "type": "String"
+      }
+    }
+  }
+}
