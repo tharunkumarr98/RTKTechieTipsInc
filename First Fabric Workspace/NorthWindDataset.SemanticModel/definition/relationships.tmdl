@@ -1,0 +1,36 @@
+relationship e456360f-f7f9-4fcd-82b7-03ccb38262e0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Employees.BirthDate
+	toColumn: LocalDateTable_3fd4327d-3c69-43ef-9699-41390cae07ff.Date
+
+relationship 8cd2b17a-de51-4797-898f-8ffd2f4aa424
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Employees.HireDate
+	toColumn: LocalDateTable_3d40adc6-5b3e-49d7-a887-23878b0cff2e.Date
+
+relationship 8abfaeb7-e48c-40da-bee5-2da95e976fcb
+	fromColumn: Orders.CustomerID
+	toColumn: Customers.CustomerID
+
+	annotation PBI_IsFromSource = FS
+
+relationship 05bc0fcc-7241-44ee-8e69-ebf78eafd1e4
+	fromColumn: Orders.EmployeeID
+	toColumn: Employees.EmployeeID
+
+	annotation PBI_IsFromSource = FS
+
+relationship 2c17d16c-b329-f269-b749-74a99c891a4c
+	fromColumn: Orders.OrderDate
+	toColumn: Date.Date
+
+relationship 0a9fbd7e-3dc5-6d94-3864-50d32a4e8161
+	isActive: false
+	fromColumn: Orders.RequiredDate
+	toColumn: Date.Date
+
+relationship 419fa4f4-39ac-2c75-d0c8-b06dd6782f91
+	isActive: false
+	fromColumn: Orders.ShippedDate
+	toColumn: Date.Date
+

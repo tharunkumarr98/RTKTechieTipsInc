@@ -1,0 +1,85 @@
+table 'Key Measures'
+	lineageTag: ddae6bd8-b723-48d0-a1dc-098381ad15b1
+
+	measure SalesAmount = ```
+			SUM(Orders[Freight]) 
+			```
+		lineageTag: eb29aaaf-90ac-4d3a-92fc-7488af6d6fd8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Mexico YTD SalesAmount' = Calculate([SalesAmount], DATESYTD('Date'[Date]), Orders[ShipCountry] = "Mexico")
+		displayFolder: Mexico
+		lineageTag: d46e4f66-1df9-4277-9e2c-047ce3b19b3c
+
+	measure 'Mexico LY SalesAmount' = Calculate([SalesAmount], Dateadd('Date'[Date],-1,Year), Orders[ShipCountry] = "Mexico")
+		displayFolder: Mexico
+		lineageTag: 347b9178-ce21-445f-b12f-791ba7050bd8
+
+	measure 'Mexico LY YTD SalesAmount' = Calculate([SalesAmount], DATESYTD(SAMEPERIODLASTYEAR('Date'[Date])), Orders[ShipCountry] = "Mexico")
+		displayFolder: Mexico
+		lineageTag: e2062844-9a4a-4105-8ece-6d447d719ef6
+
+	measure 'Austria YTD SalesAmount' = Calculate([SalesAmount], DATESYTD('Date'[Date]), Orders[ShipCountry] = "Austria")
+		displayFolder: Austria
+		lineageTag: 26b3337a-1224-4c87-b740-1ad2df502aa6
+
+	measure 'Austria LY SalesAmount' = Calculate([SalesAmount], Dateadd('Date'[Date],-1,Year), Orders[ShipCountry] = "Austria")
+		displayFolder: Austria
+		lineageTag: 3d94fca0-7c32-4ce3-a550-db524baf91b8
+
+	measure 'Austria LY YTD SalesAmount' = Calculate([SalesAmount], DATESYTD(SAMEPERIODLASTYEAR('Date'[Date])), Orders[ShipCountry] = "Austria")
+		displayFolder: Austria
+		lineageTag: f8b2f846-be54-4266-a1d1-885b5da03d56
+
+	measure OrdersCount = ```
+			COUNTROWS(Orders) 
+			```
+		formatString: 0
+		lineageTag: cec4707a-9042-4fdf-a799-55133823d097
+
+	measure 'Austria SalesAmount' = Calculate([SalesAmount], Orders[ShipCountry] = "Austria")
+		displayFolder: Austria
+		lineageTag: ea8c9242-5b99-4f16-8349-7901a2300134
+
+	measure 'Mexico SalesAmount' = ```
+			Calculate([SalesAmount], Orders[ShipCountry] = "Mexico") 
+			```
+		displayFolder: Mexico
+		lineageTag: 7abc0823-634e-4ccb-b2eb-5edda451c3ed
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OrderAmount = ```
+			[SalesAmount] 
+			```
+		lineageTag: 764c9ff2-3148-4a04-b5a2-89d28705b48d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ShippedAmount = ```
+			CALCULATE([SalesAmount], USERELATIONSHIP('Date'[Date], Orders[ShippedDate])) 
+			```
+		lineageTag: 6c6a1e0f-6555-4654-a81b-86a05c757332
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RequiredAmount = ```
+			CALCULATE([SalesAmount], USERELATIONSHIP('Date'[Date], Orders[RequiredDate]))  
+			```
+		lineageTag: adc09a21-9a6f-473b-895f-f9a168e20306
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Key Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

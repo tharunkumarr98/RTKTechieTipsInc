@@ -1,0 +1,69 @@
+table Date
+	lineageTag: aa1312a7-0da3-4d78-bcac-8eaec49ed48c
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 2c87c128-9969-4d91-b036-bc0107ba9faf
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: a0183504-8ac0-45a2-bb9b-98812fb31418
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthSort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 18d6f740-b1f0-435b-ae4c-e1505c7fb66e
+		summarizeBy: none
+		sourceColumn: YearMonthSort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthName
+		dataType: string
+		lineageTag: b72c9aaa-8f29-472c-baa3-c263c78b0158
+		summarizeBy: none
+		sourceColumn: YearMonthName
+		sortByColumn: YearMonthSort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = List.Dates(Date.StartOfYear(List.Min(Orders[ShippedDate])),1500,#duration(1,0,0,0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date])),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Year", Int64.Type}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type1", "YearMonthName", each Text.From([Year]) & " " & Date.MonthName([Date])),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Custom1",{{"YearMonthName", type text}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type2", "YearMonthSort", each [Year] * 100 + Date.Month([Date])),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom2",{{"YearMonthSort", Int64.Type}})
+				in
+				    #"Changed Type3"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

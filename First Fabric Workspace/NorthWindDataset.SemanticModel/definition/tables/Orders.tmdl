@@ -1,0 +1,143 @@
+table Orders
+	lineageTag: e8f55126-669b-445b-b86e-7a1aef9a24f7
+
+	column OrderID
+		dataType: int64
+		formatString: 0
+		lineageTag: f30a5d76-ff0f-4e48-b6ce-7ab6c77adff5
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		lineageTag: 2e55261a-564f-4256-b2e9-493b90c8eed5
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: fe2d5861-4523-4579-9e4a-01993fde9e11
+		summarizeBy: none
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 152708a6-8fe0-4eb6-ba55-ccfb99ec13a9
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RequiredDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 481303d4-c841-4bfa-b036-5481b7199e2f
+		summarizeBy: none
+		sourceColumn: RequiredDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ShippedDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6b91ad10-8e27-4807-920d-d86622447193
+		summarizeBy: none
+		sourceColumn: ShippedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ShipVia
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c77b908-90f1-483d-9af0-c099f6188112
+		summarizeBy: sum
+		sourceColumn: ShipVia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Freight
+		dataType: double
+		lineageTag: b98f4abe-3490-4dcb-9225-38f15ad840a5
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ShipName
+		dataType: string
+		lineageTag: ae674a5e-b877-44f5-9f10-cb8dd3d21998
+		summarizeBy: none
+		sourceColumn: ShipName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipAddress
+		dataType: string
+		lineageTag: 913c1bd0-696e-453b-a7d6-716f6f8b8c59
+		summarizeBy: none
+		sourceColumn: ShipAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipCity
+		dataType: string
+		lineageTag: 941f12b8-69c3-44b6-9124-00e3e563b6da
+		summarizeBy: none
+		sourceColumn: ShipCity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipRegion
+		dataType: string
+		lineageTag: d3c0e8bd-c711-4896-82ed-762dc3aecdaf
+		summarizeBy: none
+		sourceColumn: ShipRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipPostalCode
+		dataType: string
+		lineageTag: 0464e57b-fda2-40b3-863e-e3190f92a31d
+		summarizeBy: none
+		sourceColumn: ShipPostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipCountry
+		dataType: string
+		lineageTag: 00cff669-c32c-4744-a05e-1aa9f70efd53
+		summarizeBy: none
+		sourceColumn: ShipCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+				    Source = OData.Feed("https://services.odata.org/v4/northwind/northwind.svc/", null, [Implementation="2.0"]),
+				    Orders_table = Source{[Name="Orders",Signature="table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Orders_table,{{"OrderDate", type date}, {"RequiredDate", type date}, {"ShippedDate", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

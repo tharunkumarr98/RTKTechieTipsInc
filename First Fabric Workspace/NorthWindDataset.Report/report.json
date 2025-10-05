@@ -1,0 +1,51 @@
+{
+  "config": "{\"version\":\"5.55\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU06\",\"version\":\"5.55\",\"type\":2}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"slowDataSourceSettings\":{\"isCrossHighlightingDisabled\":false,\"isSlicerSelectionsButtonEnabled\":false,\"isFilterSelectionsButtonEnabled\":false,\"isFieldWellButtonEnabled\":false,\"isApplyAllButtonEnabled\":false},\"linguisticSchemaSyncVersion\":2,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true,\"useEnhancedTooltips\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}],\"outspacePane\":[{\"properties\":{\"expanded\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY24SU06",
+            "path": "BaseThemes/CY24SU06.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{\"objects\":{\"background\":[{\"properties\":{\"transparency\":{\"expr\":{\"Literal\":{\"Value\":\"0D\"}}}}}]}}",
+      "displayName": "FirstPage",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "bac2917930141c11e526",
+      "visualContainers": [
+        {
+          "config": "{\"name\":\"575f1dcfb22e58a7a23f\",\"layouts\":[{\"id\":0,\"position\":{\"x\":194.08695652173913,\"y\":16.695652173913043,\"z\":1000,\"width\":890.0869565217391,\"height\":72,\"tabOrder\":1000}}],\"singleVisual\":{\"visualType\":\"textbox\",\"drillFilterOtherVisuals\":true,\"objects\":{\"general\":[{\"properties\":{\"paragraphs\":[{\"textRuns\":[{\"value\":\"Update Measures in Bulk\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"20pt\"}}],\"horizontalTextAlignment\":\"center\"}]}}]}}}",
+          "filters": "[]",
+          "height": 72.00,
+          "width": 890.09,
+          "x": 194.09,
+          "y": 16.70,
+          "z": 1000.00
+        },
+        {
+          "config": "{\"name\":\"61f93f89b0d87437b771\",\"layouts\":[{\"id\":0,\"position\":{\"x\":193.7796086508754,\"y\":189.8249227600412,\"z\":0,\"width\":971.5345005149331,\"height\":313.7384140061792,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"pivotTable\",\"projections\":{\"Rows\":[{\"queryRef\":\"Date.Year\",\"active\":true},{\"queryRef\":\"Date.YearMonthName\",\"active\":true},{\"queryRef\":\"Date.Date\"}],\"Values\":[{\"queryRef\":\"Key Measures.SalesAmount\"},{\"queryRef\":\"Key Measures.Mexico SalesAmount\"},{\"queryRef\":\"Key Measures.Mexico YTD SalesAmount\"},{\"queryRef\":\"Key Measures.Mexico LY YTD SalesAmount\"},{\"queryRef\":\"Key Measures.Mexico LY SalesAmount\"},{\"queryRef\":\"Key Measures.Austria SalesAmount\"},{\"queryRef\":\"Key Measures.Austria YTD SalesAmount\"},{\"queryRef\":\"Key Measures.Austria LY YTD SalesAmount\"},{\"queryRef\":\"Key Measures.Austria LY SalesAmount\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"Date\",\"Type\":0},{\"Name\":\"k\",\"Entity\":\"Key Measures\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"Date\"},\"Name\":\"Date.Date\",\"NativeReferenceName\":\"Date\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"Year\"},\"Name\":\"Date.Year\",\"NativeReferenceName\":\"Year\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"SalesAmount\"},\"Name\":\"Key Measures.SalesAmount\",\"NativeReferenceName\":\"SalesAmount\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Mexico SalesAmount\"},\"Name\":\"Key Measures.Mexico SalesAmount\",\"NativeReferenceName\":\"Mexico\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Mexico YTD SalesAmount\"},\"Name\":\"Key Measures.Mexico YTD SalesAmount\",\"NativeReferenceName\":\"Mexico YTD\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Mexico LY YTD SalesAmount\"},\"Name\":\"Key Measures.Mexico LY YTD SalesAmount\",\"NativeReferenceName\":\"Mexico LY YTD\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Mexico LY SalesAmount\"},\"Name\":\"Key Measures.Mexico LY SalesAmount\",\"NativeReferenceName\":\"Mexico LY\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Austria SalesAmount\"},\"Name\":\"Key Measures.Austria SalesAmount\",\"NativeReferenceName\":\"Austria\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Austria YTD SalesAmount\"},\"Name\":\"Key Measures.Austria YTD SalesAmount\",\"NativeReferenceName\":\"Austria YTD \"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Austria LY YTD SalesAmount\"},\"Name\":\"Key Measures.Austria LY YTD SalesAmount\",\"NativeReferenceName\":\"Austria LY YTD\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"k\"}},\"Property\":\"Austria LY SalesAmount\"},\"Name\":\"Key Measures.Austria LY SalesAmount\",\"NativeReferenceName\":\"Austria LY\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"YearMonthName\"},\"Name\":\"Date.YearMonthName\",\"NativeReferenceName\":\"YearMonthName\"}]},\"expansionStates\":[{\"roles\":[\"Rows\"],\"levels\":[{\"queryRefs\":[\"Date.Year\"],\"isCollapsed\":true,\"identityKeys\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"Date\"}},\"Property\":\"Year\"}}],\"isPinned\":true},{\"queryRefs\":[\"Date.YearMonthName\"],\"isCollapsed\":true,\"isPinned\":true},{\"queryRefs\":[\"Date.Date\"],\"isCollapsed\":true,\"isPinned\":true}],\"root\":{\"identityValues\":null,\"children\":[{\"identityValues\":[{\"Literal\":{\"Value\":\"1996L\"}}],\"isToggled\":true}]}}],\"columnProperties\":{\"Key Measures.Mexico YTD SalesAmount\":{\"displayName\":\"Mexico YTD\"},\"Key Measures.Mexico LY YTD SalesAmount\":{\"displayName\":\"Mexico LY YTD\"},\"Key Measures.Mexico SalesAmount\":{\"displayName\":\"Mexico\"},\"Key Measures.Mexico LY SalesAmount\":{\"displayName\":\"Mexico LY\"},\"Key Measures.Austria SalesAmount\":{\"displayName\":\"Austria\"},\"Key Measures.Austria YTD SalesAmount\":{\"displayName\":\"Austria YTD \"},\"Key Measures.Austria LY YTD SalesAmount\":{\"displayName\":\"Austria LY YTD\"},\"Key Measures.Austria LY SalesAmount\":{\"displayName\":\"Austria LY\"}},\"drillFilterOtherVisuals\":true,\"objects\":{\"subTotals\":[{\"properties\":{\"columnSubtotals\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}},\"rowSubtotals\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}}}}],\"general\":[{\"properties\":{\"layout\":{\"expr\":{\"Literal\":{\"Value\":\"'Tabular'\"}}}}}]},\"vcObjects\":{\"border\":[{\"properties\":{\"show\":{\"expr\":{\"Literal\":{\"Value\":\"true\"}}}}}]}}}",
+          "filters": "[]",
+          "height": 313.74,
+          "width": 971.53,
+          "x": 193.78,
+          "y": 189.82,
+          "z": 0.00
+        }
+      ],
+      "width": 1280.00
+    }
+  ]
+}
