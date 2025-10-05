@@ -1,0 +1,280 @@
+table DimDate
+	lineageTag: f08f487e-efe0-42ec-9444-be6fee4cf5a6
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 476281d7-98d1-4029-a35c-256b536e072c
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 09d0fa7a-ec4f-4dc1-8fd7-bb6f0597a4d4
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: feb8577d-de14-4c01-a228-be8d367acc76
+		summarizeBy: sum
+		sourceColumn: YearOffset
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 077153fd-04b1-43c7-b696-ff7e8f06f850
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: c2d2b0d6-fe98-405b-8690-b2c41851d18f
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: MonthNumber
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: b9a88d5d-c519-4e77-947f-10eaa8a80bfc
+		summarizeBy: none
+		sourceColumn: YearMonth
+		sortByColumn: YearMonthSort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthOffsetNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 9de6b87c-4abe-44fb-807e-ae1601b6e153
+		summarizeBy: sum
+		sourceColumn: MonthOffsetNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: f439a0de-a90d-4b5c-8ea6-8b5b9fa775e0
+		summarizeBy: sum
+		sourceColumn: QuarterNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterName
+		dataType: string
+		lineageTag: 9afc1ad5-0f03-4747-b6f1-bcf75d86c4e6
+		summarizeBy: none
+		sourceColumn: QuarterName
+		sortByColumn: QuarterNumber
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		lineageTag: 08aa5983-2e19-484c-974e-35aa0b5de334
+		summarizeBy: none
+		sourceColumn: YearQuarter
+		sortByColumn: YearQuarterSort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: 2020247e-57bd-4bd1-bf62-693cb0c9c07f
+		summarizeBy: sum
+		sourceColumn: QuarterOffset
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: f084d782-bb9a-473f-aee4-4add21febbdb
+		summarizeBy: sum
+		sourceColumn: WeekNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekName
+		dataType: string
+		lineageTag: b3501bd9-aeef-4b86-aecd-02c06bec8cb6
+		summarizeBy: none
+		sourceColumn: WeekName
+		sortByColumn: WeekNumber
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartOfWeek
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ab034dee-514a-47b7-88ff-b47ae25300d6
+		summarizeBy: none
+		sourceColumn: StartOfWeek
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column WeekOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: 1cbb334c-9760-4746-a2f1-1f3648f62a6b
+		summarizeBy: sum
+		sourceColumn: WeekOffset
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f77e0b5f-0210-493a-a55f-adc2a7aa9d14
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthSort
+		dataType: int64
+		formatString: 0
+		lineageTag: cde0c4e2-cceb-4160-8ae1-a0d121eeb87e
+		summarizeBy: sum
+		sourceColumn: YearMonthSort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarterSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 0522317d-959d-41b6-82d0-98422c4bcfdb
+		summarizeBy: sum
+		sourceColumn: YearQuarterSort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeekSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 863e4f7d-32d7-4a4a-8b8f-192d999f3c7b
+		summarizeBy: sum
+		sourceColumn: YearWeekSort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: ca8f18c2-4f1d-4faa-bd41-d325f915a783
+		summarizeBy: none
+		sourceColumn: YearWeek
+		sortByColumn: YearWeekSort
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    CurrentDate = Date.From(DateTimeZone.FixedUtcNow()),
+				    StartDateKey = List.Min(FactInternetSales[OrderDateKey]),
+				    EndDateKey = List.Max(FactInternetSales[OrderDateKey]),
+				    StartDate = #date(Number.Round(StartDateKey/10000,0), Number.Round(Number.Mod(StartDateKey,10000)/100,0),  Number.Mod(Number.Mod(StartDateKey,10000),100) )  ,
+				    EndDate = #date(Number.Round(EndDateKey/10000,0), Number.Round(Number.Mod(EndDateKey,10000)/100,0),  Number.Mod(Number.Mod(EndDateKey,10000),100) )  ,
+				    NumberOfDays = Duration.Days(EndDate-StartDate) + 1,
+				    Source = Table.FromList(List.Dates(StartDate,NumberOfDays,#duration(1,0,0,0)), Splitter.SplitByNothing(),{"Date"} ),
+				    ChangedDateColumnType = Table.TransformColumnTypes(Source,{{"Date", type date}}),
+				    AddedDateKey = Table.AddColumn(ChangedDateColumnType, "DateKey", each Number.From(Date.ToText([Date], [Format="yyyyMMdd"])), Int64.Type),
+				    AddedYear = Table.AddColumn(AddedDateKey, "Year", each Date.Year([Date]), Int64.Type),
+				    AddedYearOffset = Table.AddColumn(AddedYear, "YearOffset", each Date.Year([Date]) - Date.Year(CurrentDate), Int64.Type),
+				    AddedMonth = Table.AddColumn(AddedYearOffset, "MonthNumber", each Date.Month([Date]), Int64.Type),
+				    AddedMonthName = Table.AddColumn(AddedMonth, "MonthName", each Date.MonthName([Date]), type text),
+				    AddedYearMonthSort = Table.AddColumn(AddedMonthName, "YearMonthSort", each [Year] * 100 + [MonthNumber], Int64.Type),
+				    AddedYearMonth = Table.AddColumn(AddedYearMonthSort, "YearMonth", each Text.From([Year]) & "-" & Text.Range([MonthName],0,3), type text),
+				    AddedMonthOffset = Table.AddColumn(AddedYearMonth, "MonthOffsetNumber", each ((12 * Date.Year([Date])) + [MonthNumber]) - ((12 * Date.Year(CurrentDate)) + Date.Month(CurrentDate)) , Int64.Type),
+				    AddedQuarterNumber = Table.AddColumn(AddedMonthOffset, "QuarterNumber", each Date.QuarterOfYear([Date]), Int64.Type),
+				    AddedQuarterText = Table.AddColumn(AddedQuarterNumber, "QuarterName", each "Q" & Text.From([QuarterNumber]), type text),
+				    AddedYearQuarterSort = Table.AddColumn(AddedQuarterText, "YearQuarterSort", each [Year] * 100 + [QuarterNumber], Int64.Type),
+				    AddedYearQuarter = Table.AddColumn(AddedYearQuarterSort, "YearQuarter", each Text.From([Year]) & "-" & [QuarterName], type text),
+				    AddedQuarterOffset = Table.AddColumn(AddedYearQuarter, "QuarterOffset", each ((4 * Date.Year([Date])) + [QuarterNumber]) - ((4 * Date.Year(CurrentDate)) + Date.QuarterOfYear(CurrentDate)) , Int64.Type),
+				    AddedWeekNumber = Table.AddColumn(AddedQuarterOffset, "WeekNumber", each Date.WeekOfYear([Date]), Int64.Type),
+				    AddedWeekName = Table.AddColumn(AddedWeekNumber, "WeekName", each "W" & Text.From([WeekNumber]), type text),
+				    AddedYearWeekSort = Table.AddColumn(AddedWeekName, "YearWeekSort", each [Year] * 100 + [WeekNumber], Int64.Type),
+				    AddedYearweek = Table.AddColumn(AddedYearWeekSort, "YearWeek", each Text.From([Year]) & "-" & [WeekName], type text),
+				    AddedStartOfWeek = Table.AddColumn(AddedYearweek, "StartOfWeek", each Date.StartOfWeek([Date]), type date),
+				    AddedWeekOffset = Table.AddColumn(AddedStartOfWeek, "WeekOffset", each (Number.From([StartOfWeek]) - Number.From(Date.StartOfWeek(CurrentDate))) / 7, Int64.Type)
+				in
+				    AddedWeekOffset
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

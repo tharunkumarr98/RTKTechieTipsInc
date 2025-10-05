@@ -1,0 +1,355 @@
+/// This table contains comprehensive information about each employee in the organization, including their personal details, employment history, job role, reporting structure, compensation data, and employment status. This table supports reporting and analytics on workforce demographics, sales performance, organizational structure, and HR-related trends.
+table DimEmployee
+	lineageTag: 75e726f4-26d5-459e-b091-26d9a69ab284
+
+	column EmployeeKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 30850e3a-5e95-4b14-b9d9-6fff93cc801f
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentEmployeeKey
+		dataType: double
+		lineageTag: 1ad718f2-31ce-4ba3-bb79-8b62d85e547f
+		summarizeBy: none
+		sourceColumn: ParentEmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EmployeeNationalIDAlternateKey
+		dataType: string
+		lineageTag: 0cbdbf51-7431-4482-9b66-1abf38de3632
+		summarizeBy: none
+		sourceColumn: EmployeeNationalIDAlternateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f47a3c9b-3f0c-4d72-a654-226a55e6884f
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: e6528fd8-f529-49f8-a87b-de724417a697
+		isDefaultLabel
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: ca339e65-157a-4bee-9064-73ce4d591e9e
+		summarizeBy: none
+		sourceColumn: LastName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MiddleName
+		dataType: string
+		lineageTag: 207c7501-07e2-42b5-8fc0-df59da366f7a
+		summarizeBy: none
+		sourceColumn: MiddleName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NameStyle
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d231aead-e7a5-4606-a02a-702d087d9562
+		summarizeBy: none
+		sourceColumn: NameStyle
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 86191c86-d49d-4083-8dc0-509c99a711d9
+		summarizeBy: none
+		sourceColumn: Title
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HireDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7b265b98-655e-42d1-8528-a43415a18ba5
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 95a17009-c2d2-4de3-ae13-15095961b618
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoginID
+		dataType: string
+		lineageTag: 36cba37f-7d19-4426-a9f6-c7e1ef75c2a0
+		summarizeBy: none
+		sourceColumn: LoginID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		lineageTag: 48d5d0f9-c532-454e-af5d-d8bf50f72431
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: 7548bc86-27ff-4264-9baf-69c7f127450c
+		summarizeBy: none
+		sourceColumn: Phone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaritalStatus
+		dataType: string
+		lineageTag: 41bdf600-40b5-4742-a78d-4f46cae12e06
+		summarizeBy: none
+		sourceColumn: MaritalStatus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmergencyContactName
+		dataType: string
+		lineageTag: 59148944-2798-4415-98ec-b34dc4f00be9
+		summarizeBy: none
+		sourceColumn: EmergencyContactName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmergencyContactPhone
+		dataType: string
+		lineageTag: 0d1b8587-1ec3-44d7-b695-55d72d3b5734
+		summarizeBy: none
+		sourceColumn: EmergencyContactPhone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalariedFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5552dcdb-0728-4b3e-95f8-880b789c1466
+		summarizeBy: none
+		sourceColumn: SalariedFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 771fc6f2-e7e4-42a7-88da-a39bbfa0469a
+		summarizeBy: none
+		sourceColumn: Gender
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayFrequency
+		dataType: int64
+		formatString: 0
+		lineageTag: 677b1d47-9cb5-4da5-acf3-58a8d8aa6a3c
+		summarizeBy: none
+		sourceColumn: PayFrequency
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaseRate
+		dataType: double
+		lineageTag: dbe14e21-c4a6-44ad-9e53-ada130759a4d
+		summarizeBy: none
+		sourceColumn: BaseRate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VacationHours
+		dataType: int64
+		formatString: 0
+		lineageTag: 81b72ec2-e8ac-4e82-a759-86b913628f81
+		summarizeBy: none
+		sourceColumn: VacationHours
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SickLeaveHours
+		dataType: int64
+		formatString: 0
+		lineageTag: d90a3794-50d4-4c7e-92d8-61c7742a7f2a
+		summarizeBy: none
+		sourceColumn: SickLeaveHours
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5d18437d-dd50-45a0-8559-baa5a582308f
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesPersonFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 74c3f3e7-0285-4e22-b642-4bbe8edc38ea
+		summarizeBy: none
+		sourceColumn: SalesPersonFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: 6aac2914-2621-496d-93a8-cfaa64858814
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f47e7168-f536-4003-9b93-3bbaa63ffb5e
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ccc4316f-f654-4d86-8015-298fa7c13a91
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: c9717ace-9d60-4da4-9c80-e87e24af1eb7
+		summarizeBy: none
+		sourceColumn: Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimEmployee = m
+		mode: dual
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Sql.Database(Hostname, DatabaseName, [Query="SELECT  [EmployeeKey],
+							[ParentEmployeeKey],
+							[EmployeeNationalIDAlternateKey],
+							[SalesTerritoryKey],
+							[FirstName],
+							[LastName],
+							[MiddleName],
+							[NameStyle],
+							[Title],
+							[HireDate],
+							[BirthDate],
+							[LoginID],
+							[EmailAddress],
+							[Phone],
+							[MaritalStatus],
+							[EmergencyContactName],
+							[EmergencyContactPhone],
+							[SalariedFlag],
+							[Gender],
+							[PayFrequency],
+							[BaseRate],
+							[VacationHours],
+							[SickLeaveHours],
+							[CurrentFlag],
+							[SalesPersonFlag],
+							[DepartmentName],
+							[StartDate],
+							[EndDate],
+							[Status]
+				FROM [AdventureWorksDB].[dbo].[dimemployee]"])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

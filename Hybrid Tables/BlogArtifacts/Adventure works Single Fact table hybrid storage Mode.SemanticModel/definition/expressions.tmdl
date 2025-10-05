@@ -1,0 +1,20 @@
+expression Hostname = "lhgom4gvucfepofzm6gm4lr2mm-gls3ow64xbcedgdpruhfcewe5y.datawarehouse.fabric.microsoft.com" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1b8ae56f-f24e-4ab4-88c9-df64c547012a
+
+	annotation PBI_ResultType = Text
+
+expression DatabaseName = "AdventureWorksDB" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 8a4e165d-140c-43bb-bd9c-b3e5f64d9e9f
+
+	annotation PBI_ResultType = Text
+
+expression RangeStart = #datetime(2025, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+	lineageTag: 3baeb8c6-84d4-4431-8b1d-e00e7168f2a3
+
+	annotation PBI_ResultType = DateTime
+
+expression RangeEnd = #datetime(2025, 2, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+	lineageTag: 38a43888-87f1-4e87-8828-d49e2571506a
+
+	annotation PBI_ResultType = DateTime
+

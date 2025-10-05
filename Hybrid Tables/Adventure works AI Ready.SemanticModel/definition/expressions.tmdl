@@ -1,0 +1,16 @@
+expression Hostname = "ocmjzzojhpiu3acksw4urkkwd4-uqsny6fm6z6eroh53tfgw6advi.datawarehouse.fabric.microsoft.com" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 50149c95-ccf2-4fc5-9062-6193a8c8ee73
+	queryGroup: DataSourceParameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression DatabaseName = "AdventureWorks_Lakehouse" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: c4663ded-5e8d-45e5-9aac-902a86a4c06d
+	queryGroup: DataSourceParameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

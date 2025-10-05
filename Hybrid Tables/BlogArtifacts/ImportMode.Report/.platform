@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ImportMode"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3828a4bd-d84f-ae47-4542-fe43d43efbab"
+  }
+}

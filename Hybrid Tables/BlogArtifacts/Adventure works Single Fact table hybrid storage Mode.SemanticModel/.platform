@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Adventure works Single Fact table hybrid storage Mode"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1cff704a-666a-a82b-4e32-6f89b9e615f2"
+  }
+}

@@ -1,0 +1,189 @@
+/// This table captures detailed transactional sales data from internet sales orders. It includes keys linking to products, customers, promotions, currency, and sales territories, along with order-level and line-level information such as quantities, prices, discounts, costs, taxes, and shipping details. This fact table supports comprehensive sales performance analysis, revenue tracking, profitability calculations, and fulfillment insights.
+table FactInternetSales
+	lineageTag: 5236f1fe-bd11-4451-8f39-2fb1778cc6c5
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c85fb41c-1414-4e98-9f29-8e8e670751aa
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4140102d-179a-4fcb-914f-f9f3c229a413
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a33f0d7f-49ba-4357-a41f-6a699ee944e6
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6be7a20d-e36c-49e8-a4ee-1e8c48c7ca8f
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b2989304-22d1-44ed-90c6-fc14b8f28185
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: b2ae4ac4-a81e-41cb-b9b8-260aec4f243d
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: ccd160a7-4907-4e3d-bceb-afb60bf39d17
+		summarizeBy: sum
+		sourceColumn: SalesOrderLineNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevisionNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 904f3533-4317-4f4e-a52b-a10e6d49a42c
+		summarizeBy: sum
+		sourceColumn: RevisionNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: a6db2b51-09c2-46f1-a725-4a5dc520baf9
+		summarizeBy: sum
+		sourceColumn: OrderQuantity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		lineageTag: 8178156a-9e57-4085-96aa-1892f622f007
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ExtendedAmount
+		dataType: double
+		lineageTag: 46608d9a-cc78-445d-923e-af583deb00db
+		summarizeBy: sum
+		sourceColumn: ExtendedAmount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductStandardCost
+		dataType: double
+		lineageTag: b9f24974-ac0d-4d5a-a045-f114387888ba
+		summarizeBy: sum
+		sourceColumn: ProductStandardCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TaxAmt
+		dataType: double
+		lineageTag: f0c0ce6f-336f-4bc3-a102-7d0c533bdb2e
+		summarizeBy: sum
+		sourceColumn: TaxAmt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		lineageTag: d1e698be-d833-4881-8500-58739eb3a629
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactInternetSales = m
+		mode: import
+		queryGroup: Facts
+		source =
+				let
+				    Source = Sql.Database(Hostname, DatabaseName, [Query="SELECT [ProductKey],
+							[OrderDateKey],
+							[DueDateKey],
+							[ShipDateKey],
+							[CustomerKey],
+							[SalesOrderNumber],
+							[SalesOrderLineNumber],
+							[RevisionNumber],
+							[OrderQuantity],
+							[UnitPrice],
+							[ExtendedAmount],
+							[ProductStandardCost],
+							[TaxAmt],
+							[Freight]
+				FROM [AdventureWorksDB].[dbo].[factinternetsales2025]"])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

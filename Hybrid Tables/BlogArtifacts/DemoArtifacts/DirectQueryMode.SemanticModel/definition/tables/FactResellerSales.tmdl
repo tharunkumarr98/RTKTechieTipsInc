@@ -1,0 +1,202 @@
+/// This table records detailed sales transaction data from reseller channel orders. It contains references to products, resellers, employees handling the sale, promotions, currency, and sales territories, as well as order, shipping, and financial details including costs, taxes, freight, and tracking information. This fact table supports analysis of reseller sales performance, revenue, profitability, order fulfillment, and operational logistics.
+/// 
+table FactResellerSales
+	lineageTag: a03c0563-9e53-4c39-97f3-fd9b5388c322
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 480d606b-127d-4054-a1bb-71b351bf43e2
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a07e5ecb-74cb-44b3-82ce-18261693bb25
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f9333283-0573-4032-bb99-c53d1a8894c5
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d68bf5d-f2a7-4ae4-a9eb-82964909a1a0
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResellerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2827d69e-a007-4f36-bc9c-d833d7044e84
+		summarizeBy: count
+		sourceColumn: ResellerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c5c887a-a975-4b95-8dc3-8b4b83089c8e
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: 763c63cc-c3e9-4434-a5ba-d72dce852e53
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 692927c5-82cc-4156-ae22-2b917264861b
+		summarizeBy: sum
+		sourceColumn: SalesOrderLineNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevisionNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 29d1a2ea-b7b3-4a69-8b70-ee459fdf28bf
+		summarizeBy: sum
+		sourceColumn: RevisionNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 584516b4-d862-40fa-b87a-bf13b1aa707c
+		summarizeBy: sum
+		sourceColumn: OrderQuantity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		lineageTag: 54181b0e-5390-4f54-b0d6-90a477817bf3
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ExtendedAmount
+		dataType: double
+		lineageTag: 750ae2f5-1935-4dff-b883-535ebadf1708
+		summarizeBy: sum
+		sourceColumn: ExtendedAmount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductStandardCost
+		dataType: double
+		lineageTag: c360b76a-b342-4655-b516-7185ad40c148
+		summarizeBy: sum
+		sourceColumn: ProductStandardCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TaxAmt
+		dataType: double
+		lineageTag: 1d9aadf3-3517-425c-b75a-5e214809a072
+		summarizeBy: sum
+		sourceColumn: TaxAmt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		lineageTag: e54b3b80-3f60-4860-b48c-d49151c06085
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactResellerSales = m
+		mode: directQuery
+		queryGroup: Facts
+		source =
+				let
+				    Source = Sql.Database(Hostname, DatabaseName, [Query="SELECT [ProductKey],
+							[OrderDateKey],
+							[DueDateKey],
+							[ShipDateKey],
+							[ResellerKey],
+							[EmployeeKey],
+							[SalesOrderNumber],
+							[SalesOrderLineNumber],
+							[RevisionNumber],
+							[OrderQuantity],
+							[UnitPrice],
+							[ExtendedAmount],
+							[ProductStandardCost],
+							[TaxAmt],
+							[Freight]
+				FROM [AdventureWorksDB].[dbo].[factresellersales2025]"])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

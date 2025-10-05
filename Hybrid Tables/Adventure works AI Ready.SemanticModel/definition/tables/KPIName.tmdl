@@ -1,0 +1,36 @@
+table KPIName
+	lineageTag: e6adc70f-acbc-41ee-8691-b1771486a27e
+
+	column KPI
+		dataType: string
+		lineageTag: 20864776-d779-4d46-b21c-43ac352dc31a
+		summarizeBy: none
+		sourceColumn: KPI
+		sortByColumn: SortOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: bcaf6265-473b-4ee8-925d-96730b2ad002
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPIName = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCk7MSS1W0lEyVIrViVZyL8ovLlYIKMpPyywBChqBBf1SSxBCxmAh/6KU1CKQNhOl2FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [KPI = _t, SortOrder = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"KPI", type text}, {"SortOrder", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

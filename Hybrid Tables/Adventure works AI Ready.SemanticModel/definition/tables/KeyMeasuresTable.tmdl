@@ -1,0 +1,127 @@
+table KeyMeasuresTable
+	lineageTag: 87a80983-80c1-47bc-abac-2f2ddf4c0f39
+
+	/// Overall internet sales revenue before discounts, taxes, or other deductions.
+	measure InternetSalesAmount = ```
+			SUMX(FactInternetSales, FactInternetSales[OrderQuantity] * FactInternetSales[UnitPrice]) 
+			```
+		formatString: 0
+		displayFolder: InternetSales
+		lineageTag: efb74c08-ab7b-49b9-8425-0afe64bf2828
+
+		changedProperty = IsHidden
+
+	/// Counts the total number of unique internet sales orders.
+	measure InternetSalesOrdersCount = ```
+			SUMX(VALUES(FactInternetSales[SalesOrderNumber]), 1) 
+			```
+		formatString: 0
+		displayFolder: InternetSales
+		lineageTag: 73ed7fac-d1f2-48b4-9f2c-bba783f89975
+
+		changedProperty = IsHidden
+
+	/// Overall reseller sales revenue before discounts, taxes, or other deductions.
+	measure ResellerSalesAmount = ```
+			SUMX(FactResellerSales, FactResellerSales[OrderQuantity] * FactResellerSales[UnitPrice]) 
+			```
+		displayFolder: ResellerSales
+		lineageTag: f0a3e05a-4a2f-41ce-b421-e8d2f0290f9a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Counts the total number of unique sales orders placed through resellers.
+	measure ResellerSalesOrderCount = ```
+			SUMX(VALUES(FactResellerSales[SalesOrderNumber]), 1) 
+			```
+		formatString: 0
+		displayFolder: ResellerSales
+		lineageTag: 37cb32e1-9c87-4d6e-b095-3ccf702ad41c
+
+		changedProperty = IsHidden
+
+	/// Computes gross profit from internet sales by subtracting the product standard cost from the sales amount (order quantity times unit price)
+	measure InternetSalesGrossProfit = ```
+			SUMX(FactInternetSales, (FactInternetSales[UnitPrice] * FactInternetSales[OrderQuantity]) - FactInternetSales[ProductStandardCost]) 
+			```
+		displayFolder: InternetSales
+		lineageTag: 06bc9c05-26dc-46d0-b340-9f7dabc5621c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Calculates net profit from internet sales by subtracting the product standard cost, tax amount, and freight charges from the sales amount (order quantity times unit price)
+	measure InternetSalesNetProfit = ```
+			SUMX(FactInternetSales, (FactInternetSales[UnitPrice] * FactInternetSales[OrderQuantity]) - FactInternetSales[ProductStandardCost] - FactInternetSales[TaxAmt] - FactInternetSales[Freight]) 
+			```
+		displayFolder: InternetSales
+		lineageTag: 6a1f7a35-d522-489d-b7e6-6848d83ce28e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Returns the most recent internet sales order date available, Useful for identifying the latest recorded online sale.
+	measure InternetSalesLastAvailableDate = ```
+			MAX(FactInternetSales[OrderDateKey]) 
+			```
+		formatString: 0
+		displayFolder: InternetSales
+		lineageTag: 8d384fa8-16c5-4e26-b349-e9a51f12db31
+
+		changedProperty = IsHidden
+
+	/// Computes gross profit from reseller sales by subtracting the product standard cost from the sales amount (order quantity times unit price) 
+	measure ResellerSalesGrossProfit = ```
+			SUMX(FactResellerSales, (FactResellerSales[UnitPrice] * FactResellerSales[OrderQuantity]) - FactResellerSales[ProductStandardCost]) 
+			```
+		displayFolder: ResellerSales
+		lineageTag: 78b9adde-9f97-4879-a120-fac303f6a2fa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Returns the most recent reseller sales order date available, Useful for identifying the latest recorded online sale.
+	measure ResellerSalesLastAvailableDate = ```
+			MAX(FactResellerSales[OrderDateKey]) 
+			```
+		formatString: 0
+		displayFolder: ResellerSales
+		lineageTag: 91d86124-f628-4260-aba1-ac53fbe79837
+
+		changedProperty = IsHidden
+
+	/// Calculates net profit from reseller sales by subtracting the product standard cost, tax amount, and freight charges from the sales amount (order quantity times unit price) 
+	measure ResellerSalesNetProfit = ```
+			SUMX(FactResellerSales, (FactResellerSales[UnitPrice] * FactResellerSales[OrderQuantity]) - FactResellerSales[ProductStandardCost] - FactResellerSales[TaxAmt] - FactResellerSales[Freight]) 
+			```
+		displayFolder: ResellerSales
+		lineageTag: 25de38e8-150a-4e44-86e5-7e22d1d1ee4a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Last Available Date' = ```
+			"Lastest Date: " & FORMAT(  MAX(DimDate[Date]) , "DD-MM-YYYY") 
+			```
+		lineageTag: ac1c13dc-cb5d-46bf-a402-85c860031356
+
+		changedProperty = IsHidden
+
+	partition KeyMeasuresTable = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

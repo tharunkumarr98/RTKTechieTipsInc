@@ -1,0 +1,60 @@
+table KPIParameter
+	lineageTag: b3f853e4-1215-4ea6-b9ae-5e0a0be6ce8e
+
+	column KPIParameter
+		lineageTag: 9f50e87d-9041-4890-af00-ae6d0ee824b3
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'KPIParameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'KPIParameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPIParameter Fields'
+		lineageTag: 9da25e5e-3ccc-4b3d-a937-6b014403412e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'KPIParameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPIParameter Order'
+		formatString: 0
+		lineageTag: 18626a6b-9f2a-4341-aaf0-3eeed3250ca1
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value4
+		lineageTag: 0c4d5bce-21ea-410b-aadb-bbca7c3cba46
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value4]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPIParameter = calculated
+		mode: import
+		source =
+				{
+				    ("Sales", NAMEOF('KeyMeasuresTable'[InternetSalesAmount]), 0, "Internet"),
+				    ("Gross Profit", NAMEOF('KeyMeasuresTable'[InternetSalesGrossProfit]), 1, "Internet"),
+				    ("Net Profit", NAMEOF('KeyMeasuresTable'[InternetSalesNetProfit]), 2, "Internet"),
+				    ("Orders", NAMEOF('KeyMeasuresTable'[InternetSalesOrdersCount]), 3, "Internet"),
+				    ("Sales", NAMEOF('KeyMeasuresTable'[ResellerSalesAmount]), 4, "Reseller"),
+				    ("Gross Profit", NAMEOF('KeyMeasuresTable'[ResellerSalesGrossProfit]), 5, "Reseller"),
+				    ("Net profit", NAMEOF('KeyMeasuresTable'[ResellerSalesNetProfit]), 6, "Reseller"),
+				    ("Orders", NAMEOF('KeyMeasuresTable'[ResellerSalesOrderCount]), 7, "Reseller")
+				}
+
+	annotation PBI_Id = 891e11df53f24740a14536cff2398e82
+

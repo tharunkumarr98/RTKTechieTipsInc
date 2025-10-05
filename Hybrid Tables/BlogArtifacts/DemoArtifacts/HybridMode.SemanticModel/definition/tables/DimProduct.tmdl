@@ -1,0 +1,334 @@
+/// This table contains detailed information about each product available for sale. It stores attributes such as product names, categorization, sizes, pricing, status, descriptions and other product-specific details. This table supports product-related reporting, analysis, and business intelligence needs.
+table DimProduct
+	lineageTag: 09502692-95ec-4cec-98a9-a4f6178e3958
+
+	column ProductKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 56f6a6c6-bd39-48eb-b525-50d56f17f4eb
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductAlternateKey
+		dataType: string
+		lineageTag: 7910c443-93a9-4ca7-a418-b1e170bc573f
+		summarizeBy: none
+		sourceColumn: ProductAlternateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSubcategoryKey
+		dataType: int64
+		lineageTag: df5cab88-6afc-499e-8ad1-a1a1efe602d2
+		summarizeBy: count
+		sourceColumn: ProductSubcategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WeightUnitMeasureCode
+		dataType: string
+		lineageTag: ba03e6df-6d96-4b83-bd0a-f2c4e3abd179
+		summarizeBy: none
+		sourceColumn: WeightUnitMeasureCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SizeUnitMeasureCode
+		dataType: string
+		lineageTag: df95fd91-cb82-4924-9a9f-19544b715c2e
+		summarizeBy: none
+		sourceColumn: SizeUnitMeasureCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishProductName
+		dataType: string
+		lineageTag: 269609fe-908d-4d1b-b06f-8dab18c24e3f
+		isDefaultLabel
+		summarizeBy: none
+		sourceColumn: EnglishProductName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StandardCost
+		dataType: double
+		lineageTag: d74caf77-eebd-47e6-8f34-296d53f27942
+		summarizeBy: sum
+		sourceColumn: StandardCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FinishedGoodsFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f8d17139-5de3-45a3-a0f7-4e9bc73e3beb
+		summarizeBy: none
+		sourceColumn: FinishedGoodsFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: 81d8d6f5-8a79-429d-9418-2ceccf744afd
+		summarizeBy: none
+		sourceColumn: Color
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SafetyStockLevel
+		dataType: int64
+		formatString: 0
+		lineageTag: adb9f8a8-b120-4b12-b443-8b805988c831
+		summarizeBy: sum
+		sourceColumn: SafetyStockLevel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReorderPoint
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b880dc7-f61e-49cd-8549-01775b63b9fc
+		summarizeBy: sum
+		sourceColumn: ReorderPoint
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: double
+		lineageTag: 9144d071-c626-419f-88b2-eb0321a20920
+		summarizeBy: sum
+		sourceColumn: ListPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Size
+		dataType: string
+		lineageTag: a16af7b6-ce8f-4fa3-a25d-9177505e0211
+		summarizeBy: none
+		sourceColumn: Size
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SizeRange
+		dataType: string
+		lineageTag: 854092ca-7c87-4117-9d4d-2339273a77f7
+		summarizeBy: none
+		sourceColumn: SizeRange
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: double
+		lineageTag: bcdadb31-0107-4e24-9363-9af0c4c953ae
+		summarizeBy: sum
+		sourceColumn: Weight
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DaysToManufacture
+		dataType: int64
+		formatString: 0
+		lineageTag: 686ccc0c-2a21-4c8c-b7b5-b24b6d59ff6c
+		summarizeBy: sum
+		sourceColumn: DaysToManufacture
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: 1d981de7-b1f2-4967-baea-88da0abc4f32
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DealerPrice
+		dataType: double
+		lineageTag: 588329cc-a013-44d8-ab57-3a3aaef58110
+		summarizeBy: sum
+		sourceColumn: DealerPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Class
+		dataType: string
+		lineageTag: b81d9df1-0bda-410d-83e5-2cd1540cb6d8
+		summarizeBy: none
+		sourceColumn: Class
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Style
+		dataType: string
+		lineageTag: 26aba109-bbb1-4298-aec8-b798bc8af62e
+		summarizeBy: none
+		sourceColumn: Style
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: 3ad688b9-c9ff-4805-a9d0-115f32abbea9
+		summarizeBy: none
+		sourceColumn: ModelName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishDescription
+		dataType: string
+		lineageTag: 1e5a17ba-a773-4fbc-8034-1af20f84451c
+		summarizeBy: none
+		sourceColumn: EnglishDescription
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 590a25a8-5a06-4b5a-9cee-feace6775980
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b4901541-56e5-4bba-9e4d-edc4e123a880
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: e9e89c80-443c-4a03-841a-1aa74a8c0f6f
+		summarizeBy: none
+		sourceColumn: Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishProductSubcategoryName
+		dataType: string
+		lineageTag: 34bb3282-ac91-4bca-9ff4-0a604a605011
+		summarizeBy: none
+		sourceColumn: EnglishProductSubcategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishProductCategoryName
+		dataType: string
+		lineageTag: 9146f8d8-efcd-4a7e-aebc-2866523940c5
+		summarizeBy: none
+		sourceColumn: EnglishProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct = m
+		mode: dual
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Hostname, DatabaseName, [Query="Select [ProductKey],
+							[ProductAlternateKey],
+							s.[ProductSubcategoryKey],
+							[WeightUnitMeasureCode],
+							[SizeUnitMeasureCode],
+							[EnglishProductName],
+							[StandardCost],
+							[FinishedGoodsFlag],
+							[Color],
+							[SafetyStockLevel],
+							[ReorderPoint],
+							[ListPrice],
+							[Size],
+							[SizeRange],
+							[Weight],
+							[DaysToManufacture],
+							[ProductLine],
+							[DealerPrice],
+							[Class],
+							[Style],
+							[ModelName],
+							[EnglishDescription],
+							[StartDate],
+							[EndDate],
+							[Status],
+							[EnglishProductSubcategoryName],
+							[EnglishProductCategoryName]
+				FROM [AdventureWorksDB].[dbo].[dimproduct] p
+				JOIN [AdventureWorksDB].[dbo].[dimproductsubcategory] s on 
+				p.ProductSubcategoryKey = s.ProductSubcategoryKey join
+				[AdventureWorksDB].[dbo].[dimproductcategory] c on 
+				s.[ProductCategoryKey] = c.[ProductCategoryKey]"])
+				in
+				    Source
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,28 @@
+relationship AutoDetected_03fcf79d-e1f7-4df0-b2a0-c532d12ed565
+	fromColumn: FactInternetSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship AutoDetected_23ed8000-9602-4286-91e4-0a25e4184adb
+	fromColumn: FactInternetSales.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship 03f88924-1a0c-4a76-65a3-31eca32c4a29
+	fromColumn: FactInternetSales.OrderDateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_0002fc0f-1921-4623-b2ce-02c93dbb3adc
+	fromColumn: FactResellerSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship AutoDetected_dba2b2e8-327f-4efd-8b27-ca6224f59b5c
+	fromColumn: FactResellerSales.EmployeeKey
+	toColumn: DimEmployee.EmployeeKey
+
+relationship eb82dbf8-42f0-c7d6-e9ad-4df74db04daa
+	fromColumn: FactResellerSales.OrderDateKey
+	toColumn: DimDate.DateKey
+
+relationship 914947ef-76ee-393b-560b-23930a89181d
+	fromColumn: KPIParameter.KPIParameter
+	toColumn: KPIName.KPI
+

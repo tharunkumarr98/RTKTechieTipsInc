@@ -1,0 +1,47 @@
+table TrendParameter
+	lineageTag: b5268fba-7ff2-4e7b-ab4f-44c95443ada7
+
+	column TrendParameter
+		lineageTag: 551d4b96-37ba-4cda-bb27-0048cd2f0b7e
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'TrendParameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'TrendParameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TrendParameter Fields'
+		lineageTag: 5dc9b83b-25f2-4b43-a468-a7f16b18a766
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'TrendParameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TrendParameter Order'
+		formatString: 0
+		lineageTag: 9b1e06c8-250f-4c18-a4c7-7ab511bdf861
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TrendParameter = calculated
+		mode: import
+		source =
+				{
+				    ("Year", NAMEOF('DimDate'[Year]), 0),
+				    ("Quarter", NAMEOF('DimDate'[YearQuarter]), 1),
+				    ("Month", NAMEOF('DimDate'[YearMonth]), 2)
+				}
+
+	annotation PBI_Id = ec068bd1c475402e87ed9025bf999bb9
+

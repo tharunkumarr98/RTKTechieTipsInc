@@ -1,0 +1,281 @@
+/// This table stores detailed demographic, geographic, and personal information about individual customers. It includes key identifiers, contact information, household characteristics, education, occupation,  and various indicators that support customer-focused reporting and business analysis. The table enables segmentation, behavioral insights, and personalized analytics across sales, marketing, and customer service.
+table DimCustomer
+	lineageTag: 58bb4449-276f-4a3e-883c-28458a355708
+
+	column CustomerKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 55d6ec84-a65f-4619-8f19-215f5519f21a
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerAlternateKey
+		dataType: string
+		lineageTag: 435dc102-f2a3-417b-92f8-dfb5dd538f2f
+		summarizeBy: none
+		sourceColumn: CustomerAlternateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: ed749975-3c03-4a0e-a42e-f08094f3d8d2
+		summarizeBy: none
+		sourceColumn: Title
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: cceaef62-345d-47a0-8610-3bd017a694b2
+		isDefaultLabel
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MiddleName
+		dataType: string
+		lineageTag: 3c5a28bd-20ad-4179-80e3-47156b47bcff
+		summarizeBy: none
+		sourceColumn: MiddleName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: 7b29a1ed-00b2-4deb-84de-20d758a9b6d0
+		summarizeBy: none
+		sourceColumn: LastName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NameStyle
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 49f33903-9c05-4941-85a8-65db79325537
+		summarizeBy: none
+		sourceColumn: NameStyle
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 72aac074-9083-4ebf-a800-04e6a7f67475
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaritalStatus
+		dataType: string
+		lineageTag: 819e8e7f-054d-4aed-be76-d9e57e579be6
+		summarizeBy: none
+		sourceColumn: MaritalStatus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Suffix
+		dataType: string
+		lineageTag: 49f1fa43-abce-4a3a-8b92-f45fdc70aef3
+		summarizeBy: none
+		sourceColumn: Suffix
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 63560e08-e890-44ee-af08-9c30eb8c0b19
+		summarizeBy: none
+		sourceColumn: Gender
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		lineageTag: f95ed716-3793-41c8-b8da-61cb819a02dd
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearlyIncome
+		dataType: double
+		lineageTag: fe7f5943-f43e-4789-b941-1ef46d97ae91
+		summarizeBy: sum
+		sourceColumn: YearlyIncome
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalChildren
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b649321-3e3c-4020-b111-60f916618f6e
+		summarizeBy: sum
+		sourceColumn: TotalChildren
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberChildrenAtHome
+		dataType: int64
+		formatString: 0
+		lineageTag: 30b402c3-95e4-42e5-82ef-1b47d48d77df
+		summarizeBy: sum
+		sourceColumn: NumberChildrenAtHome
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishEducation
+		dataType: string
+		lineageTag: 2f2553ef-eb6a-4215-bec3-b89ac5980374
+		summarizeBy: none
+		sourceColumn: EnglishEducation
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HouseOwnerFlag
+		dataType: string
+		lineageTag: 511cefce-9cd9-455c-b141-77bc3151c8ba
+		summarizeBy: none
+		sourceColumn: HouseOwnerFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberCarsOwned
+		dataType: int64
+		formatString: 0
+		lineageTag: 510bef78-2913-4e92-b0a1-f074dc705cad
+		summarizeBy: sum
+		sourceColumn: NumberCarsOwned
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressLine1
+		dataType: string
+		lineageTag: 147a0573-6e98-4b68-bd45-78b3dce922c0
+		summarizeBy: none
+		sourceColumn: AddressLine1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressLine2
+		dataType: string
+		lineageTag: 44ef6657-585d-495f-a46e-91bf698d8348
+		summarizeBy: none
+		sourceColumn: AddressLine2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: c7414804-c26f-42dd-9a18-6c80b8a22f69
+		summarizeBy: none
+		sourceColumn: Phone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateFirstPurchase
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 96a48b4d-b222-4c14-8b46-75b4667b8349
+		summarizeBy: none
+		sourceColumn: DateFirstPurchase
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CommuteDistance
+		dataType: string
+		lineageTag: 3b651a36-ccd2-412f-8386-a9af54da832b
+		summarizeBy: none
+		sourceColumn: CommuteDistance
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Sql.Database(Hostname, DatabaseName, [Query="SELECT [CustomerKey],
+							[CustomerAlternateKey],
+							[Title],
+							[FirstName],
+							[MiddleName],
+							[LastName],
+							[NameStyle],
+							[BirthDate],
+							[MaritalStatus],
+							[Suffix],
+							[Gender],
+							[EmailAddress],
+							[YearlyIncome],
+							[TotalChildren],
+							[NumberChildrenAtHome],
+							[EnglishEducation],
+							[HouseOwnerFlag],
+							[NumberCarsOwned],
+							[AddressLine1],
+							[AddressLine2],
+							[Phone],
+							[DateFirstPurchase],
+							[CommuteDistance]
+				FROM [AdventureWorksDB].[dbo].[dimcustomer]"])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
