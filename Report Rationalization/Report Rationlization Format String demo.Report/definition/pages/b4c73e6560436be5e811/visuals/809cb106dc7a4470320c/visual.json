@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "809cb106dc7a4470320c",
+  "position": {
+    "x": 452.78350515463916,
+    "y": 196.70103092783503,
+    "z": 0,
+    "height": 325.36082474226805,
+    "width": 372.37113402061857
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "NumbericTable"
+                    }
+                  },
+                  "Property": "Number"
+                }
+              },
+              "queryRef": "Sum(NumbericTable.Number)",
+              "nativeQueryRef": "Number"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "NumbericTable"
+                    }
+                  },
+                  "Property": "NumberMeasure"
+                }
+              },
+              "queryRef": "NumbericTable.NumberMeasure",
+              "nativeQueryRef": "NumberMeasure"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

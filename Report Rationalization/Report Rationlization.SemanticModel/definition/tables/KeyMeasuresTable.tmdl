@@ -1,0 +1,35 @@
+table KeyMeasuresTable
+	lineageTag: 53dd41f9-78d7-44ac-95df-50bd77c5bbaa
+
+	measure _LastRefreshDate = ```
+			MAX(KeyMeasuresTable[LastRefreshDate]) 
+			```
+		formatString: General Date
+		lineageTag: f10649b2-5e2d-4143-aa5e-c0a77c6078f0
+
+	column LastRefreshDate
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: ab7993d4-be2c-418c-a8c7-b95d0cb55fc6
+		summarizeBy: none
+		sourceColumn: LastRefreshDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KeyMeasuresTable = m
+		mode: import
+		queryGroup: InDatasetTables
+		source =
+				let
+				    Source = Table.FromList({DateTime.ToText(DateTime.From(DateTime.LocalNow()))},Splitter.SplitByNothing(),{"LastRefreshDate"}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"LastRefreshDate", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

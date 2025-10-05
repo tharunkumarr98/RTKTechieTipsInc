@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Report Rationlization"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "abca0abe-d926-b7b6-4351-66a76feab1ed"
+  }
+}

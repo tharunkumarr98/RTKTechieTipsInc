@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Report Rationlization"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2f5788a7-2890-afde-4ff8-240d8dd7f5e2"
+  }
+}

@@ -1,0 +1,33 @@
+table NumbericTable
+	lineageTag: 5ab7917a-1083-4744-9351-3fd0588cb7f5
+
+	measure NumberMeasure = SUM(NumbericTable[Number])
+		lineageTag: 6c471d8c-8f7f-4049-9525-11c72986b2c0
+
+		formatStringDefinition = ```
+				getDynamicFormatString( SELECTEDMEASURE(), 3, TRUE(), TRUE(), TRUE(), TRUE(), TRUE())  
+				```
+
+	column Number
+		dataType: double
+		formatString: 0.00000000
+		lineageTag: 52ee79e4-1059-490c-ad7a-1f7678259e84
+		summarizeBy: sum
+		sourceColumn: Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NumbericTable = m
+		mode: import
+		queryGroup: InDatasetTables
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("TYzLDQAhCER78TxLAPFDLcb+21hX4sYDyRsyb8ZIAmUDM6eJkZ784bn9YlpkZbOjt4piGSpMouHI7fyeFdSzytRiYIt3ldyj4u7wExpKVuqR1sZ8AQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Number = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Number", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
